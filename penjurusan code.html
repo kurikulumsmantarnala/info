@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman Penjurusan - SMAN Taruna Nala Jawa Timur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .military-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #1e40af 100%); }
+        .card-shadow { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .military-border { border: 2px solid #fbbf24; }
+        .result-card { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); }
+        
+        @media print {
+            body { background: white !important; }
+            .military-gradient { background: white !important; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .result-card { box-shadow: none !important; border: 2px solid #000 !important; }
+            .bg-gradient-to-br { background: white !important; }
+            .border-blue-200, .border-purple-200, .border-green-200 { border-color: #000 !important; }
+        }
+        .print-only { display: none; }
+    </style>
+</head>
+<body class="military-gradient min-h-screen">
+    <!-- Header -->
+    <div class="bg-white/10 backdrop-blur-sm border-b border-white/20">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-center space-x-4">
+                <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center">
+                    <span class="text-2xl font-bold text-blue-900">🎓</span>
+                </div>
+                <div class="text-center">
+                    <h1 class="text-2xl md:text-3xl font-bold text-white">SMA NEGERI TARUNA NALA</h1>
+                    <p class="text-yellow-200 font-medium">JAWA TIMUR</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Login Section -->
+        <div id="loginSection" class="max-w-md mx-auto animate-fade-in">
+            <div class="bg-white/95 backdrop-blur-sm rounded-2xl card-shadow p-8 military-border">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Pengumuman Penjurusan</h2>
+                    <p class="text-gray-600">Tahun Pelajaran 2025/2026</p>
+                    <div class="w-20 h-1 bg-yellow-400 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <form id="loginForm" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">NISN</label>
+                        <input type="text" id="nisn" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors" placeholder="Masukkan NISN Anda" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Lahir</label>
+                        <input type="date" id="birthDate" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors" required>
+                    </div>
+
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 transform hover:scale-105">
+                        Lihat Hasil Penjurusan
+                    </button>
+                </form>
+
+                <div id="errorMessage" class="hidden mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm text-center">
+                    Data tidak ditemukan. Periksa kembali NISN dan tanggal lahir Anda.
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div id="resultSection" class="hidden max-w-4xl mx-auto animate-fade-in">
+            <!-- Print Header -->
+            <div class="print-only text-center mb-8 p-4 border-b-2 border-black">
+                <h1 class="text-2xl font-bold text-black mb-2">SMA NEGERI TARUNA NALA JAWA TIMUR</h1>
+                <h2 class="text-xl font-semibold text-black mb-1">PENGUMUMAN HASIL PENJURUSAN</h2>
+                <p class="text-black">Tahun Pelajaran 2025/2026</p>
+            </div>
+            
+            <div class="result-card rounded-2xl card-shadow p-8 military-border">
+                <div class="text-center mb-8 no-print">
+                    <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl">✓</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Selamat!</h2>
+                    <p class="text-gray-600">Hasil penjurusan Anda telah tersedia</p>
+                </div>
+
+                <div id="studentInfo" class="mb-8">
+                    <!-- Student info will be populated here -->
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border border-purple-200">
+                        <h4 class="font-bold text-purple-800 mb-3 flex items-center">
+                            🎯 <span class="ml-2">Pilihan Study Lanjut</span>
+                        </h4>
+                        <div id="studyChoices" class="space-y-2">
+                            <!-- Study choices will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border border-green-200">
+                        <h4 class="font-bold text-green-800 mb-3 flex items-center">
+                            📖 <span class="ml-2">Mata Pelajaran Pilihan</span>
+                        </h4>
+                        <div id="subjects" class="space-y-1">
+                            <!-- Subjects will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center space-x-4 no-print">
+                    <button onclick="printResult()" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105">
+                        🖨️ Cetak Hasil
+                    </button>
+                    <button onclick="showLogin()" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
+                        Kembali ke Login
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Note -->
+        <div class="max-w-4xl mx-auto mt-8">
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                <p class="text-white/90 text-sm text-center leading-relaxed">
+                    <span class="font-semibold">📋 Keterangan:</span><br>
+                    Hasil Penjurusan didasarkan pada angket pemilihan mata pelajaran dan study lanjut siswa serta ketersediaan tenaga pengajar di SMAN Taruna Nala Jawa Timur.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Student data
+        const students = [
+            {nisn: "0089057039", birthDate: "2008-09-20", name: "AISYAH CAHYA RAMADHANI", study1: "Akademi TNI", study2: "Akademi Kepolisian", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0092231227", birthDate: "2009-05-17", name: "ALTHAAFIO AUFA ALFIENDA", study1: "Unhan. Kedokteran", study2: "Akademi Kepolisian", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0097808060", birthDate: "2009-05-21", name: "ANDHAS PARAMA BUANA", study1: "Akademi Kepolisian", study2: "Harvard university (medical school) atau kedokteran unhan", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0094604055", birthDate: "2009-05-13", name: "ANDI MUFLIH PALIWANGI SYANGAJI", study1: "Akademi TNI", study2: "Akademi TNI", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0094401026", birthDate: "2009-07-30", name: "BAYU SATRIO DJAJOESMAN", study1: "Akademi TNI", study2: "Akademi Kepolisian", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0087095564", birthDate: "2008-10-17", name: "BHUMI ALTAJ ALMARFADI", study1: "Akademi TNI", study2: "Akademi Kepolisian", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0097565602", birthDate: "2009-01-01", name: "CARISSA ANINDYA HANIF", study1: "keuangan publik / UNHAN jurusan farmasi", study2: "Universitas Airlangga / Universitas Indonesia jurusan akutansi dan ITB jurusan farmasi atau Universitas Airlangga jurusan farmasi", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0088301101", birthDate: "2008-06-28", name: "CARISSA SHOFI FAIRUZ FIRDAUSI", study1: "Sekolah Tinggi Ilmu Statistika (STIS)", study2: "Politeknik Imigrasi (Poltekim)", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0091999296", birthDate: "2008-09-14", name: "DEVAN ANUGRAH PRATAMA", study1: "Akademi TNI", study2: "Sekolah Tinggi Intelijen Negara (STIN)", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0094943097", birthDate: "2009-03-12", name: "DITA ARIANNA SHAKILA IRIANTO", study1: "Akademi TNI", study2: "IPDN (Institut Pemerintahan Dalam Negeri)", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0092434196", birthDate: "2009-07-27", name: "EDGAR ARDEN SAMUDERA", study1: "Akademi TNI", study2: "Universitas Pertahanan(UNHAN)", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "00922206274", birthDate: "2009-04-09", name: "ELVIERA APRILIA POHAN", study1: "Politeknik Siber dan Sandi Negara (Poltek SSN)", study2: "Akademi TNI", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0091785863", birthDate: "2009-03-04", name: "FAKHRI MAULANA SULISTIYAWAN", study1: "Akademi TNI", study2: "Akademi Kepolisian", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0082605371", birthDate: "2008-06-11", name: "FARREL ARFAN RAFIF", study1: "Akademi TNI", study2: "Politeknik Ilmu Pemasyarakatan (Poltekip)", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0094127308", birthDate: "2009-06-02", name: "GEMMA IKRAR SAMUDRA WIBOWO", study1: "Akademi TNI", study2: "Akademi Kepolisian", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0086467835", birthDate: "2008-10-31", name: "GUSTI ALIF KENZIE MAHESWARA", study1: "Akademi TNI", study2: "Unhan, Kedokteran", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0097461447", birthDate: "2009-03-07", name: "GUSTI LINTANG WARDOYO", study1: "Akademi TNI", study2: "Politeknik Imigrasi (Poltekim)", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0096434854", birthDate: "2009-06-27", name: "HEXANANDA PUTRA DIANTO", study1: "Institut Teknologi Sepuluh Nopember (ITS) Jurusan Teknik Informatika", study2: "Institut Teknologi Sepuluh Nopember (ITS) Jurusan Teknik Industri", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0091571220", birthDate: "2009-02-12", name: "IRSYAD HANIF ABDURRAHMAN", study1: "Akademi TNI", study2: "Institut Teknologi Bandung (ITB)", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0076079114", birthDate: "2007-06-07", name: "KEVIN FERDIOSTA", study1: "Institut Teknologi Bandung (ITB) STEI-K(Komputasi)", study2: "Akademi TNI", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+            {nisn: "0092799480", birthDate: "2009-05-10", name: "KHAIRADA MARDHATILLAH", study1: "Universitas Brawijaya", study2: "Kedokteran", subjects: "Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+	{nisn:	"0088022741",	birthDate:	"2008-11-08",	name:	"LAKEISHA INDIRA WICAKSONO",	study1:	"Sekolah Tinggi Intelijen Negara (STIN)",	study2:	"UNHAN ( Teknik Informatika)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+{nisn:	"0096958067",	birthDate:	"2009-04-04",	name:	"MAHESA NARENDRAKA WARDHANA",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+{nisn:	"3085862330",	birthDate:	"2008-07-28",	name:	"NAJMII HAPSARI HAMBALI",	study1:	"Engineering",	study2:	"Computer science",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+{nisn:	"0083702285",	birthDate:	"2008-11-07",	name:	"NOVALINO PUTRA YUDHA",	study1:	"Akademi TNI",	study2:	"Universitas pertahanan",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+{nisn:	"0089687666",	birthDate:	"2008-09-09",	name:	"RASYADAN ISMAIL",	study1:	"FK UI",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+{nisn:	"0089808437",	birthDate:	"2008-10-10",	name:	"RAUF'HARA ANDRA SYAFI SURYAHATIN",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Ilmu Pelayaran (STIP)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+{nisn:	"0097265826",	birthDate:	"2009-01-22",	name:	"RICHARD DANADYAKSA YUSUF",	study1:	"UNHAN",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+{nisn:	"0091223542",	birthDate:	"2009-07-14",	name:	"RIZQY DWI ARDANA",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+{nisn:	"0091523167",	birthDate:	"2009-04-09",	name:	"UZMA KHALID MAHAVISHNU",	study1:	"Akademi TNI",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+{nisn:	"0087921030",	birthDate:	"2008-12-22",	name:	"VICENTIUS RAFAEL CHRISTIAN DEDA",	study1:	"Jurusan Teknik Informatika Institut Teknologi Sepuluh Nopember",	study2:	"Jurusan Teknik Elektro Institut Teknologi Bandung",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Informatika"},
+{nisn:	"3093469044",	birthDate:	"2009-01-08",	name:	"ADINDA RAVISYA PUTRI",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0094748231",	birthDate:	"2009-05-08",	name:	"ALPOLRINO CARLEN GHAISAND ARYA PUTRA",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0097954592",	birthDate:	"2009-04-28",	name:	"ARVIN KAMANDIKA",	study1:	"Sekolah Tinggi Intelijen Negara (STIN)",	study2:	"Universitas Pertahanan",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0081933180",	birthDate:	"2008-02-04",	name:	"ARYA DHARMA PUTRANINNO",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0091694011",	birthDate:	"2009-07-22",	name:	"ATH THORIQ FAREL PATRIA RAJENDRA",	study1:	"Akademi TNI",	study2:	"Unhan Jurusan Strategi Pertahanan",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"3091062020",	birthDate:	"2009-07-20",	name:	"BELICIA BERNESSA FREDELINA KARISOH ",	study1:	"Universitas Diponegoro (FK)",	study2:	"Universitas Airlangga (FK)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0088447077",	birthDate:	"2008-12-19",	name:	"DAFFA YUSUF ANNUR ROHIM",	study1:	"Akademi TNI",	study2:	"UNHAN (Teknik)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0094887092",	birthDate:	"2009-04-08",	name:	"DANISWARA BELVANA JULIAN",	study1:	"Kedokteran unhan",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0092604108",	birthDate:	"2009-10-28",	name:	"DELFYANI VIRGINJAYA OLIVIA",	study1:	"Sekolah Tinggi Akuntansi Negara (STAN)",	study2:	"universitas airlangga (FK)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0082443689",	birthDate:	"2008-05-11",	name:	"ENDRA PRASTA PRIARJUNA",	study1:	"Politeknik Penerbangan Indonesia (PPI)",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0092978190",	birthDate:	"2009-04-18",	name:	"FAIZAH RIZQIYA ANDYA",	study1:	"Sekolah Tinggi Akuntansi Negara (STAN)",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0086615067",	birthDate:	"2008-07-10",	name:	"FARHAN GUSTARFIAN ISNAN FALAKHI",	study1:	"Akademi TNI",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0083441098",	birthDate:	"2008-12-23",	name:	"GUSTIANDRA FIRMAN RIBOWO",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0099041721",	birthDate:	"2009-04-20",	name:	"HABIBI NURWAHYUDI",	study1:	"Akademi TNI",	study2:	"Politeknik Penerbangan Indonesia (PPI)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0097453607",	birthDate:	"2009-09-01",	name:	"HANS KELSEN ZAMALULUI GULO",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0097097831",	birthDate:	"2009-03-13",	name:	"KENTARO ALIFAH DEWANDRA SANJAYA",	study1:	"Akademi TNI",	study2:	"Unhan (Kedokteran)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0091883191",	birthDate:	"2009-03-13",	name:	"LAZUARDI ANTASARI AZHAR",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0081073740",	birthDate:	"2008-11-21",	name:	"M AFIF AKBAR",	study1:	"Akademi TNI",	study2:	"fakultas teknik pertambangan dan perminyakan ITB ( teknik pertambangan )",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0092736803",	birthDate:	"2009-02-02",	name:	"MUHAMMAD ANTAREDJA HADRI",	study1:	"Akademi Kepolisian",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"3091988864",	birthDate:	"2009-03-18",	name:	"MUHAMMAD FAUZAN VERANDI PUTRA",	study1:	"Politeknik Perkeretaapian Indonesia (PPI)",	study2:	"Sekolah Tinggi Akuntansi Negara (STAN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0098116002",	birthDate:	"2009-07-27",	name:	"MUHAMMAD FIKAL FADHLI RAMADHAN",	study1:	"Sekolah Tinggi Ilmu Pelayaran (STIP)",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0094062158",	birthDate:	"2009-11-02",	name:	"NABILA SARASWATI KUNCORO PUTRI",	study1:	"Akademi Kepolisian",	study2:	"Fakultas Hukum",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0089219060",	birthDate:	"2008-09-17",	name:	"NADIA WAHYU RAMADHANI",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0098456203",	birthDate:	"2009-07-08",	name:	"NAUFAL AZI ALMAS SUKAMTO",	study1:	"UNHAN/Fakultas Teknologi Militer/Teknik Mesin",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0087429206",	birthDate:	"2008-12-31",	name:	"QATRUNADA ATHA PRAWIRA ZAKIYAH",	study1:	"Akademi Kepolisian",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0089528128",	birthDate:	"2008-07-03",	name:	"R DAFFA MUHAMMAD ZAIN",	study1:	"Universitas Pertahanan Jurusan Kedokteran Militer",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0084250092",	birthDate:	"2008-10-16",	name:	"RACHEL ALICE SOPHIA HAMEL",	study1:	"Akademi TNI",	study2:	"UNHAN (Fakultas Kedokteran Militer)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0097422125",	birthDate:	"2009-07-03",	name:	"SULTHAN TSAQIB ROFIF JINAN",	study1:	"Universitas Pertahanan (UNHAN)",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0091304984",	birthDate:	"2009-02-15",	name:	"VALENTINO VEBRIAN ARDYANSYAH",	study1:	"Akademi TNI",	study2:	"Fakultas kedokteran, Psikologi",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"0094548477",	birthDate:	"2009-12-14",	name:	"VANESSA ELYSIA DEARFY",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"3081534262",	birthDate:	"2008-11-17",	name:	"VITO AYMAN BASTIANSYAH",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Akuntansi Negara (STAN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Bahasa Jerman"},
+{nisn:	"3085424006",	birthDate:	"2008-09-06",	name:	"AKMAL ZAIDAAN MUSYAFA",	study1:	"Akademi Kepolisian",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0096961378",	birthDate:	"2009-04-29",	name:	"ALMIRA MUTIARA KHADIJAH",	study1:	"Uversitas Pertahanan (Prodi Kedokteran)",	study2:	"Universitas Indonesia (Pendidiikan Dokter)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0085042959",	birthDate:	"2008-12-05",	name:	"ANINDITYA VANIA ZAHID",	study1:	"UNHAN (DOKTER MILITER)",	study2:	"UNAIR (PSIKOLOGI)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0097555342",	birthDate:	"2009-02-10",	name:	"AURELIA VALENTINE RACHYAN PUTRI ARIMBI",	study1:	"Akademi Kepolisian",	study2:	"Universitas Indonesia",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0096477922",	birthDate:	"2009-07-12",	name:	"BALQIS THUFAILA ADZRA RIFDAH",	study1:	"Akademi Kepolisian",	study2:	"unhan (kedokteran)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0093989314",	birthDate:	"2009-10-15",	name:	"BEATRICE ESHA SERAFINA",	study1:	"Universitas Airlangga Fakultas Kedokteran",	study2:	"Universitas Airlangga Fakultas Kedokteran hewan",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0094446058",	birthDate:	"2009-12-25",	name:	"BINTANG HARDJOSASMITO GUSTI PRIAMBODO",	study1:	"Akademi TNI",	study2:	"Unhan (kedokteran militer)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0092647643",	birthDate:	"2009-07-05",	name:	"CHIARA REZYANA PUTRI",	study1:	"Akademi Kepolisian",	study2:	"Fakultas Kedokteran Gigi (FKG) - Unair",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0086171298",	birthDate:	"2008-11-13",	name:	"CHRISMANDO TORES",	study1:	"Akademi TNI",	study2:	"KEDOKTERAN",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"3093884309",	birthDate:	"2009-04-29",	name:	"FATAN NUFAIL FARRAS",	study1:	"Akademi TNI",	study2:	"UNHAN, teknik mesin",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0084706678",	birthDate:	"2008-12-02",	name:	"FAUZAN ANANTA RIDHWAN",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0087628483",	birthDate:	"2008-11-05",	name:	"HAVINDRA NAYAKA HARIADI",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0092253536",	birthDate:	"2009-02-24",	name:	"KANINA ALZENA SYIFA",	study1:	"Kedokteran Militer Unhan",	study2:	"Kedokteran Uniar",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0094795587",	birthDate:	"2009-12-23",	name:	"KEANNO AUZELLINO",	study1:	"Akademi TNI",	study2:	"Unhan Kedokteran",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0082157297",	birthDate:	"2008-09-04",	name:	"LAKSAMANA ARIA SEBASTIAN BHREVANDI",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0092076580",	birthDate:	"2009-01-15",	name:	"MARISA AMELIA PUTRI",	study1:	"Akademi Kepolisian",	study2:	"Unhan (kedokteran)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0085438128",	birthDate:	"2008-07-10",	name:	"MOCH AL FAIDZA MALIK",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0096089622",	birthDate:	"2009-07-08",	name:	"MUHAMMAD CHEPI HAKIM",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0098532242",	birthDate:	"2009-05-07",	name:	"MUHAMMAD FARHAN ARRAFI",	study1:	"Akademi Kepolisian",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0088374128",	birthDate:	"2008-11-04",	name:	"MUHAMMAD NUR NAISHAR NAFIIS",	study1:	"Akademi TNI",	study2:	"Institut Technologi Surabaya",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0099748972",	birthDate:	"2009-11-07",	name:	"MUHAMMAD RISQI FAEYZA",	study1:	"Akademi Kepolisian",	study2:	"Universitas Indonesia Fakultas Hukum pidana",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0097934709",	birthDate:	"2009-07-22",	name:	"NABILAH KHAIRUNNISA RAMADHANI",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0088907848",	birthDate:	"2008-12-31",	name:	"NADYA SALWA DAHAYU PUTRI WINARTO",	study1:	"UNHAN FAKULTAS KEDOKTERAN",	study2:	"PTN FAVORIT FAKULTAS HI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0093960593",	birthDate:	"2009-02-18",	name:	"NAYLA ARSA TUNGGA MARALA",	study1:	"Akademi Kepolisian",	study2:	"Politeknik Penerbangan Indonesia (PPI)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0089428776",	birthDate:	"2008-10-19",	name:	"NIZAR FAIRUZZAKI",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0086408441",	birthDate:	"2008-09-23",	name:	"PUTERA RAMADHAN ARIFIANTO",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0084558736",	birthDate:	"2008-09-09",	name:	"RAKA GALUH PANDITYA ASWIN",	study1:	"Akademi TNI",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0081737527",	birthDate:	"2008-10-09",	name:	"RATU OKTAVIANA PRAWOTO",	study1:	"Institut Teknologi Sepuluh Nopember, Arsitektur",	study2:	"Universitas Indonesia, Ilmu Komunikasi",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0086755917",	birthDate:	"2008-10-14",	name:	"REHEMA DAVIN IBRAHIM",	study1:	"Politeknik Penerbangan Indonesia (PPI)",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"3094331423",	birthDate:	"2009-02-17",	name:	"REVANO PANDYA PANGESTU",	study1:	"Akademi TNI",	study2:	"Universitas Pertahanan",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0095446141",	birthDate:	"2009-02-07",	name:	"SANDY YUDHA MANGARAJA SIHOMBING",	study1:	"Akademi Kepolisian",	study2:	"Politeknik Penerbangan Indonesia (PPI)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0089210593",	birthDate:	"2008-11-03",	name:	"SHERYL SHELOMY ROULI SIAGIAN",	study1:	"Universitas Pertahanan, Prodi Sarjana Rekayasa Sumber Daya Air",	study2:	"Sekolah Tinggi Ilmu Statistika (STIS)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Sosiologi"},
+{nisn:	"0082298811",	birthDate:	"2008-04-19",	name:	"ADLAN HAKIMIL INDRAPURA",	study1:	"Akademi Kepolisian",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0087675787",	birthDate:	"2008-11-28",	name:	"AKBAR MANDALA PUTRA",	study1:	"S1 Bussiness management (Belanda, Singapura, Paris)",	study2:	"S1 Bussiness management ITB",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Ekonomi"},
+{nisn:	"0088944243",	birthDate:	"2008-03-17",	name:	"AL ASYRAFI MAULANA HISYAM",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0088149712",	birthDate:	"2008-10-17",	name:	"ALEXANDRIA CARISA RATU ISWARA",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0084731888",	birthDate:	"2008-12-14",	name:	"ANANDA DONIE FATIH ABABIL",	study1:	"Akademi TNI",	study2:	"UNHAN, Fakultas Teknik Militer",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0087870068",	birthDate:	"2008-07-30",	name:	"ANINDYA ELVIA RAHMAWATI",	study1:	"Akademi Kepolisian",	study2:	"Fakultas Kedokteran",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Ekonomi"},
+{nisn:	"3090345387",	birthDate:	"2009-04-02",	name:	"APRILIANO FARADILLA FAHMI ADAM",	study1:	"Akademi TNI",	study2:	"UNIVERSITAS PERTAHANAN (UNHAN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0092697757",	birthDate:	"2009-07-17",	name:	"BIMA BHAKTI PANGESTU",	study1:	"Akademi TNI",	study2:	"Kejaksaan",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0099569911",	birthDate:	"2009-07-09",	name:	"CANTIKA NAILA SYAFIRA",	study1:	"Akademi Kepolisian",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0095204968",	birthDate:	"2009-05-13",	name:	"DAVINA LINTANK NARESWERTI",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Akuntansi Negara (STAN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Ekonomi"},
+{nisn:	"0082860138",	birthDate:	"2008-07-20",	name:	"EDWIN RIZQULLOH CANDRAWIBAWA",	study1:	"Akademi TNI",	study2:	"Universitas Pertahanan (UNHAN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0103715287",	birthDate:	"2010-03-25",	name:	"FAREA ISYRAQI KAMIL",	study1:	"Kimia UNHAN/ITB",	study2:	"Sekolah Tinggi Akuntansi Negara (STAN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Ekonomi"},
+{nisn:	"0087767529",	birthDate:	"2008-09-13",	name:	"FIKRI KALAM RAMADHAN",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0092355549",	birthDate:	"2009-02-27",	name:	"FINA MAULIDA AFNI",	study1:	"Sekolah Tinggi Ilmu Statistika (STIS)",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Ekonomi"},
+{nisn:	"0096482013",	birthDate:	"2010-02-25",	name:	"I PUTU WISNU WARDANA",	study1:	"Sekolah Tinggi Akuntansi Negara (STAN)",	study2:	"Universitas ITB (Jurusan Teknik Pertambangan)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Ekonomi"},
+{nisn:	"0098027674",	birthDate:	"2009-03-04",	name:	"KIENANTY MAHARANIE SANTOSO",	study1:	"Akademi Kepolisian",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0081537609",	birthDate:	"2008-06-28",	name:	"MAURAGA RAFAEL NADAL GAUTAMA",	study1:	"Akademi TNI",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0092967143",	birthDate:	"2009-09-09",	name:	"MONICA ANINDITA PUTRI NUGROHO",	study1:	"Akademi Kepolisian",	study2:	"Universitas jurusan hukum.",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0085241057",	birthDate:	"2008-11-27",	name:	"MUHAMMAD KEYSHA YOHAN",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0093501012",	birthDate:	"2009-07-14",	name:	"NAILA ASSYIFA MUSTOFA",	study1:	"Sekolah Tinggi Transportasi Darat (STTD)",	study2:	"Sekolah Tinggi Meteorologi Klimatologi dan Geofisika (STMKG)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0095895561",	birthDate:	"2009-03-29",	name:	"RADEN RORO ZARITH SOPHIA HANDAYANI",	study1:	"Akademi Kepolisian",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Ekonomi"},
+{nisn:	"3091969823",	birthDate:	"2009-01-14",	name:	"RAFA YAQDHAN HANIF",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Ekonomi"},
+{nisn:	"0097411636",	birthDate:	"2009-06-19",	name:	"RAYHAN CHANDRA ARYANTA",	study1:	"Politeknik Imigrasi (Poltekim)",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0082055996",	birthDate:	"2008-05-14",	name:	"RAZZAN WARAPRADA AZRAQI",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0083776802",	birthDate:	"2008-07-21",	name:	"REFALDYNO JULIAN SAPUTRA",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Transportasi Darat (STTD)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"3084582480",	birthDate:	"2008-12-18",	name:	"RIDHWAAN HASYIM FATHONI",	study1:	"Akademi TNI",	study2:	"penerbangan, teknik mesin, pertambangan dan perminyakan",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0084737174",	birthDate:	"2008-09-13",	name:	"RIJAL RIZQULLAH RAMADAN",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0096141950",	birthDate:	"2009-07-04",	name:	"RIZKY HADI KUSUMA",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0092357064",	birthDate:	"2009-01-22",	name:	"SEAN SATYACHAKRA WIBOWO",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0091487151",	birthDate:	"2009-02-09",	name:	"SULTAN HAIDAR SANDHI",	study1:	"Unhan Kedokteran",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0088262560",	birthDate:	"2008-10-17",	name:	"ZIDAN RAFI NUR RAHMAN",	study1:	"Akademi TNI",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Ekonomi"},
+{nisn:	"0088190017",	birthDate:	"2008-07-08",	name:	"ZULFIAN NADHIEF",	study1:	"UNHAN (prodi sarjana matematika)",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Matematika Tingkat Lanjut, Geografi"},
+{nisn:	"0084294458",	birthDate:	"2008-07-31",	name:	"AINANNISA YULIA RAMADHANIA",	study1:	"Politeknik Pembangunan Pertanian Malang (Polbangtan) Jurusan (Agribisnis Peternakan)",	study2:	"Poltekkes Kemenkes Malang (Jurusan Promosi Kesehatan)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0081535625",	birthDate:	"2008-07-30",	name:	"AINUN NASYWA",	study1:	"Akademi Kepolisian",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0083403291",	birthDate:	"2008-11-18",	name:	"AZZAHRA SEKAR BANYU LANGIT",	study1:	"Universitas Pertahanan (UNHAN)",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0154993416",	birthDate:	"2009-02-06",	name:	"BAGAS ALVARO YURIANSYAH",	study1:	"Akademi Kepolisian",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0091571246",	birthDate:	"2009-01-31",	name:	"CELILA YUMNA",	study1:	"Akademi Kepolisian",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0088767317",	birthDate:	"2008-06-02",	name:	"DANISWARA JAVIER KAUBAH PURNOMO",	study1:	"IPDN (Institut Pemerintahan Dalam Negeri)",	study2:	"Sekolah Tinggi Ilmu Statistika (STIS)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0089793778",	birthDate:	"2008-10-13",	name:	"DEVONA SELLY AGUSTIAWATI",	study1:	"Sekolah Tinggi Akuntansi Negara (STAN)",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0086858838",	birthDate:	"2008-07-12",	name:	"DYAH SEKAR ARUM NURA INI",	study1:	"Fakultas Hukum",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0082243392",	birthDate:	"2008-10-22",	name:	"EILEN CALISTA ARSANTYA",	study1:	"IPDN (Institut Pemerintahan Dalam Negeri)",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0083751774",	birthDate:	"2008-12-19",	name:	"ELENA ZAIDA BUNGA DESIANA",	study1:	"UGM (Kedokteran Gigi)",	study2:	"Unair (Kedokteran Gigi)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0093017345",	birthDate:	"2009-10-19",	name:	"FATIRIDZAKI KHALIFAHUL IRSYAAD",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0088723139",	birthDate:	"2008-12-31",	name:	"GALANG ANDIKA FERNANDA",	study1:	"Sekolah Tinggi Akuntansi Negara (STAN)",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0097278482",	birthDate:	"2009-10-10",	name:	"GIDEON LEONARDO ARISTARCHUS",	study1:	"Akademi TNI",	study2:	"UNHAN ( Kedokteran)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0081515038",	birthDate:	"2008-07-01",	name:	"IDA BAGUS WINDU RADITYA",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"3083871594",	birthDate:	"2008-10-25",	name:	"KEIRAN SYAH MIRZA HADISAPUTRO",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0085137588",	birthDate:	"2008-12-22",	name:	"KHANZA HARISA AINI",	study1:	"IPDN (Institut Pemerintahan Dalam Negeri)",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0082693894",	birthDate:	"2008-05-24",	name:	"LATONDO HERLAMBANG",	study1:	"IPDN (Institut Pemerintahan Dalam Negeri)",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0095824840",	birthDate:	"2009-06-25",	name:	"MEBIAN SAFA ALZENA",	study1:	"Unhan (farmasi militer/sejarah militer)",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0095109989",	birthDate:	"2009-04-23",	name:	"MUHAMMAD MARCELLO PUTRA SAVINA",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0087541298",	birthDate:	"2008-12-21",	name:	"MUHAMMAD MIFTAH ALGHALY",	study1:	"Akademi TNI",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0084582764",	birthDate:	"2008-07-04",	name:	"MUHAMMAD RIFQI ADI AL ZHARIF",	study1:	"Akademi Kepolisian",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0081875794",	birthDate:	"2008-11-08",	name:	"MUHAMMAD TRISTAN MAHESA RELANO",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0099176482",	birthDate:	"2009-09-08",	name:	"MUSA AZZAM",	study1:	"Akademi Kepolisian",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0091056788",	birthDate:	"2009-05-09",	name:	"NAURAMAGRIVA SYAQIRA WIBAWA",	study1:	"UNHAN (Vokasi logistik militer)",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0098189081",	birthDate:	"2009-04-25",	name:	"NESHA APRILIA NAFISAH",	study1:	"IPDN (Institut Pemerintahan Dalam Negeri)",	study2:	"Sekolah Tinggi Ilmu Pelayaran (STIP)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0084162172",	birthDate:	"2008-09-21",	name:	"QHAEZAR FARRAZATHA RAMADHAN",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Ilmu Pelayaran (STIP)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0084209709",	birthDate:	"2008-10-12",	name:	"REVANDI OCTOVINO",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0088022522",	birthDate:	"2008-11-01",	name:	"RIO DE JANEIRO BOY HERO JUNIOR",	study1:	"Akademi TNI",	study2:	"UNHAN (Teknik Militer)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0084311619",	birthDate:	"2008-09-02",	name:	"ROSSY PUTRI RAMADHANI",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0081840475",	birthDate:	"2008-05-06",	name:	"SALMAN ALFARIZI",	study1:	"Akademi TNI",	study2:	"UNIVERSITAS PERTAHANAN",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0086129813",	birthDate:	"2008-12-28",	name:	"YOVIE ADI WIRAWAN",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Ekonomi"},
+{nisn:	"0085822537",	birthDate:	"2008-07-29",	name:	"ALZENA FAUSTA AZALIA",	study1:	"Technische Universität München (teknik mesin)",	study2:	"Royal college of art (DKV)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"3083516959",	birthDate:	"2008-10-31",	name:	"ARYA PRAMUDYA WISNUTAMA",	study1:	"Akademi TNI",	study2:	"UNHAN Prodi Studi Sarjana Fisika Dan Prodi Sarjana Kimia",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0092111817",	birthDate:	"2009-06-30",	name:	"ATAYA HARYONI RAMZI ERLANGGA",	study1:	"Akademi TNI",	study2:	"UNHAN, jurusan hubungan internasional",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"3085716847",	birthDate:	"2008-10-03",	name:	"AZZURA AL ARSY MENDOZA",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0088244649",	birthDate:	"2008-09-28",	name:	"BEIBY ALEXIS MENDRA",	study1:	"Sekolah Tinggi Intelijen Negara (STIN)",	study2:	"Universitas Indonesia (FISIP/Kriminologi)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0099411627",	birthDate:	"2009-07-11",	name:	"BERLIAN APRIYANTO",	study1:	"Akademi Kepolisian",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0097806898",	birthDate:	"2009-01-29",	name:	"CHANDRA ALDEN YULIANTO",	study1:	"Akademi Kepolisian",	study2:	"Bintara polri",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"3080414986",	birthDate:	"2008-07-10",	name:	"CHINTIA BELA",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0093079917",	birthDate:	"2009-05-23",	name:	"DEANDRA LOVAKHANSA ASCARYA WIBOWO",	study1:	"Universitas Pertahanan (UNHAN)",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0087165443",	birthDate:	"2008-09-09",	name:	"DIMAS GALIH RADITYA ASWIN",	study1:	"0",	study2:	"0",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0099060861",	birthDate:	"2009-12-12",	name:	"ELDA ARAFAH DINDA AULYA",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0092228006",	birthDate:	"2009-10-18",	name:	"EVANGELISTA ILONNA PRASETYA",	study1:	"IPDN (Institut Pemerintahan Dalam Negeri)",	study2:	"Unhan (Kedokteran)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0096473326",	birthDate:	"2009-06-09",	name:	"FARIS YUWANA EKA PUTRA",	study1:	"Akademi TNI",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0094360272",	birthDate:	"2009-05-07",	name:	"JENISHA BUNGA GHANNY",	study1:	"IPDN (Institut Pemerintahan Dalam Negeri)",	study2:	"Sekolah Tinggi Akuntansi Negara (STAN)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0081814561",	birthDate:	"2008-12-30",	name:	"JESSICA AMELIA PUTRI RHEINA",	study1:	"Akademi Kepolisian",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0099472901",	birthDate:	"2009-07-24",	name:	"JUANITA NAQUITA LATJANDO",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Meteorologi Klimatologi dan Geofisika (STMKG)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0092970594",	birthDate:	"2009-05-02",	name:	"MARIA GRACELIA ERSA RAHAYU SIREGAR",	study1:	"Akademi Kepolisian",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0096731790",	birthDate:	"2009-03-14",	name:	"MEZZALUNA KHAILILLA",	study1:	"Akademi Kepolisian",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"3099370767",	birthDate:	"2009-05-03",	name:	"MOHAMMAD RIDHO WIDYANATA",	study1:	"Akademi Kepolisian",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0099094680",	birthDate:	"2009-02-26",	name:	"MUHAMMAD ATILLA ASRA FAHRANI",	study1:	"Akademi TNI",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"3099898367",	birthDate:	"2009-12-09",	name:	"MUHAMMAD BIMA SATRIA AQIL",	study1:	"Akademi TNI",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0094489474",	birthDate:	"2009-02-01",	name:	"MUHAMMAD NAZRIEL ALIEF",	study1:	"Akademi TNI",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0091195019",	birthDate:	"2009-10-09",	name:	"NADZIFAH AHZA DYNINGTYAS",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Ilmu Pelayaran (STIP)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"3085347300",	birthDate:	"2008-12-22",	name:	"NANDA FAUZIATUL AULIA",	study1:	"Akademi Kepolisian",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0098498888",	birthDate:	"2009-07-19",	name:	"RACHEL JESSICA VARNHAGEN SIMARMATA",	study1:	"Akademi Kepolisian",	study2:	"Sekolah Tinggi Akuntansi Negara (STAN)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0086652515",	birthDate:	"2008-10-26",	name:	"RAMOS MICYEL GRANICIUS BUTARBUTAR",	study1:	"kuliah Jurusan Teknik Dirgantara",	study2:	"kuliah Jurusan Blockchain",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0082236979",	birthDate:	"2008-10-11",	name:	"RAYHAN AKBAR",	study1:	"Akademi TNI",	study2:	"sejarah militer (unhan)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0089245564",	birthDate:	"2008-07-08",	name:	"REVA EL SHAFIRA",	study1:	"Akademi TNI",	study2:	"Kuliah di unair jurusan hukum",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0089119846",	birthDate:	"2008-07-24",	name:	"SAKTI MAULANA SAECHAR",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"3092557243",	birthDate:	"2009-02-18",	name:	"SITI AISYAH AZ ZAHRA",	study1:	"Akademi Kepolisian",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0086912547",	birthDate:	"2008-12-28",	name:	"SYLVIA LAKSANA PUTRI",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Jerman"},
+{nisn:	"0097979289",	birthDate:	"2009-06-16",	name:	"ADZAKY NASHARIO PUTRA",	study1:	"Akademi TNI",	study2:	"Prodi Sarjana Biologi",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0082971923",	birthDate:	"2008-12-27",	name:	"AHMAD WAFIQ ALBARIIQ",	study1:	"Akademi TNI",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0089518202",	birthDate:	"2008-07-14",	name:	"ALVIRA PUTRI AMALIA RACHMAN",	study1:	"Akademi Kepolisian",	study2:	"kedokteran gigi",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0088687236",	birthDate:	"2008-09-24",	name:	"ARDIANSYAH ARIFIN YUSUF",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0092471548",	birthDate:	"2009-04-04",	name:	"ARRIDHO DAFFA ADINATA",	study1:	"Akademi TNI",	study2:	"UNIVERSITAS PERTAHANAN FAKULTAS MANAGEMENT PERTAHAN",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0093759858",	birthDate:	"2009-02-18",	name:	"FADHIL ALINSKI WIRA PRATAMA",	study1:	"IPDN (Institut Pemerintahan Dalam Negeri)",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0097606529",	birthDate:	"2009-02-22",	name:	"FAIQA NALA ADHIARJA",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0089617259",	birthDate:	"2008-10-24",	name:	"FAIRUS RIZKI FITRIANSYAH",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0098829411",	birthDate:	"2009-04-01",	name:	"FATA ILAHI",	study1:	"Kedokteran UNHAN",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0097406242",	birthDate:	"2009-09-30",	name:	"HOLICESON EDRIC SEPTIAN MANALU",	study1:	"Akademi TNI",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0092990110",	birthDate:	"2009-02-06",	name:	"HUSEIN HIRO AL FARABY OELI",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"3086849158",	birthDate:	"2008-11-25",	name:	"ILYAS KEVIN BRILLIANT ERMAWAN",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0098850756",	birthDate:	"2009-02-16",	name:	"JONATHAN ADI WIJAYA",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0099155156",	birthDate:	"2009-02-11",	name:	"KENZO FEBRIALSYAH ZEKASTA YITNO",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0091765644",	birthDate:	"2009-10-06",	name:	"KHANZA TABITA SAKHI",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0083897965",	birthDate:	"2008-12-02",	name:	"MAHDIA DIVYA KRAANTI",	study1:	"Unhan - Fakultas Strategi pertahanan",	study2:	"UGM - Fakultas Psikologi",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0095213735",	birthDate:	"2009-06-30",	name:	"MATTEW D. JASON SIMANULANG",	study1:	"akpol",	study2:	"0",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0091716771",	birthDate:	"2009-07-24",	name:	"MESSIAS BRILLIANT YOHANES LE",	study1:	"Akademi Kepolisian",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0087061283",	birthDate:	"2008-06-08",	name:	"MEVIRA TANAYA GHAISANI",	study1:	"IPDN (Institut Pemerintahan Dalam Negeri)",	study2:	"Universitas Pertahanan jurusan strategi pertahanan",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0096696394",	birthDate:	"2009-07-07",	name:	"MUHAMMAD WAHID ALFARIZI MARBUN",	study1:	"Akademi TNI",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0092323444",	birthDate:	"2009-01-05",	name:	"NAFHAN AULIA MIRZA",	study1:	"Akademi TNI",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0081981045",	birthDate:	"2008-12-14",	name:	"OZORA FARRAS IVANA",	study1:	"Politeknik Siber dan Sandi Negara (Poltek SSN)",	study2:	"Sekolah Tinggi Intelijen Negara (STIN)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0088117395",	birthDate:	"2008-09-23",	name:	"RAMADHAN RAKHSA DJUNAIDI",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"092272266",	birthDate:	"2009-07-10",	name:	"REGINA AGUSTIN PRASETYA",	study1:	"Akademi Kepolisian",	study2:	"Akademi TNI",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0089490661",	birthDate:	"2008-05-26",	name:	"RIZA ANGGRAINI MUNIR SETYOWATI",	study1:	"Akademi TNI",	study2:	"Akademi Kepolisian",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0095657847",	birthDate:	"2009-01-22",	name:	"RIZAL ARYA MANDALA",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0089914404",	birthDate:	"2008-09-02",	name:	"SAMANTA AUREL HAYU RIDHATAMA",	study1:	"Farmasi Unair",	study2:	"Kedokteran Unhan",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0084008804",	birthDate:	"2008-05-24",	name:	"SHAFA GADIZA DIANA",	study1:	"Politeknik Imigrasi (Poltekim)",	study2:	"Institut Teknologi Sepuluh Nopember (teknik sipil)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0093691039",	birthDate:	"2009-06-15",	name:	"SHIROTUL AKMAL FIKRISYAH",	study1:	"Akademi Kepolisian",	study2:	"Politeknik Imigrasi (Poltekim)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0081210813",	birthDate:	"2008-07-18",	name:	"SULTAN RABBANI HADIJAYA",	study1:	"Akademi TNI",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"},
+{nisn:	"0095267608",	birthDate:	"2009-06-24",	name:	"ZHAFIRAH LABIBAH QAIS",	study1:	"Akademi Kepolisian",	study2:	"IPDN (Institut Pemerintahan Dalam Negeri)",	subjects:	"Fisika, Kimia, Biologi, Sejarah Tingkat Lanjut, Informatika"}
+        ];
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nisn = document.getElementById('nisn').value;
+            const birthDate = document.getElementById('birthDate').value;
+            
+            const student = students.find(s => s.nisn === nisn && s.birthDate === birthDate);
+            
+            if (student) {
+                showResult(student);
+            } else {
+                document.getElementById('errorMessage').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('errorMessage').classList.add('hidden');
+                }, 5000);
+            }
+        });
+
+        function showResult(student) {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('resultSection').classList.remove('hidden');
+            
+            // Populate student info
+            document.getElementById('studentInfo').innerHTML = `
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200 max-w-md mx-auto">
+                    <h4 class="font-bold text-blue-800 mb-3 flex items-center justify-center">
+                        👤 <span class="ml-2">Informasi Siswa</span>
+                    </h4>
+                    <div class="space-y-2 text-gray-700">
+                        <p><span class="font-semibold">Nama:</span> ${student.name}</p>
+                        <p><span class="font-semibold">NISN:</span> ${student.nisn}</p>
+                        <p><span class="font-semibold">Tanggal Lahir:</span> ${new Date(student.birthDate).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Populate study choices
+            document.getElementById('studyChoices').innerHTML = `
+                <div class="bg-white p-3 rounded-lg border border-purple-200">
+                    <span class="font-medium text-purple-800">Pilihan 1:</span>
+                    <div class="text-purple-700">${student.study1}</div>
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-purple-200">
+                    <span class="font-medium text-purple-800">Pilihan 2:</span>
+                    <div class="text-purple-700">${student.study2}</div>
+                </div>
+            `;
+            
+            // Populate subjects
+            const subjectList = student.subjects.split(', ');
+            document.getElementById('subjects').innerHTML = subjectList.map(subject => 
+                `<div class="bg-white px-3 py-2 rounded-lg border border-green-200 text-green-700 text-sm">${subject}</div>`
+            ).join('');
+        }
+
+        function showLogin() {
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('loginForm').reset();
+        }
+
+        function printResult() {
+            // Add print timestamp
+            const printDate = new Date().toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Create print footer if it doesn't exist
+            let printFooter = document.getElementById('printFooter');
+            if (!printFooter) {
+                printFooter = document.createElement('div');
+                printFooter.id = 'printFooter';
+                printFooter.className = 'print-only text-center mt-8 pt-4 border-t-2 border-black text-sm';
+                printFooter.innerHTML = `
+                    <p class="text-black mb-2">Dicetak pada: ${printDate}</p>
+                    <p class="text-black font-semibold">Dokumen ini sah dan dikeluarkan oleh sistem SMAN Taruna Nala Jawa Timur</p>
+                `;
+                document.getElementById('resultSection').appendChild(printFooter);
+            } else {
+                printFooter.innerHTML = `
+                    <p class="text-black mb-2">Dicetak pada: ${printDate}</p>
+                    <p class="text-black font-semibold">Dokumen ini sah dan dikeluarkan oleh sistem SMAN Taruna Nala Jawa Timur</p>
+                `;
+            }
+            
+            // Trigger print
+            window.print();
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95f0264df73f6023',t:'MTc1MjQ4Njk4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

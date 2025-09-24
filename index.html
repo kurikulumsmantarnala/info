@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validasi Identitas dan Mapel Pilihan TKA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Halaman Login -->
+    <div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <img src="smantar.png" alt="Logo" class="w-16 h-16">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">Validasi Identitas dan Mapel Pilihan TKA</h1>
+                <p class="text-gray-600">Masukkan data untuk mengakses informasi tes</p>
+            </div>
+            
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label for="nisn" class="block text-sm font-medium text-gray-700 mb-2">NIS</label>
+                    <input type="text" id="nisn" name="nisn" required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                           placeholder="Masukkan NIS (seperti akun si-Nala)">
+                </div>
+                
+                <div>
+                    <label for="birthdate" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Lahir</label>
+                    <input type="date" id="birthdate" name="birthdate" required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                </div>
+                
+                <button type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-105">
+                    Masuk
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Halaman Pengumuman -->
+    <div id="announcementPage" class="hidden min-h-screen p-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="text-center mb-8">
+                    <div class="bg-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Pengumuman Data Tes Siswa</h1>
+                    <p class="text-gray-600">Informasi lengkap peserta TKA</p>
+                </div>
+
+                <!-- Data Siswa -->
+                <div class="bg-gray-50 rounded-xl p-6 mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Data Peserta</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="space-y-3">
+                            <div class="flex">
+                                <span class="font-medium text-gray-700 w-32">Nama:</span>
+                                <span class="text-gray-900">Ahmad Rizki Pratama</span>
+                            </div>
+                            <div class="flex">
+                                <span class="font-medium text-gray-700 w-32">Jenis Kelamin:</span>
+                                <span class="text-gray-900">Laki-laki</span>
+                            </div>
+                            <div class="flex">
+                                <span class="font-medium text-gray-700 w-32">Tempat Lahir:</span>
+                                <span class="text-gray-900">Jakarta</span>
+                            </div>
+                            <div class="flex">
+                                <span class="font-medium text-gray-700 w-32">Tanggal Lahir:</span>
+                                <span class="text-gray-900">15 Maret 2008</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex">
+                                <span class="font-medium text-gray-700 w-40">Program Studi:</span>
+                                <span class="text-gray-900">IPA</span>
+                            </div>
+                            <div class="flex">
+                                <span class="font-medium text-gray-700 w-40">Nama Orang Tua:</span>
+                                <span class="text-gray-900">Budi Pratama</span>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mata Pelajaran -->
+                <div class="bg-blue-50 rounded-xl p-6 mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Mata Pelajaran yang Diujikan</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-white rounded-lg p-4 border-l-4 border-blue-500">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                    </svg>
+                                </div>
+                                <span class="font-medium text-gray-800">Bahasa Indonesia</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-4 border-l-4 border-green-500">
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-2 rounded-lg mr-3">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <span class="font-medium text-gray-800">Bahasa Inggris</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-4 border-l-4 border-purple-500">
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 p-2 rounded-lg mr-3">
+                                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <span class="font-medium text-gray-800">Matematika</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-4 border-l-4 border-orange-500">
+                            <div class="flex items-center">
+                                <div class="bg-orange-100 p-2 rounded-lg mr-3">
+                                    <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                    </svg>
+                                </div>
+                                <span id="elective1" class="font-medium text-gray-800">Fisika</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-4 border-l-4 border-red-500">
+                            <div class="flex items-center">
+                                <div class="bg-red-100 p-2 rounded-lg mr-3">
+                                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                    </svg>
+                                </div>
+                                <span id="elective2" class="font-medium text-gray-800">Kimia</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Keterangan -->
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <svg class="w-5 h-5 text-yellow-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-yellow-700 font-medium">
+                                <strong>Keterangan:</strong> Data yang ada pada halaman ini akan digunakan untuk cetak sertifikat hasil TKA.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tombol Konfirmasi -->
+                <div class="mt-8 space-y-4">
+                    <div class="text-center">
+                        <p class="text-lg font-medium text-gray-800 mb-4">Apakah data di atas sudah sesuai?</p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button onclick="submitResponse('Sesuai')" 
+                                    class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Sesuai
+                            </button>
+                            <button onclick="submitResponse('Tidak Sesuai')" 
+                                    class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                Tidak Sesuai
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tombol Kembali -->
+                    <div class="text-center pt-4 border-t border-gray-200">
+                        <button onclick="logout()" 
+                                class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200">
+                            Kembali ke Login
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database siswa (dalam implementasi nyata, ini akan diambil dari server)
+        const studentDatabase = [
+            {
+                nisn: '1234567890',
+                birthdate: '2008-03-15',
+                name: 'Ahmad Rizki Pratama',
+                gender: 'Laki-laki',
+                birthPlace: 'Jakarta',
+                program: 'IPA',
+                fatherName: 'Budi Pratama',
+                motherName: 'Siti Nurhaliza',
+                elective1: 'Fisika',
+                elective2: 'Kimia'
+            },
+            {
+                nisn: '0987654321',
+                birthdate: '2008-07-22',
+                name: 'Siti Aisyah Putri',
+                gender: 'Perempuan',
+                birthPlace: 'Bandung',
+                program: 'IPS',
+                fatherName: 'Ahmad Wijaya',
+                motherName: 'Dewi Sartika',
+                elective1: 'Geografi',
+                elective2: 'Sosiologi'
+            },
+            {
+                nisn: '123456',
+                birthdate: '1996-10-10',
+                name: 'Ananda Syahriya',
+                gender: 'Laki-laki',
+                birthPlace: 'Malangg',
+                program: 'Teknik Kelautan',
+                fatherName: 'Hendra Gunawan',
+                motherName: 'Rina Marlina',
+                elective1: 'Biologi',
+                elective2: 'Kimia'
+            },
+{nisn: '1294', birthdate: '2008-05-07', name: 'ADEK BELLANGI ARIGAYO', gender: 'Perempuan', birthPlace: 'MALANG', program: 'Psikologi', fatherName: 'DARMANTO', elective1: 'Fisika', elective2: 'Biologi' },
+{nisn: '1295', birthdate: '2007-11-02', name: 'ADINDA NOVITA PUTRI FADILLAH', gender: 'Perempuan', birthPlace: 'SIDOARJO', program: 'Hukum', fatherName: 'DEDY FADILLAH', elective1: 'Biologi', elective2: 'Fisika' },
+{nisn: '1296', birthdate: '2008-01-13', name: 'AHADINA ZAIMIRA', gender: 'Perempuan', birthPlace: 'LUWUK', program: 'Kedokteran ', fatherName: 'ACHMAD SHOLIHIEN. ST', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1297', birthdate: '2008-05-24', name: 'AHMAD ROYYAN AL-FIKRI', gender: 'Laki-laki', birthPlace: 'DENPASAR', program: 'Farmasi', fatherName: 'ANDI CHEMI PRAMONO', elective1: 'Biologi', elective2: 'Bahasa Jerman' },
+{nisn: '1298', birthdate: '2007-07-02', name: 'AHMADYKA JULIANDRA AINURRAHMAN', gender: 'Laki-laki', birthPlace: 'Bangkalan', program: 'teknik geodesi dan geologi', fatherName: 'Ahmad Yunus, SE', elective1: 'Fisika', elective2: 'Geografi' },
+{nisn: '1299', birthdate: '2007-10-31', name: 'A\'IDAH PUTRI NABILAH SUPENDI', gender: 'Perempuan', birthPlace: 'Pasuruan', program: 'FAKULTAS KEDOKTERAN', fatherName: 'Dedi Supendi', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1301', birthdate: '2008-04-10', name: 'ALBY DHAFFA ARIO MARSHADA', gender: 'Laki-laki', birthPlace: 'Jombang', program: 'HUKUM', fatherName: 'MUHAMMAD HARUN AL RASYID', elective1: 'Sosiologi', elective2: 'PPKn/Pendidikan Pancasila' },
+{nisn: '1302', birthdate: '2008-04-25', name: 'ALEXANDER AXELL TRISTAN GERALDO', gender: 'Laki-laki', birthPlace: 'LAMONGAN', program: 'Ilmu komunikasi atau hubungan internasional', fatherName: 'JOHANES BAMBANG LATRIANTO ISTIROM', elective1: 'Sosiologi', elective2: 'Sejarah' },
+{nisn: '1303', birthdate: '2008-09-28', name: 'ALIF FATH IBRAHIMOVIC ALBANI', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'Teknik Fisika', fatherName: 'ARIBOWO SUDIANTOMO PRASETYO', elective1: 'Fisika', elective2: 'Kimia' },
+{nisn: '1304', birthdate: '2007-09-09', name: 'AMANDA AURELYA SUSANTO', gender: 'Perempuan', birthPlace: 'MALANG', program: 'Ilmu Hukum', fatherName: 'SUSANTO EKO PRANYOTO', elective1: 'Sosiologi', elective2: 'Biologi' },
+{nisn: '1305', birthdate: '2007-11-18', name: 'ANDI AMIRAH ALIA BADARUDDIN', gender: 'Perempuan', birthPlace: 'Balikpapan', program: 'Kedokteran Gigi', fatherName: 'A. Asfar B', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1306', birthdate: '2008-06-23', name: 'ANDI FAWNIA KHALISAH PALLAWAGAU', gender: 'Perempuan', birthPlace: 'SURABAYA', program: 'Kedokteran', fatherName: 'Andi Pallawagau', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1307', birthdate: '2008-05-06', name: 'ANJELINA PERMATA DEWI', gender: 'Perempuan', birthPlace: 'SIDOARJO', program: 'Hukum, Sejarah militer', fatherName: 'Ir. AGUS PAMUJI', elective1: 'Sosiologi', elective2: 'Geografi' },
+{nisn: '1308', birthdate: '2008-03-17', name: 'ARJUNA SATRIO WIBOWO', gender: 'Laki-laki', birthPlace: 'Bangkalan', program: 'teknik atau rekayasa', fatherName: 'AGUNG SUCIONO, SH', elective1: 'Kimia', elective2: 'Fisika' },
+{nisn: '1309', birthdate: '2008-03-23', name: 'ARLYA SALSABILLA PUTRI MARGONO', gender: 'Perempuan', birthPlace: 'MALANG', program: 'AKPOL', fatherName: 'MARGONO', elective1: 'Biologi', elective2: 'Fisika' },
+{nisn: '1310', birthdate: '2008-02-11', name: 'ARTIKA ALIN KIRANIA', gender: 'Perempuan', birthPlace: 'MALANG', program: 'Akuntasi ', fatherName: 'AGUS PRAYITNO', elective1: 'Sosiologi', elective2: 'Ekonomi' },
+{nisn: '1311', birthdate: '2008-01-22', name: 'ARVIN BAHTIAR SUKMONO', gender: 'Laki-laki', birthPlace: 'Blitar', program: 'Ilmu hukum', fatherName: 'Susanto Tejo Sukmono', elective1: 'Biologi', elective2: 'Sosiologi' },
+{nisn: '1312', birthdate: '2007-08-22', name: 'AULIA RAHMA', gender: 'Perempuan', birthPlace: 'Jombang', program: 'Kedokteran ', fatherName: 'Achmad', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1313', birthdate: '2007-10-25', name: 'AURELLIA HAFIZAH PUTRI', gender: 'Perempuan', birthPlace: 'Bondowoso', program: 'Kedokteran dan Psikologi', fatherName: 'Setya Purnomo, S.SOS', elective1: 'Biologi', elective2: 'Sosiologi' },
+{nisn: '1314', birthdate: '2008-04-25', name: 'AURELLIA PRADIPA MAHESWARI', gender: 'Perempuan', birthPlace: 'SURABAYA', program: 'kedinasan atau TNI POLRI ', fatherName: 'BASUKI', elective1: 'Biologi', elective2: 'Sosiologi' },
+{nisn: '1315', birthdate: '2007-09-03', name: 'AURORA CLARISSA LUTFIANDANY', gender: 'Perempuan', birthPlace: 'Pamekasan', program: 'Kedokteran', fatherName: 'Lutfiadi', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1316', birthdate: '2008-01-16', name: 'AZHARINE AUDREY DZAKIRAH', gender: 'Perempuan', birthPlace: 'JOMBANG', program: 'Kedokteran dan Hukum', fatherName: 'SUMARNO', elective1: 'Biologi', elective2: 'Sosiologi' },
+{nisn: '1317', birthdate: '2008-06-06', name: 'BATRISYA MIRANTI NARESWARI', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'kedokteran dan psikologi', fatherName: 'Asep Ridwan', elective1: 'Biologi', elective2: 'Sosiologi' },
+{nisn: '1318', birthdate: '2007-07-04', name: 'BILQIS TALITA NIANDINI', gender: 'Perempuan', birthPlace: 'PASURUAN', program: 'Kedokteran Gigi', fatherName: 'RONI YUNIANTONO', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1319', birthdate: '2008-08-29', name: 'BIMA ENDRA SOEBAGJO', gender: 'Laki-laki', birthPlace: 'SIDOARJO', program: 'Hukum atau DKV', fatherName: 'AGUS TRI SUBAGJO', elective1: 'Sosiologi', elective2: 'Fisika' },
+{nisn: '1320', birthdate: '2008-08-03', name: 'BINTANG FADLAN FIRMAN HASIBUAN', gender: 'Laki-laki', birthPlace: 'Jakarta', program: 'FTTM ITB atau Akamigas Cepu', fatherName: 'Firman Edy Hasibuan', elective1: 'Fisika', elective2: 'Geografi' },
+{nisn: '1321', birthdate: '2007-05-22', name: 'BINTANG SATYA ANGGARA', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'Teknik Geofisika', fatherName: 'ENDIK CATUR SETYONO', elective1: 'Fisika', elective2: 'Geografi' },
+{nisn: '1322', birthdate: '2007-12-05', name: 'B\'TARI SAGITA MAHESWARI', gender: 'Perempuan', birthPlace: 'JAKARTA', program: 'Ilmu Gizi ', fatherName: 'JATI LAKSONO', elective1: 'Sosiologi', elective2: 'Biologi' },
+{nisn: '1323', birthdate: '2008-09-07', name: 'CAHYO RAMADHAN PURNOMO', gender: 'Laki-laki', birthPlace: 'JAKARTA', program: 'Kedokteran dan Farmasi', fatherName: 'SURYO NURMAN PURNOMO', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1324', birthdate: '2008-03-19', name: 'CALVIN MAULANA MIKO RAHMAPUTRA', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'Hukum dan Teknik Elektro', fatherName: 'SOEDJATMIKO', elective1: 'Fisika', elective2: 'Sosiologi' },
+{nisn: '1326', birthdate: '2008-05-14', name: 'CHARISSA MEYQUENA JUANITA', gender: 'Perempuan', birthPlace: 'SURABAYA', program: 'Psikologi', fatherName: 'MOCH. JUAN AKBAR', elective1: 'Sosiologi', elective2: 'Ekonomi' },
+{nisn: '1327', birthdate: '2008-05-04', name: 'CHESTA ADABI SUTILISTIO', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'Psychology, manajement bisnis, hukum, arsitek', fatherName: 'AGUS SUTILISTIO', elective1: 'Sosiologi', elective2: 'Kimia' },
+{nisn: '1329', birthdate: '2007-11-26', name: 'CLARISSA EVELINA DANESHWARI', gender: 'Perempuan', birthPlace: 'Bandung', program: 'Psikologi', fatherName: 'Agung Kurniawan', elective1: 'Fisika', elective2: 'Ekonomi' },
+{nisn: '1330', birthdate: '2007-10-25', name: 'CLAUDIA RAISYA PUTRI', gender: 'Perempuan', birthPlace: 'MOJOKERTO', program: 'IPDN', fatherName: 'DWI WAHYUDI', elective1: 'Sosiologi', elective2: 'Ekonomi' },
+{nisn: '1331', birthdate: '2008-06-01', name: 'DANENDRA ARYA WANGSA', gender: 'Laki-laki', birthPlace: 'Jakarta', program: 'Ekonomi dan Bisnis', fatherName: 'Budi Prasetyawati', elective1: 'Bahasa Indonesia Tingkat Lanjut', elective2: 'Ekonomi' },
+{nisn: '1332', birthdate: '2008-03-26', name: 'DANIEL YUDHO BIMANTORO', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'Akademi Angkatan Laut ', fatherName: 'HARTONO EKO BASUKI', elective1: 'Matematika Tingkat Lanjut', elective2: 'Biologi' },
+{nisn: '1333', birthdate: '2007-08-01', name: 'DAVINDRA RIZQULLAH ANDI ATJO', gender: 'Laki-laki', birthPlace: 'JAKARTA', program: 'Kedokteran Gigi', fatherName: 'RIZALDI ANDI ATJO', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1334', birthdate: '2007-09-08', name: 'DELLIANTI PUTRI RACHMAWATI', gender: 'Perempuan', birthPlace: 'SURABAYA', program: 'farmasi unhan', fatherName: 'MUSTAJAB ALI MUNIR', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1335', birthdate: '2008-12-20', name: 'DESELLA BERLIANA LUNA DEWI', gender: 'Perempuan', birthPlace: 'SIDOARJO', program: 'kesehatan masyarat', fatherName: 'KUKUH WIDODO', elective1: 'Biologi', elective2: 'Sosiologi' },
+{nisn: '1336', birthdate: '2007-12-04', name: 'DESWITA KIRANA PUTRI ERNANTO', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'Kedokteran', fatherName: 'Urip Daryanto', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1337', birthdate: '2008-05-28', name: 'DHINANTI TALITA ZAKIYAH', gender: 'Perempuan', birthPlace: 'Malang', program: 'Ilmu Administrasi', fatherName: 'Didik Suhardi', elective1: 'Sosiologi', elective2: 'Sejarah' },
+{nisn: '1338', birthdate: '2007-09-13', name: 'DHONY PRATAMA BHAGASKARA', gender: 'Laki-laki', birthPlace: 'TRENGGALEK', program: 'Farmasi', fatherName: 'SUGINO POEDJOSEMITO', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1339', birthdate: '2007-08-18', name: 'DINTA AYU RAMADHANI', gender: 'Perempuan', birthPlace: 'Malang', program: 'MIPA', fatherName: 'MARSUDI SUGIARTO', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1340', birthdate: '2007-09-28', name: 'DZAKIRAH PUTERI NARESWARI', gender: 'Perempuan', birthPlace: 'Blitar', program: 'Hukum', fatherName: 'Suheri', elective1: 'Sosiologi', elective2: 'PPKn/Pendidikan Pancasila' },
+{nisn: '1341', birthdate: '2008-04-03', name: 'EGAN BRAMARA NAYOTTAMA', gender: 'Laki-laki', birthPlace: 'TANGERANG', program: 'teknik', fatherName: 'Sera Sermawanto', elective1: 'Fisika', elective2: 'Sosiologi' },
+{nisn: '1342', birthdate: '2007-12-16', name: 'EZRA NALA ARGANTARA', gender: 'Laki-laki', birthPlace: 'PEMALANG', program: 'TEKNIK DAN TEKNOLOGI PERTAHANAN', fatherName: 'BURHANNUDIN', elective1: 'Fisika', elective2: 'Sosiologi' },
+{nisn: '1343', birthdate: '2008-12-14', name: 'FADHILA SALMA KAMILA ZAHRANI', gender: 'Perempuan', birthPlace: 'MALANG', program: 'Kedokteran dan teknik', fatherName: 'Heru Purwoko', elective1: 'Biologi', elective2: 'Fisika' },
+{nisn: '1344', birthdate: '2007-11-02', name: 'FAHMI ABIDIRA SUSILO', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'Managemen Akuntansi Negara', fatherName: 'BUDI SUSILO', elective1: 'Sosiologi', elective2: 'Ekonomi' },
+{nisn: '1345', birthdate: '2007-06-26', name: 'FARREL IHZA MAULANA', gender: 'Laki-laki', birthPlace: 'Surabaya', program: 'Psikologi', fatherName: 'Kusnowo', elective1: 'Sosiologi', elective2: 'Fisika' },
+{nisn: '1346', birthdate: '2008-05-27', name: 'FATAR SATRIO PANINGIT', gender: 'Laki-laki', birthPlace: 'Jakarta', program: 'Ilmu atau Sains Kedokteran', fatherName: 'IMAM YULISDIANTO', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1347', birthdate: '2007-08-19', name: 'FERNANDO RUSLI AUGUSTA', gender: 'Laki-laki', birthPlace: 'Sidoarjo', program: 'TEKNIK', fatherName: 'Budi Rusdiono', elective1: 'Kimia', elective2: 'Sosiologi' },
+{nisn: '1348', birthdate: '2007-09-10', name: 'FIRLI ASHFI HANI', gender: 'Perempuan', birthPlace: 'SAMPANG', program: 'farmasi', fatherName: 'HARIYONO', elective1: 'Sosiologi', elective2: 'Biologi' },
+{nisn: '1349', birthdate: '2007-11-10', name: 'FITRI', gender: 'Perempuan', birthPlace: 'Nunukan', program: 'FARMASI', fatherName: 'Zainal', elective1: 'Kimia', elective2: 'Sosiologi' },
+{nisn: '1350', birthdate: '2008-02-02', name: 'GHALIYA FALISHABINA SULAIMAN', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'Kedokteran', fatherName: 'Agus Sulaiman', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1351', birthdate: '2008-04-04', name: 'GILANG RAFI ACHMAD', gender: 'Laki-laki', birthPlace: 'Mojokerto', program: 'AKADEMI ANGKATAN LAUT', fatherName: 'Moch. Hudawi', elective1: 'Biologi', elective2: 'Geografi' },
+{nisn: '1671', birthdate: '2007-12-01', name: 'GILBERT MORLANDO ZEFANYA SINURAT', gender: 'Laki-laki', birthPlace: 'JAKARTA', program: 'INFORMATIKA/HUBUNGAN INTERNASIONAL', fatherName: 'REVELINO SAHAT SINURAT', elective1: 'Sosiologi', elective2: 'Bahasa Inggris Tingkat Lanjut' },
+{nisn: '1352', birthdate: '2008-12-08', name: 'GRACIA RIGEL BELLADONA', gender: 'Perempuan', birthPlace: 'SURABAYA', program: 'Informatika', fatherName: 'Leonardus Deddy Eka Putra', elective1: 'Fisika', elective2: 'Matematika Tingkat Lanjut' },
+{nisn: '1353', birthdate: '2007-11-28', name: 'HALWA IFFAH HASYA', gender: 'Perempuan', birthPlace: 'Jakarta', program: 'Farmasi atau Psikologi atau Hukum', fatherName: 'Faisal', elective1: 'Kimia', elective2: 'Sosiologi' },
+{nisn: '1354', birthdate: '2007-11-10', name: 'HILMY ARFIANTO FAHREZI', gender: 'Laki-laki', birthPlace: 'Surabaya', program: 'Teknik Sipil dan akuntansi', fatherName: 'Himawan Arifiyanto', elective1: 'Fisika', elective2: 'Ekonomi' },
+{nisn: '1355', birthdate: '2008-05-26', name: 'I NGURAH ARYA WINATHA', gender: 'Laki-laki', birthPlace: 'SIDOARJO', program: 'Informatika ', fatherName: 'GEDE AGUNG BAYU NURYANTA', elective1: 'Fisika', elective2: 'Biologi' },
+{nisn: '1356', birthdate: '2008-05-11', name: 'IBHAR RIZQI HIDAYATULLAH', gender: 'Laki-laki', birthPlace: 'Sidoarjo', program: 'Kedokteran umum', fatherName: 'Adi Surono', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1357', birthdate: '2008-06-22', name: 'INOMINA JOSHUA ONTHONIE', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: '-', fatherName: 'HERMAN MANANGKALANGI ONTHONIE', elective1: 'Sosiologi', elective2: 'Fisika' },
+{nisn: '1358', birthdate: '2008-03-12', name: 'INRA TAFDILA ARIF', gender: 'Laki-laki', birthPlace: 'KUPANG', program: 'AKADEMI TNI', fatherName: 'RAMLI ARIF', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1359', birthdate: '2007-11-25', name: 'IRENE ALICIA SINAGA', gender: 'Perempuan', birthPlace: 'GRESIK', program: 'Hukum', fatherName: 'AGUSTINA HALOMOAN SINAGA', elective1: 'PPKn/Pendidikan Pancasila', elective2: 'Sosiologi' },
+{nisn: '1360', birthdate: '2008-08-06', name: 'JALADHIMANTRI NALA WAHYUDI', gender: 'Laki-laki', birthPlace: 'Malang', program: 'Teknik Mesin', fatherName: 'Joko Wahyudi', elective1: 'Fisika', elective2: 'Geografi' },
+{nisn: '1361', birthdate: '2009-01-19', name: 'KAKA ARMANDA WIERAYUDHA', gender: 'Laki-laki', birthPlace: 'Nganjuk', program: 'HUKUM/POLITIK/PSIKOLOGI', fatherName: 'Marman', elective1: 'Biologi', elective2: 'Sosiologi' },
+{nisn: '1362', birthdate: '2007-11-15', name: 'KAYLA KRISNA AULIYYA RAHMAH', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'AKPOL', fatherName: 'DADAN SUHENDAR, S.H', elective1: 'Fisika', elective2: 'Sosiologi' },
+{nisn: '1363', birthdate: '2008-06-25', name: 'KEISCHA SIERRALOVA FATAHILAH', gender: 'Perempuan', birthPlace: 'TANGERANG', program: 'akuntansi dan hukum', fatherName: 'SYAHRU FATAHILAH', elective1: 'Sosiologi', elective2: 'Biologi' },
+{nisn: '1364', birthdate: '2008-06-22', name: 'KEISYA KHUMAIROH TIYANING ATMUKO', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'fakultas kedokteran / fakultas kedokteran gigi', fatherName: 'Budi Atmuko', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1365', birthdate: '2008-08-08', name: 'KENZIE HARVARD DARSONO', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'HUKUM', fatherName: 'ARIF RAHMAT', elective1: 'Sosiologi', elective2: 'PPKn/Pendidikan Pancasila' },
+{nisn: '1366', birthdate: '2008-01-31', name: 'KEVANIA VANESA NARESWARI', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'KEDOKTERAN', fatherName: 'I Wayan Suarjaya', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1367', birthdate: '2008-08-07', name: 'KEYSHIA AURELLIA', gender: 'Perempuan', birthPlace: 'SURABAYA', program: 'Kedokteran ', fatherName: 'SUTARYONO', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1368', birthdate: '2008-09-26', name: 'KHALISHAH UMAIMAH PUTRI', gender: 'Perempuan', birthPlace: 'Batam', program: 'Kedokteran', fatherName: 'YUDEFRI, AMd', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1369', birthdate: '2008-01-08', name: 'KHANSA ULA BALQIS JANUAR', gender: 'Perempuan', birthPlace: 'BLITAR', program: 'KIMIA', fatherName: 'Januari Prastyawan', elective1: 'Kimia', elective2: 'Geografi' },
+{nisn: '1370', birthdate: '2008-06-14', name: 'KIKI GERARDO', gender: 'Laki-laki', birthPlace: 'Pangkalpinang', program: 'BISNIS', fatherName: 'Candra', elective1: 'Matematika Tingkat Lanjut', elective2: 'Kimia' },
+{nisn: '1371', birthdate: '2008-05-26', name: 'KIRANI AULIA ALILATUL BARIZA', gender: 'Perempuan', birthPlace: 'Malang', program: 'Kedokteran', fatherName: 'AAN', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1372', birthdate: '2008-11-26', name: 'KOMANG DIVO DHARMA WIJAYA', gender: 'Laki-laki', birthPlace: 'JAKARTA', program: 'Melanjutkan sekolah kedinasan TNI/Polri', fatherName: 'Ketut Budiantara', elective1: 'Fisika', elective2: 'Biologi' },
+{nisn: '1373', birthdate: '2007-10-25', name: 'LALU MUHAMMAD RAYYAN', gender: 'Laki-laki', birthPlace: 'JAYAPURA', program: 'Farmasi', fatherName: 'Lalu Muhajirin', elective1: 'Biologi', elective2: 'Sosiologi' },
+{nisn: '1374', birthdate: '2008-07-30', name: 'LEONARDUS DAMARIO NURCAHYANTO', gender: 'Laki-laki', birthPlace: 'Semarang', program: 'Kedokteran', fatherName: 'Totok Nurcahyanto', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1375', birthdate: '2007-11-10', name: 'LYRA VIANTIKA NUR ROHMAH', gender: 'Perempuan', birthPlace: 'Bangkalan', program: 'Kedokteran', fatherName: 'Rohmad Basuki, ST', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1376', birthdate: '2007-09-22', name: 'M. FAATHIR FADHILLAH', gender: 'Laki-laki', birthPlace: 'SIDOARJO', program: 'Akademi Angkatan Laut', fatherName: 'MUHAMMAD SYAIFUDDIN ZUHRI', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1377', birthdate: '2007-09-17', name: 'MADE BRIAN PRAWIRA', gender: 'Laki-laki', birthPlace: 'Surabaya', program: 'kedokteran', fatherName: 'I Ketut Widana, S,Pd', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1378', birthdate: '2007-07-18', name: 'MAHARDIKA SYAFFADI PUTRA', gender: 'Laki-laki', birthPlace: 'Surabaya', program: 'Kedokteran ', fatherName: 'SYAIFUL ANAM', elective1: 'Fisika', elective2: 'Biologi' },
+{nisn: '1379', birthdate: '2007-09-10', name: 'MAHENDRA PUTRA BAHARI', gender: 'Laki-laki', birthPlace: 'Surabaya', program: 'ILMU HUKUM', fatherName: 'Agus Widodo', elective1: 'Sosiologi', elective2: 'Matematika Tingkat Lanjut' },
+{nisn: '1380', birthdate: '2009-03-24', name: 'MALVIANEGA RICHTAMA TIDJA', gender: 'Laki-laki', birthPlace: 'Muara Teweh', program: 'kedokteran', fatherName: 'Agustinus Richardo Tidja', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1381', birthdate: '2008-01-14', name: 'MARIO CHRISTOPHER BALLO', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'Prodi Linguistik dan Ilmu Sosial ', fatherName: 'HENRY BALLO', elective1: 'Sosiologi', elective2: 'Bahasa Inggris Tingkat Lanjut' },
+{nisn: '1382', birthdate: '2007-10-17', name: 'MAULANA RIZQI HERMAWAN', gender: 'Laki-laki', birthPlace: 'JAKARTA', program: 'TEKNIK PERTAMBANGAN', fatherName: 'TEGUH HERMAWAN', elective1: 'Fisika', elective2: 'Kimia' },
+{nisn: '1383', birthdate: '2007-06-01', name: 'MAXEMYANUS JUAN HENDRYC MOFU', gender: 'Laki-laki', birthPlace: 'Manokwari', program: 'Sistem Pemerintahan Daerah', fatherName: 'Yanto Septer Viking Mofu', elective1: 'Sosiologi', elective2: 'PPKn/Pendidikan Pancasila' },
+{nisn: '1384', birthdate: '2007-09-11', name: 'MIKA ZAHRAN RAZZAQ', gender: 'Laki-laki', birthPlace: 'JAKARTA', program: 'Sistem Informasi/Ilmu Komputer', fatherName: 'DWI WAHYU SUSILO', elective1: 'Fisika', elective2: 'PPKn/Pendidikan Pancasila' },
+{nisn: '1385', birthdate: '2007-08-11', name: 'MOCH AGUNG LAKSANA PUTRA', gender: 'Laki-laki', birthPlace: 'MALANG', program: 'Teknik Elektro', fatherName: 'UMAR KISWOYO', elective1: 'Fisika', elective2: 'PPKn/Pendidikan Pancasila' },
+{nisn: '1386', birthdate: '2008-04-05', name: 'MOH. FAHRI ROZZI ABDILLAH', gender: 'Laki-laki', birthPlace: 'Malang', program: 'akuntansi', fatherName: 'Nur Biddin', elective1: 'Matematika Tingkat Lanjut', elective2: 'Ekonomi' },
+{nisn: '1387', birthdate: '2008-11-16', name: 'MUHAMMAD ADRIAN PRAMUDYA', gender: 'Laki-laki', birthPlace: 'Bandung', program: 'Akademi TNI', fatherName: 'Dwina Anggapramudya', elective1: 'Matematika Tingkat Lanjut', elective2: 'Fisika' },
+{nisn: '1388', birthdate: '2008-03-19', name: 'MUHAMMAD ATHAILLAH FATIH', gender: 'Laki-laki', birthPlace: 'BANDAR LAMPUNG', program: 'Akademi kepolisian', fatherName: 'AHMAD FAISOL SULAIMAN, SE, MM', elective1: 'Sosiologi', elective2: 'Sejarah' },
+{nisn: '1389', birthdate: '2007-03-13', name: 'MUHAMMAD DAFFA ALFATIR TRIONO', gender: 'Laki-laki', birthPlace: 'TUBAN', program: 'Kedokteran dan Farmasi ', fatherName: 'TRI SULISTYANTO', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1390', birthdate: '2008-08-26', name: 'MUHAMMAD EDWIN ALDRIN RAHMANI', gender: 'Laki-laki', birthPlace: 'Surabaya', program: 'Teknik perkapalan', fatherName: 'Sadarianto', elective1: 'Fisika', elective2: 'Sosiologi' },
+{nisn: '1392', birthdate: '2007-12-05', name: 'MUHAMMAD FARREL HAZELLOVA SENNAPUTRA', gender: 'Laki-laki', birthPlace: 'Surabaya', program: 'Teknik Sipil', fatherName: 'Agus Setiadi', elective1: 'Kimia', elective2: 'Fisika' },
+{nisn: '1393', birthdate: '2008-05-12', name: 'MUHAMMAD HISYAM NIZAR H P', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'Teknik dan komputer', fatherName: 'Hananto Widhi Nugroho', elective1: 'Biologi', elective2: 'Matematika Tingkat Lanjut' },
+{nisn: '1447', birthdate: '2008-06-14', name: 'MUHAMMAD RAFFAEARL ALRYADI', gender: 'Laki-laki', birthPlace: 'Malang', program: 'Hukum', fatherName: 'DEAGUST TRIHARYADI', elective1: 'PPKn/Pendidikan Pancasila', elective2: 'Sejarah' },
+{nisn: '1446', birthdate: '2008-02-27', name: 'MUHAMMAD TAUFIQQURRAHMAN SANJAYA', gender: 'Laki-laki', birthPlace: 'Makassar', program: 'Hukum', fatherName: 'Abdul Rahman Sanjaya', elective1: 'Sosiologi', elective2: 'PPKn/Pendidikan Pancasila' },
+{nisn: '1394', birthdate: '2008-07-27', name: 'MUTIARA UMROTUS CANTIKA', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'Biologi', fatherName: 'Mohamad Datsyur', elective1: 'Biologi', elective2: 'Sosiologi' },
+{nisn: '1395', birthdate: '2007-12-15', name: 'NABILA SAFIRA JALASENA PUTRI', gender: 'Perempuan', birthPlace: 'PEMALANG', program: 'Kedokteran gigi dan farmasi ', fatherName: 'SAMSUL IMAM', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1396', birthdate: '2007-09-27', name: 'NADIA RAMADHANI AZHARA ZUHRI', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'fakultas kedokteran', fatherName: 'Ahmad Alif Saifuddin Zuhri', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1398', birthdate: '2008-01-03', name: 'NAUFAL ARKANANTA', gender: 'Laki-laki', birthPlace: 'Sleman', program: 'Teknik Elektro dan psikologi', fatherName: 'Ari Yahya', elective1: 'Sosiologi', elective2: 'Fisika' },
+{nisn: '1399', birthdate: '2008-03-31', name: 'NAURA REIKO NAQUITA', gender: 'Perempuan', birthPlace: 'JAKARTA', program: 'Sejarah Militer dan Hukum', fatherName: 'EKO NOVIANTO', elective1: 'Sosiologi', elective2: 'Sejarah' },
+{nisn: '1400', birthdate: '2008-02-12', name: 'NAURELIA PUTRI FEBRIANTI', gender: 'Perempuan', birthPlace: 'JAKARTA', program: 'Finance dan Aktuaria', fatherName: 'TRIYONO', elective1: 'Matematika Tingkat Lanjut', elective2: 'Ekonomi' },
+{nisn: '1401', birthdate: '2008-03-08', name: 'NAYAKA NIRWASITA ANTYADININGRUM', gender: 'Perempuan', birthPlace: 'Tanah Grogot', program: 'KEDOKTERAN', fatherName: 'Andi Bagus Wicaksono', elective1: 'Kimia', elective2: 'Sosiologi' },
+{nisn: '1402', birthdate: '2008-04-26', name: 'NAYLA APRILIA NAOMIRA', gender: 'Perempuan', birthPlace: 'Bandung', program: 'KEDOKTERAN', fatherName: 'Iwan Hariwanto', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1403', birthdate: '2008-03-06', name: 'NAYLA KANARRA AZ ZIQQIAH', gender: 'Perempuan', birthPlace: 'Surabaya', program: '-', fatherName: 'Freddy Ardianzah', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1404', birthdate: '2008-06-13', name: 'NAYURA ALEYA MUKHBITA', gender: 'Perempuan', birthPlace: 'SIDOARJO', program: 'Kedokteran ', fatherName: 'HERWANTO', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1405', birthdate: '2008-05-31', name: 'NELSON LIONELL EDRICH PRAMONO', gender: 'Laki-laki', birthPlace: 'Malang', program: 'Kedokteran', fatherName: 'Petrus Setyo Pramono', elective1: 'Biologi', elective2: 'Fisika' },
+{nisn: '1406', birthdate: '2008-11-06', name: 'NI NYOMAN AYU CITRA PERMATA DEWI', gender: 'Perempuan', birthPlace: 'SURABAYA', program: 'KEDOKTERAN', fatherName: 'I MADE JIWA ASTIKA', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1407', birthdate: '2008-06-02', name: 'NI PUTU CHESIL ANGELICA AGATHA MONTOLALU', gender: 'Perempuan', birthPlace: 'BLIMBINGSARI', program: 'Kedokteran', fatherName: 'Marlan Montolalu', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1408', birthdate: '2007-09-06', name: 'NIZMA AZAIRA PUTRI PRASETYO', gender: 'Perempuan', birthPlace: 'Nganjuk', program: 'Kedokteran', fatherName: 'Kukuh Eko Prasetyo', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1409', birthdate: '2007-09-16', name: 'NUR AFLAH SABIRAH RAMADHANI', gender: 'Perempuan', birthPlace: 'Bekasi', program: 'Hidrologi', fatherName: 'Dedy Rahmani Wildan', elective1: 'Fisika', elective2: 'Biologi' },
+{nisn: '1410', birthdate: '2008-03-27', name: 'QOWIYUL AULIA', gender: 'Perempuan', birthPlace: 'SURABAYA', program: 'Farmasi', fatherName: 'DJOKO SUPRAPTO', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1424', birthdate: '2007-10-24', name: 'R.R NADIA MUSTIKA RADITIANINGRUM', gender: 'Perempuan', birthPlace: 'Pangkalan Bun', program: 'Kedokteran', fatherName: 'DHANANG BAGUS ANGGORO', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1412', birthdate: '2008-08-17', name: 'RADITHYA ARDHI PRATAMA', gender: 'Laki-laki', birthPlace: 'Malang', program: 'Hukum dan Kedokteran', fatherName: 'Danu Ardhiarso', elective1: 'Sosiologi', elective2: 'Biologi' },
+{nisn: '1413', birthdate: '2008-09-18', name: 'RAFA FADHIL RAMADHAN', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'kedokteran ', fatherName: 'M. YANUAR ISKANDAR Z', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1414', birthdate: '2008-03-08', name: 'RAFAEL DIANDRA PAKUSADEWA', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: ' Hukum dan Psikologi', fatherName: 'FLORENTINUS EDDY SUSILO', elective1: 'Sosiologi', elective2: 'Bahasa Inggris Tingkat Lanjut' },
+{nisn: '1415', birthdate: '2008-11-03', name: 'RAFIQA NOVA MUFIDA', gender: 'Perempuan', birthPlace: 'Sampang', program: 'Kedokteran gigi dan farmasi ', fatherName: 'AHMAD SHOHIBUL HIDAYAT, A.Ma.', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1416', birthdate: '2008-06-26', name: 'RAISAH DELVINA PUTRI JALASENASTRI', gender: 'Perempuan', birthPlace: 'SURABAYA', program: 'farmasi ', fatherName: 'FERRI RAIS', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1417', birthdate: '2007-10-08', name: 'RAMADHANSYAH APTA KUSUMA CANDRA', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'Kedokteran', fatherName: 'CANDRA HERMAWAN', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1418', birthdate: '2007-10-02', name: 'RAMDANIA HILALA ARDELIANSYAH', gender: 'Perempuan', birthPlace: 'Bangkalan', program: 'Hukum atau Psikologi', fatherName: 'HARTONO, DRS', elective1: 'Sosiologi', elective2: 'PPKn/Pendidikan Pancasila' },
+{nisn: '1419', birthdate: '2008-01-25', name: 'RASENDRIYA RAISA ZEVA THALASSA', gender: 'Laki-laki', birthPlace: 'JAKARTA', program: 'teknik geologi', fatherName: 'IMRON SAFEI', elective1: 'Biologi', elective2: 'Geografi' },
+{nisn: '1420', birthdate: '2008-06-27', name: 'RASYA SATRIA WARDANA', gender: 'Laki-laki', birthPlace: 'JOMBANG', program: 'teknik atau rekayasa dan Geografi, Geografi Lingkungan, Sains Informasi Geograh', fatherName: 'Mochamad Nuriman', elective1: 'Fisika', elective2: 'Geografi' },
+{nisn: '1421', birthdate: '2007-06-24', name: 'RENOW SAMUDERA PUTRA ERFIANTO', gender: 'Laki-laki', birthPlace: 'Malang', program: 'Teknik', fatherName: 'Sony Erfianto', elective1: 'Matematika Tingkat Lanjut', elective2: 'Fisika' },
+{nisn: '1422', birthdate: '2008-02-22', name: 'REVALINA LAURA FEBRIANTI', gender: 'Perempuan', birthPlace: 'MALANG', program: 'kedokteran gigi dan biologi', fatherName: 'BAMBANG SETIAWAN', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1423', birthdate: '2008-04-14', name: 'RIFQI AUFA MAULANA', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'TEKNIK', fatherName: 'YOSI KRISNANDA TAUFIK', elective1: 'Matematika Tingkat Lanjut', elective2: 'Fisika' },
+{nisn: '1425', birthdate: '2008-02-09', name: 'RYO FEBRI ZHAFIRIN', gender: 'Laki-laki', birthPlace: 'MALANG', program: 'Teknik Perminyakan', fatherName: 'RINA WAHYUNINGSIH', elective1: 'Kimia', elective2: 'Fisika' },
+{nisn: '1426', birthdate: '2008-08-27', name: 'SAELY MASAYU', gender: 'Perempuan', birthPlace: 'Salatiga', program: 'HI', fatherName: 'DIMAS ARIYANTO PUTRO', elective1: 'Sosiologi', elective2: 'Bahasa Jerman' },
+{nisn: '1427', birthdate: '2008-07-12', name: 'SAFA ALZENA SAKHI', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'Farmasi UB/ Psikologi UGM', fatherName: 'Moh. Shoheh', elective1: 'Kimia', elective2: 'Sosiologi' },
+{nisn: '1428', birthdate: '2007-12-06', name: 'SALSABILA RAHAYU EFFENDI', gender: 'Perempuan', birthPlace: 'Malang', program: 'KIMIA, KEDOKTERAN', fatherName: 'Hernowo Effendi', elective1: 'Kimia', elective2: 'Biologi' },
+{nisn: '1429', birthdate: '2008-04-14', name: 'SASI KIRONO SATRIYO WIDHIANDARU', gender: 'Laki-laki', birthPlace: 'Malang', program: 'Hubungan Internasional', fatherName: 'Tetuko Luhur Setyo Bathoro, SSTP., M.AP.', elective1: 'Sosiologi', elective2: 'Biologi' },
+{nisn: '1430', birthdate: '2007-10-11', name: 'SHAMS FATTAN RAMADHAN', gender: 'Laki-laki', birthPlace: 'TULUNGAGUNG', program: 'Teknik Industri', fatherName: 'Irwan Prima Hartawan', elective1: 'Matematika Tingkat Lanjut', elective2: 'Fisika' },
+{nisn: '1431', birthdate: '2007-11-27', name: 'SISCHA AMELIA KUSUMAWATI', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'Ilmu komputer ', fatherName: 'Siswandi', elective1: 'Matematika Tingkat Lanjut', elective2: 'Fisika' },
+{nisn: '1432', birthdate: '2008-01-24', name: 'SISKA DWI WULANDARI', gender: 'Perempuan', birthPlace: 'MOJOKERTO', program: 'pertambangan dan hukum', fatherName: 'SUWOYO', elective1: 'Fisika', elective2: 'Geografi' },
+{nisn: '1433', birthdate: '2007-12-21', name: 'STEPHANIE GRACIA NATHALIA SIMANGUNSONG', gender: 'Perempuan', birthPlace: 'MEDAN', program: 'Hukum', fatherName: 'RIHARD SIMANGUNSONG', elective1: 'Sosiologi', elective2: 'Sejarah' },
+{nisn: '1434', birthdate: '2007-12-09', name: 'SURYANING SARI', gender: 'Perempuan', birthPlace: 'Pasuruan', program: 'Psikolog ', fatherName: 'Ismail', elective1: 'Kimia', elective2: 'Sosiologi' },
+{nisn: '1435', birthdate: '2008-03-11', name: 'SYAFIERA PUTRI NUGRAHIZZAH NUR NATAYA', gender: 'Perempuan', birthPlace: 'Kediri', program: 'Hukum', fatherName: 'Kustijadi', elective1: 'Sosiologi', elective2: 'PPKn/Pendidikan Pancasila' },
+{nisn: '1436', birthdate: '2008-03-04', name: 'SYAHIRA MAKAYLA', gender: 'Perempuan', birthPlace: 'Samarinda', program: 'Kedokteran dan psikologi', fatherName: 'NUR HABIB', elective1: 'Biologi', elective2: 'Sosiologi' },
+{nisn: '1437', birthdate: '2007-08-04', name: 'TIRTA AYU PRAMESTI PUTRI SETIAWAN', gender: 'Perempuan', birthPlace: 'Malang', program: 'MIPA dan biologi kelautan', fatherName: 'Ambar Setiawan', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1438', birthdate: '2008-08-29', name: 'VALENTINO AFINZA GUSTI DWI SAPUTRA S.W.', gender: 'Laki-laki', birthPlace: 'Semarang', program: 'Teknik mesin', fatherName: 'Sudiyono', elective1: 'Fisika', elective2: 'Sosiologi' },
+{nisn: '1439', birthdate: '2008-01-08', name: 'VIARA DEVITA KIRANI', gender: 'Perempuan', birthPlace: 'MALANG', program: 'Ilmu administrasi ', fatherName: 'ERVAN YUDI HARYANTO', elective1: 'Sosiologi', elective2: 'PPKn/Pendidikan Pancasila' },
+{nisn: '1440', birthdate: '2008-08-24', name: 'VINCENTIUS PRAMUDITO AGUNG NUGROHO', gender: 'Laki-laki', birthPlace: 'SURABAYA', program: 'Hubungan International  dan Kedokteran', fatherName: 'ENDRA HARTONO', elective1: 'Biologi', elective2: 'Bahasa Inggris Tingkat Lanjut' },
+{nisn: '1441', birthdate: '2008-03-20', name: 'WAODE MARINES MAULIDYA PAKRI', gender: 'Perempuan', birthPlace: 'Surabaya', program: 'Farmasi', fatherName: 'Mohammad Pakis', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1442', birthdate: '2008-06-04', name: 'YUNDA ARVIN ATHIYYA IRAWAN', gender: 'Perempuan', birthPlace: 'SIDOARJO', program: 'Kedokteran gigi', fatherName: 'DANU IRAWAN', elective1: 'Biologi', elective2: 'Kimia' },
+{nisn: '1443', birthdate: '2008-07-31', name: 'ZALFA PRITAMASARI', gender: 'Perempuan', birthPlace: 'Malang', program: 'Hukum, Psikologi dan Manajemen', fatherName: 'R.Gatut Priambodo', elective1: 'Sosiologi', elective2: 'Ekonomi' },
+{nisn: '1444', birthdate: '2008-01-25', name: 'ZAYYAN RABBANI AL HAQQI', gender: 'Laki-laki', birthPlace: 'JEMBER', program: 'AAL ( AKADEMI ANGKATAN LAUT )', fatherName: 'ARI ZALFIE YUNANTYA PUTRO', elective1: 'Kimia', elective2: 'Sosiologi' },
+{nisn: '1445', birthdate: '2007-11-20', name: 'ZHAFRAN IJLAL WACHGI', gender: 'Laki-laki', birthPlace: 'Pontianak', program: 'PSIKOLOGI', fatherName: 'Asep Tardiana Wachgi, S.H., M.H.', elective1: 'Sosiologi', elective2: 'Biologi' },
+
+        ];
+
+        let currentStudent = null;
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nisn = document.getElementById('nisn').value.trim();
+            const birthdate = document.getElementById('birthdate').value;
+            
+            if (!nisn || !birthdate) {
+                alert('Mohon lengkapi semua data yang diperlukan.');
+                return;
+            }
+
+            // Cari siswa di database
+            const student = studentDatabase.find(s => s.nisn === nisn && s.birthdate === birthdate);
+            
+            if (student) {
+                currentStudent = student;
+                updateStudentData(student);
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('announcementPage').classList.remove('hidden');
+            } else {
+                alert('Data tidak ditemukan');
+            }
+        });
+        
+        function updateStudentData(student) {
+            // Update semua data siswa di halaman pengumuman
+            const dataElements = {
+                'Nama:': student.name,
+                'Jenis Kelamin:': student.gender,
+                'Tempat Lahir:': student.birthPlace,
+                'Tanggal Lahir:': formatDate(student.birthdate),
+                'Program Studi:': student.program,
+                'Nama Orang Tua:': student.fatherName,
+            };
+
+            // Update setiap elemen data
+            const dataContainer = document.querySelector('.bg-gray-50.rounded-xl');
+            const spans = dataContainer.querySelectorAll('span');
+            
+            spans.forEach(span => {
+                const label = span.textContent;
+                if (dataElements[label]) {
+                    const valueSpan = span.nextElementSibling;
+                    if (valueSpan) {
+                        valueSpan.textContent = dataElements[label];
+                    }
+                }
+            });
+
+            // Update mata pelajaran pilihan
+            document.getElementById('elective1').textContent = student.elective1;
+            document.getElementById('elective2').textContent = student.elective2;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const months = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+            return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        function logout() {
+            document.getElementById('announcementPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('loginForm').reset();
+            currentStudent = null;
+        }
+        
+        function submitResponse(status) {
+            if (!currentStudent) {
+                alert('Data siswa tidak ditemukan. Silakan login kembali.');
+                return;
+            }
+
+            // Data siswa yang akan dikirim
+            const studentName = currentStudent.name;
+            const response = status;
+            
+            // URL Google Spreadsheet yang sudah dibagikan
+            const spreadsheetUrl = "https://docs.google.com/spreadsheets/d/1drF-q4XAJPZnnmyjuPk4K82JwTwLjq4ofqdQDLK8FZY/edit?usp=sharing";
+            
+            // Tampilkan konfirmasi
+            if (confirm(`Anda akan mengirim data:\nNama: ${studentName}\nKeterangan: ${response}\n\nLanjutkan?`)) {
+                // Buka spreadsheet di tab baru untuk input manual
+                window.open(spreadsheetUrl, '_blank', 'noopener,noreferrer');
+                
+                // Tampilkan pesan sukses
+                alert(`Data "${response}" untuk ${studentName} siap untuk diinput ke spreadsheet. Silakan input data secara manual di tab yang baru dibuka.`);
+            }
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'982e6d07f02fce3e',t:'MTc1ODUwODcwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

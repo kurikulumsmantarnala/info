@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengumuman Status Eligible Siswa</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+    
+    * {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .card-shadow {
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-primary {
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .confetti {
+      animation: confetti 3s ease-in-out infinite;
+    }
+    
+    @keyframes confetti {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-10px) rotate(5deg); }
+      75% { transform: translateY(-10px) rotate(-5deg); }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full w-full">
+  <div id="app-container" class="h-full w-full gradient-bg overflow-auto"><!-- Login Page -->
+   <div id="loginPage" class="min-h-full flex items-center justify-center p-6">
+    <div class="w-full max-w-md">
+     <div class="bg-white rounded-3xl card-shadow p-8 fade-in">
+      <div class="text-center mb-8">
+       <div class="text-6xl mb-4 confetti">
+        <center> <img src="smantar.png" alt="SMAN Taruna Nala" width="50" ></center>
+       </div>
+       <h1 id="loginTitle" class="text-3xl font-bold mb-2" style="color: #667eea;">Pengumuman Status Eligible</h1>
+	<h3 font-bold text-black">SMA Negeri Taruna Nala Jawa Timur</h3>
+                    <p class="text-black-200 font-medium">Tahun 2026</p><br>
+       <p class="text-gray-600">Silakan login untuk melihat status Anda</p>
+      </div>
+      <form id="loginForm" class="space-y-6">
+       <div><label for="username" class="block text-sm font-semibold text-gray-700 mb-2">Username</label> <input type="text" id="username" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors" placeholder="Masukkan username">
+       </div>
+       <div><label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label> <input type="password" id="password" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors" placeholder="Masukkan password">
+       </div>
+       <div id="errorMessage" class="text-red-500 text-sm text-center hidden"></div><button type="submit" class="w-full btn-primary text-white font-semibold py-3 rounded-xl" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"> Login </button>
+      </form>
+     </div>
+    </div>
+   </div><!-- Success Page (Lulus) -->
+   <div id="successPage" class="min-h-full flex items-center justify-center p-6 hidden">
+    <div class="w-full max-w-2xl">
+     <div class="bg-white rounded-3xl card-shadow p-8 fade-in">
+      <div class="text-center mb-6">
+       <div class="text-7xl mb-4 confetti">
+        🎉
+       </div>
+       <h2 class="text-3xl font-bold mb-4" style="color: #10b981;">LOLOS ELIGIBLE</h2>
+      </div>
+      <div class="bg-green-50 border-2 border-green-200 rounded-2xl p-6 mb-6">
+       <p id="successMessage" class="text-gray-800 leading-relaxed text-lg"></p>
+      </div>
+      <div class="space-y-4">
+       <div class="bg-purple-50 border-2 border-purple-200 rounded-2xl p-5">
+        <p class="text-gray-700 mb-3 font-semibold">Konfirmasi lanjut/mundur dari seleksi SNBP silahkan mengisi google form berikut:</p><a href="https://bit.ly/SURAT_LANJUT_MUNDUR_SNBPSN9" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center btn-primary text-white font-semibold py-3 rounded-xl" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"> 📝 Isi Form </a>
+       </div>
+       <div class="bg-blue-50 border-2 border-blue-200 rounded-2xl p-5">
+        <p class="text-gray-700 mb-3 font-semibold">Unduh Surat Pernyataan Bersedia/Tidak untuk mendaftar SNBP melalui tautan berikut:</p><a href="https://bit.ly/PERNYATAAN_MAJU_MUNDUR_SNBPSN9" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center btn-primary text-white font-semibold py-3 rounded-xl" style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);"> 📥 Download </a>
+       </div>
+      </div><button onclick="logout()" class="w-full mt-6 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-xl transition-colors"> Logout </button>
+     </div>
+    </div>
+   </div><!-- Failed Page (Tidak Lulus) -->
+   <div id="failedPage" class="min-h-full flex items-center justify-center p-6 hidden">
+    <div class="w-full max-w-2xl">
+     <div class="bg-white rounded-3xl card-shadow p-8 fade-in">
+      <div class="text-center mb-6">
+       <div class="text-7xl mb-4">
+        💪
+       </div>
+       <h2 class="text-3xl font-bold mb-4" style="color: #f59e0b;">Tetap Semangat!</h2>
+      </div>
+      <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 mb-6">
+       <p id="failedMessage" class="text-gray-800 leading-relaxed text-lg"></p>
+      </div><button onclick="logout()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-xl transition-colors"> Logout </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const studentData = [
+      { username: "12cek", password: "12345", nama: "Ananda", kelas: "XII-1", status: "Lulus", peringkat: 1 },
+      { username: "13cek", password: "54321", nama: "Rahmat", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+      { username: "14cek", password: "12346", nama: "Ghofir", kelas: "XII-2", status: "Lulus", peringkat: 7 },
+      { username: "15cek", password: "54322", nama: "Brian", kelas: "XII-7", status: "Tidak Lulus", peringkat: 0 },
+{ username: "3078661604", password: "20071102", nama: "ADINDA NOVITA PUTRI FADILLAH", kelas: "XII-1", status: "Lulus", peringkat: 58 },
+{ username: "0087610949", password: "20080524", nama: "AHMAD ROYYAN AL-FIKRI", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0076491355", password: "20071031", nama: "A'IDAH PUTRI NABILAH SUPENDI", kelas: "XII-1", status: "Lulus", peringkat: 12 },
+{ username: "0076568989", password: "20071205", nama: "B'TARI SAGITA MAHESWARI", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0075154466", password: "20071216", nama: "EZRA NALA ARGANTARA", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0088912913", password: "20081214", nama: "FADHILA SALMA KAMILA ZAHRANI", kelas: "XII-1", status: "Lulus", peringkat: 28 },
+{ username: "0085173397", password: "20080527", nama: "FATAR SATRIO PANINGIT", kelas: "XII-1", status: "Lulus", peringkat: 47 },
+{ username: "0076625673", password: "20070910", nama: "FIRLI ASHFI HANI", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0072223773", password: "20071110", nama: "FITRI", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0086361316", password: "20080202", nama: "GHALIYA FALISHABINA SULAIMAN", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0084713297", password: "20080625", nama: "KEISCHA SIERRALOVA FATAHILAH", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0087042662", password: "20080622", nama: "KEISYA KHUMAIROH TIYANING ATMUKO", kelas: "XII-1", status: "Lulus", peringkat: 39 },
+{ username: "0072719490", password: "20071017", nama: "MAULANA RIZQI HERMAWAN", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0071758633", password: "20070911", nama: "MIKA ZAHRAN RAZZAQ", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0079724465", password: "20070811", nama: "MOCH AGUNG LAKSANA PUTRA", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0089441391", password: "20080826", nama: "MUHAMMAD EDWIN ALDRIN RAHMANI", kelas: "XII-1", status: "Lulus", peringkat: 41 },
+{ username: "0082586159", password: "20080727", nama: "MUTIARA UMROTUS CANTIKA", kelas: "XII-1", status: "Lulus", peringkat: 54 },
+{ username: "0087835939", password: "20080331", nama: "NAURA REIKO NAQUITA", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0086710535", password: "20080817", nama: "RADITHYA ARDHI PRATAMA", kelas: "XII-1", status: "Lulus", peringkat: 2 },
+{ username: "0083680775", password: "20080918", nama: "RAFA FADHIL RAMADHAN", kelas: "XII-1", status: "Lulus", peringkat: 27 },
+{ username: "0074250128", password: "20071008", nama: "RAMADHANSYAH APTA KUSUMA CANDRA", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0081886235", password: "20080222", nama: "REVALINA LAURA FEBRIANTI", kelas: "XII-1", status: "Lulus", peringkat: 60 },
+{ username: "3088396750", password: "20080209", nama: "RYO FEBRI ZHAFIRIN", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0076139923", password: "20071209", nama: "SURYANING SARI", kelas: "XII-1", status: "Lulus", peringkat: 18 },
+{ username: "0082236858", password: "20080829", nama: "VALENTINO AFINZA GUSTI DWI SAPUTRA S.W.", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0087261541", password: "20080604", nama: "YUNDA ARVIN ATHIYYA IRAWAN", kelas: "XII-1", status: "Lulus", peringkat: 43 },
+{ username: "0073696076", password: "20071120", nama: "ZHAFRAN IJLAL WACHGI", kelas: "XII-1", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0084769939", password: "20080113", nama: "AHADINA ZAIMIRA", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0089571672", password: "20080410", nama: "ALBY DHAFFA ARIO MARSHADA", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0086382432", password: "20080425", nama: "ALEXANDER AXELL TRISTAN GERALDO (K)", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0081833692", password: "20080928", nama: "ALIF FATH IBRAHIMOVIC ALBANI", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0074962165", password: "20070909", nama: "AMANDA AURELYA SUSANTO", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0081364740", password: "20080323", nama: "ARLYA SALSABILLA PUTRI MARGONO", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0085802943", password: "20080122", nama: "ARVIN BAHTIAR SUKMONO", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0071003522", password: "20070822", nama: "AULIA RAHMA", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0084467006", password: "20080425", nama: "AURELLIA PRADIPA MAHESWARI", kelas: "XII-2", status: "Lulus", peringkat: 4 },
+{ username: "0081665431", password: "20080504", nama: "CHESTA ADABI SUTILISTIO", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0073103944", password: "20071126", nama: "CLARISSA EVELINA DANESHWARI", kelas: "XII-2", status: "Lulus", peringkat: 33 },
+{ username: "0064552060", password: "20080403", nama: "EGAN BRAMARA NAYOTTAMA (KP)", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0077241231", password: "20070626", nama: "FARREL IHZA MAULANA", kelas: "XII-2", status: "Lulus", peringkat: 46 },
+{ username: "0081208932", password: "20081208", nama: "GRACIA RIGEL BELLADONA (K)", kelas: "XII-2", status: "Lulus", peringkat: 13 },
+{ username: "0074535030", password: "20071110", nama: "HILMY ARFIANTO FAHREZI", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0072914308", password: "20070718", nama: "MAHARDIKA SYAFFADI PUTRA", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0076426997", password: "20071205", nama: "MUHAMMAD FARREL HAZELLOVA SENNAPUTRA", kelas: "XII-2", status: "Lulus", peringkat: 25 },
+{ username: "0087566488", password: "20080614", nama: "MUHAMMAD RAFFAEARL ALRYADI", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0087770545", password: "20080426", nama: "NAYLA APRILIA NAOMIRA", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0085819137", password: "20080531", nama: "NELSON LIONELL EDRICH PRAMONO (KP)", kelas: "XII-2", status: "Lulus", peringkat: 24 },
+{ username: "0087007413", password: "20081106", nama: "NI NYOMAN AYU CITRA PERMATA DEWI (H)", kelas: "XII-2", status: "Lulus", peringkat: 15 },
+{ username: "0088734116", password: "20080327", nama: "QOWIYUL AULIA", kelas: "XII-2", status: "Lulus", peringkat: 50 },
+{ username: "0081187312", password: "20080308", nama: "RAFAEL DIANDRA PAKUSADEWA (K)", kelas: "XII-2", status: "Lulus", peringkat: 55 },
+{ username: "0071340698", password: "20071002", nama: "RAMDANIA HILALA ARDELIANSYAH", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0076211678", password: "20071024", nama: "R.R NADIA MUSTIKA RADITIANINGRUM", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0082692806", password: "20080827", nama: "SAELY MASAYU", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0077580343", password: "20071206", nama: "SALSABILA RAHAYU EFFENDI", kelas: "XII-2", status: "Lulus", peringkat: 16 },
+{ username: "0087791342", password: "20080108", nama: "VIARA DEVITA KIRANI", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0089529754", password: "20080125", nama: "ZAYYAN RABBANI AL HAQQI", kelas: "XII-2", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0075295810", password: "20071118", nama: "ANDI AMIRAH ALIA BADARUDDIN", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0086472247", password: "20080211", nama: "ARTIKA ALIN KIRANIA", kelas: "XII-3", status: "Lulus", peringkat: 44 },
+{ username: "0076971874", password: "20071025", nama: "AURELLIA HAFIZAH PUTRI", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0081527556", password: "20080606", nama: "BATRISYA MIRANTI NARESWARI", kelas: "XII-3", status: "Lulus", peringkat: 49 },
+{ username: "0075587249", password: "20080319", nama: "CALVIN MAULANA MIKO RAHMAPUTRA", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0088781501", password: "20080514", nama: "CHARISSA MEYQUENA JUANITA", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0072594140", password: "20071025", nama: "CLAUDIA RAISYA PUTRI", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0088709825", password: "20080528", nama: "DHINANTI TALITA ZAKIYAH", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0072675631", password: "20070928", nama: "DZAKIRAH PUTERI NARESWARI", kelas: "XII-3", status: "Lulus", peringkat: 7 },
+{ username: "0073341112", password: "20071102", nama: "FAHMI ABIDIRA SUSILO", kelas: "XII-3", status: "Lulus", peringkat: 48 },
+{ username: "0074685858", password: "20071128", nama: "HALWA IFFAH HASYA", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0085274104", password: "20080622", nama: "INOMINA JASUA ONTHONIE (KP)", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0073330041", password: "20071125", nama: "IRENE ALICIA SINAGA (KP)", kelas: "XII-3", status: "Lulus", peringkat: 53 },
+{ username: "0085516174", password: "20080808", nama: "KENZIE HARVARD DARSONO", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0081246578", password: "20080131", nama: "KEVANIA VANESA NARESWARI (H)", kelas: "XII-3", status: "Lulus", peringkat: 11 },
+{ username: "0084402265", password: "20080614", nama: "KIKI GERARDO (KP)", kelas: "XII-3", status: "Lulus", peringkat: 34 },
+{ username: "0073820369", password: "20070910", nama: "MAHENDRA PUTRA BAHARI", kelas: "XII-3", status: "Lulus", peringkat: 59 },
+{ username: "0092539697", password: "20090324", nama: "MALVIANEGA RICHTAMA TIDJA (KP)", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0083142927", password: "20080114", nama: "MARIO CHRISTOPHER BALLO (KP)", kelas: "XII-3", status: "Lulus", peringkat: 6 },
+{ username: "0084008974", password: "20081116", nama: "MUHAMMAD ADRIAN PRAMUDYA", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0084529936", password: "20080319", nama: "MUHAMMAD ATHAILLAH FATIH", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0084683460", password: "20080227", nama: "MUHAMMAD TAUFIQQURRAHMAN SANJAYA", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "3074541375", password: "20070927", nama: "NADIA RAMADHANI AZHARA ZUHRI", kelas: "XII-3", status: "Lulus", peringkat: 51 },
+{ username: "0076430473", password: "20070916", nama: "NUR AFLAH SABIRAH RAMADHANI", kelas: "XII-3", status: "Lulus", peringkat: 38 },
+{ username: "0071263686", password: "20070624", nama: "RENOW SAMUDERA PUTRA ERFIANTO", kelas: "XII-3", status: "Lulus", peringkat: 8 },
+{ username: "0073546653", password: "20071011", nama: "SHAMS FATTAN RAMADHAN", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0078415222", password: "20071221", nama: "STEPHANIE GRACIA NATHALIA SIMANGUNSONG (KP)", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0088517450", password: "20080304", nama: "SYAHIRA MAKAYLA", kelas: "XII-3", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0082662117", password: "20080731", nama: "ZALFA PRITAMASARI", kelas: "XII-3", status: "Lulus", peringkat: 31 },
+{ username: "0085803251", password: "20080507", nama: "ADEK BELLANGI ARIGAYO", kelas: "XII-4", status: "Lulus", peringkat: 20 },
+{ username: "0082409704", password: "20080623", nama: "ANDI FAWNIA KHALISAH PALLAWAGAU", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0076207917", password: "20070704", nama: "BILQIS TALITA NIANDINI", kelas: "XII-4", status: "Lulus", peringkat: 29 },
+{ username: "0075876105", password: "20070522", nama: "BINTANG SATYA ANGGARA", kelas: "XII-4", status: "Lulus", peringkat: 30 },
+{ username: "0087276038", password: "20080907", nama: "CAHYO RAMADHAN PURNOMO", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0089686179", password: "20080601", nama: "DANENDRA ARYA WANGSA", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0074483406", password: "20070801", nama: "DAVINDRA RIZQULLAH ANDI ATJO", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0078128016", password: "20070908", nama: "DELLIANTI PUTRI RACHMAWATI", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0077506146", password: "20071204", nama: "DESWITA KIRANA PUTRI ERNANTO", kelas: "XII-4", status: "Lulus", peringkat: 45 },
+{ username: "0077899973", password: "20070818", nama: "DINTA AYU RAMADHANI", kelas: "XII-4", status: "Lulus", peringkat: 19 },
+{ username: "0089490104", password: "20080404", nama: "GILANG RAFI ACHMAD", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0081084430", password: "20080511", nama: "IBHAR RIZQI HIDAYATULLAH", kelas: "XII-4", status: "Lulus", peringkat: 42 },
+{ username: "0081088704", password: "20080312", nama: "INRA TAFDILA ARIF", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0088399094", password: "20080806", nama: "JALADHIMANTRI NALA WAHYUDI", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0085853121", password: "20080730", nama: "LEONARDUS DAMARIO NURCAHYANTO (K)", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0075784502", password: "20070917", nama: "MADE BRIAN PRAWIRA (H)", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0083570895", password: "20080405", nama: "MOH. FAHRI ROZZI ABDILLAH", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0079513850", password: "20070313", nama: "MUHAMMAD DAFFA ALFATIR TRIONO", kelas: "XII-4", status: "Lulus", peringkat: 17 },
+{ username: "0076120548", password: "20070922", nama: "M. FAATHIR FADHILLAH", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0085954680", password: "20080512", nama: "MUHAMMAD HISYAM NIZAR H P", kelas: "XII-4", status: "Lulus", peringkat: 37 },
+{ username: "0085592270", password: "20080212", nama: "NAURELIA PUTRI FEBRIANTI", kelas: "XII-4", status: "Lulus", peringkat: 26 },
+{ username: "0072631698", password: "20070906", nama: "NIZMA AZAIRA PUTRI PRASETYO", kelas: "XII-4", status: "Lulus", peringkat: 1 },
+{ username: "0089219833", password: "20080626", nama: "RAISAH DELVINA PUTRI JALASENASTRI", kelas: "XII-4", status: "Lulus", peringkat: 3 },
+{ username: "0084376439", password: "20080414", nama: "RIFQI AUFA MAULANA", kelas: "XII-4", status: "Lulus", peringkat: 23 },
+{ username: "0075650814", password: "20071127", nama: "SISCHA AMELIA KUSUMAWATI", kelas: "XII-4", status: "Lulus", peringkat: 10 },
+{ username: "0079130438", password: "20070804", nama: "TIRTA AYU PRAMESTI PUTRI SETIAWAN", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0081188075", password: "20080824", nama: "VINCENTIUS PRAMUDITO AGUNG NUGROHO (K)", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0084174414", password: "20080320", nama: "WAODE MARINES MAULIDYA PAKRI", kelas: "XII-4", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0073691923", password: "20070903", nama: "AURORA CLARISSA LUTFIANDANY", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0082274278", password: "20080326", nama: "DANIEL YUDHO BIMANTORO (KP)", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0074304257", password: "20070913", nama: "DHONY PRATAMA BHAGASKARA", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0075050377", password: "20071201", nama: "GILBERT MORLANDO ZEFANYA SINURAT (KP)", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0094277136", password: "20090119", nama: "KAKA ARMANDA WIERAYUDHA", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0081576907", password: "20080807", nama: "KEYSHIA AURELLIA", kelas: "XII-5", status: "Lulus", peringkat: 36 },
+{ username: "0081223699", password: "20080926", nama: "KHALISHAH UMAIMAH PUTRI", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0088761371", password: "20080108", nama: "KHANSA ULA BALQIS JANUAR", kelas: "XII-5", status: "Lulus", peringkat: 40 },
+{ username: "0087099243", password: "20080526", nama: "KIRANI AULIA ALILATUL BARIZA", kelas: "XII-5", status: "Lulus", peringkat: 9 },
+{ username: "0082596024", password: "20081126", nama: "KOMANG DIVO DHARMA WIJAYA(H)", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0076787451", password: "20071025", nama: "LALU MUHAMMAD RAYYAN", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0075090075", password: "20070601", nama: "MAXEMYANUS JUAN HENDRYC MOFU (KP)", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0073937797", password: "20071215", nama: "NABILA SAFIRA JALASENA PUTRI", kelas: "XII-5", status: "Lulus", peringkat: 14 },
+{ username: "0081466389", password: "20080103", nama: "NAUFAL ARKANANTA", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0088396482", password: "20080306", nama: "NAYLA KANARRA AZ ZIQQIAH", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0088341645", password: "20080602", nama: "NI PUTU CHESIL ANGELICA AGATHA MONTOLALU (KP)", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0088901103", password: "20081103", nama: "RAFIQA NOVA MUFIDA", kelas: "XII-5", status: "Lulus", peringkat: 22 },
+{ username: "0074462755", password: "20080125", nama: "RASENDRIYA RAISA ZEVA THALASSA", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0086815533", password: "20080712", nama: "SAFA ALZENA SAKHI", kelas: "XII-5", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0077165102", password: "20070702", nama: "AHMADYKA JULIANDRA AINURRAHMAN", kelas: "XII-6", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0084320995", password: "20080506", nama: "ANJELINA PERMATA DEWI", kelas: "XII-6", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0086088201", password: "20080317", nama: "ARJUNA SATRIO WIBOWO", kelas: "XII-6", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0089853810", password: "20080116", nama: "AZHARINE AUDREY DZAKIRAH", kelas: "XII-6", status: "Lulus", peringkat: 52 },
+{ username: "0082788981", password: "20080829", nama: "BIMA ENDRA SOEBAGJO", kelas: "XII-6", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0088165345", password: "20080803", nama: "BINTANG FADLAN FIRMAN HASIBUAN", kelas: "XII-6", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0082443895", password: "20081220", nama: "DESELLA BERLIANA LUNA DEWI", kelas: "XII-6", status: "Lulus", peringkat: 57 },
+{ username: "0075431949", password: "20070819", nama: "FERNANDO RUSLI AUGUSTA", kelas: "XII-6", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0087982064", password: "20080526", nama: "I NGURAH ARYA WINATHA (H)", kelas: "XII-6", status: "Lulus", peringkat: 56 },
+{ username: "0072515684", password: "20071115", nama: "KAYLA KRISNA AULIYYA RAHMAH", kelas: "XII-6", status: "Lulus", peringkat: 32 },
+{ username: "0073721060", password: "20071110", nama: "LYRA VIANTIKA NUR ROHMAH", kelas: "XII-6", status: "Lulus", peringkat: 21 },
+{ username: "0082554413", password: "20080308", nama: "NAYAKA NIRWASITA ANTYADININGRUM", kelas: "XII-6", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0082229832", password: "20080613", nama: "NAYURA ALEYA MUKHBITA", kelas: "XII-6", status: "Lulus", peringkat: 5 },
+{ username: "0088630062", password: "20080627", nama: "RASYA SATRIA WARDANA", kelas: "XII-6", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0083779183", password: "20080414", nama: "SASI KIRONO SATRIYO WIDHIANDARU", kelas: "XII-6", status: "Lulus", peringkat: 35 },
+{ username: "0084415948", password: "20080124", nama: "SISKA DWI WULANDARI", kelas: "XII-6", status: "Tidak Lulus", peringkat: 0 },
+{ username: "0086468309", password: "20080311", nama: "SYAFIERA PUTRI NUGRAHIZZAH NUR NATAYA", kelas: "XII-6", status: "Tidak Lulus", peringkat: 0 }
+
+    ];
+
+    const defaultConfig = {
+      login_title: "Pengumuman Status Eligible",
+      success_greeting: "Selamat",
+      failed_greeting: "Mohon maaf"
+    };
+
+    let currentStudent = null;
+
+    function onConfigChange(config) {
+      const loginTitle = document.getElementById('loginTitle');
+      if (loginTitle) {
+        loginTitle.textContent = config.login_title || defaultConfig.login_title;
+      }
+      
+      if (currentStudent) {
+        updateMessages(config);
+      }
+    }
+
+    function updateMessages(config) {
+      if (!currentStudent) return;
+      
+      if (currentStudent.status === "Lulus") {
+        const successMessage = document.getElementById('successMessage');
+        successMessage.textContent = `${config.success_greeting || defaultConfig.success_greeting} ${currentStudent.nama} kelas ${currentStudent.kelas} dinyatakan LOLOS ELIGIBLE dengan peringkat ${currentStudent.peringkat}, sehingga berpeluang mendaftar Perguruan Tinggi Jalur SNBP. Perjuangan, ketekunan, dan kerja keras yang telah dilakukan akhirnya membuahkan hasil yang baik. Teruslah melangkah dengan semangat untuk meraih masa depan terbaik. Mohon mendiskusikan kesempatan ini bersama orangtua.`;
+      } else {
+        const failedMessage = document.getElementById('failedMessage');
+        failedMessage.textContent = `${config.failed_greeting || defaultConfig.failed_greeting}, ${currentStudent.nama} kelas ${currentStudent.kelas} belum berkesempatan mendaftar perguruan tinggi melalui jalur SNBP. Tetaplah semangat dan jangan putus asa. Setiap perjuangan adalah bekal menuju keberhasilan. Masih banyak peluang untuk meraih impian. Banyak jalan menuju kesuksesan, teruslah berusaha dan berdoa.`;
+      }
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["login_title", config.login_title || defaultConfig.login_title],
+        ["success_greeting", config.success_greeting || defaultConfig.success_greeting],
+        ["failed_greeting", config.failed_greeting || defaultConfig.failed_greeting]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+      
+      const student = studentData.find(s => s.username === username && s.password === password);
+      
+      if (student) {
+        currentStudent = student;
+        const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+        
+        document.getElementById('loginPage').classList.add('hidden');
+        
+        if (student.status === "Lulus") {
+          const successMessage = document.getElementById('successMessage');
+          successMessage.textContent = `${config.success_greeting || defaultConfig.success_greeting} ${student.nama} kelas ${student.kelas} dinyatakan LOLOS ELIGIBLE dengan peringkat ${student.peringkat}, sehingga berpeluang mendaftar Perguruan Tinggi Jalur SNBP. Perjuangan, ketekunan, dan kerja keras yang telah dilakukan akhirnya membuahkan hasil yang baik. Teruslah melangkah dengan semangat untuk meraih masa depan terbaik. Mohon mendiskusikan kesempatan ini bersama orangtua.`;
+          document.getElementById('successPage').classList.remove('hidden');
+        } else {
+          const failedMessage = document.getElementById('failedMessage');
+          failedMessage.textContent = `${config.failed_greeting || defaultConfig.failed_greeting}, ${student.nama} kelas ${student.kelas} belum berkesempatan mendaftar perguruan tinggi melalui jalur SNBP. Tetaplah semangat dan jangan putus asa. Setiap perjuangan adalah bekal menuju keberhasilan. Masih banyak peluang untuk meraih impian. Banyak jalan menuju kesuksesan, teruslah berusaha dan berdoa.`;
+          document.getElementById('failedPage').classList.remove('hidden');
+        }
+        
+        errorMessage.classList.add('hidden');
+        errorMessage.textContent = '';
+      } else {
+        errorMessage.textContent = 'Username atau password salah!';
+        errorMessage.classList.remove('hidden');
+      }
+    });
+
+    function logout() {
+      currentStudent = null;
+      document.getElementById('successPage').classList.add('hidden');
+      document.getElementById('failedPage').classList.add('hidden');
+      document.getElementById('loginPage').classList.remove('hidden');
+      document.getElementById('loginForm').reset();
+      document.getElementById('errorMessage').classList.add('hidden');
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9baba7e8621858c3',t:'MTc2Nzg3NDg5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

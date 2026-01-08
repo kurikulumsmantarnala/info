@@ -357,7 +357,7 @@
         
         if (student.status === "Lulus") {
           const successMessage = document.getElementById('successMessage');
-          successMessage.innerHTML = `${config.success_greeting || defaultConfig.success_greeting} <strong>${student.nama}</strong> kelas ${student.kelas} dinyatakan <strong>LOLOS ELIGIBLE</strong> dengan <strong>peringkat ${student.peringkat}</strong>, sehingga berpeluang mendaftar Perguruan Tinggi Jalur SNBP. Perjuangan, ketekunan, dan kerja keras yang telah dilakukan akhirnya membuahkan hasil yang baik. Teruslah melangkah dengan semangat untuk meraih masa depan terbaik. Mohon mendiskusikan kesempatan ini bersama orangtua.`;
+          successMessage.innerHTML = `${config.success_greeting || defaultConfig.success_greeting} <strong>${student.nama}</strong> kelas ${student.kelas} dinyatakan <strong>TERJARING ELIGIBLE SNBP</strong> dengan <strong>peringkat ${student.peringkat}</strong>, sehingga berpeluang mendaftar Perguruan Tinggi Jalur SNBP. Perjuangan, ketekunan, dan kerja keras yang telah dilakukan akhirnya membuahkan hasil yang baik. Teruslah melangkah dengan semangat untuk meraih masa depan terbaik. Mohon mendiskusikan kesempatan ini bersama orangtua.`;
           document.getElementById('successPage').classList.remove('hidden');
         } else {
           const failedMessage = document.getElementById('failedMessage');

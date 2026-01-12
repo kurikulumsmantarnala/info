@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengumuman Hasil Tes Akademik - SMAN Taruna Nala</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+    }
+    
+    .card-shadow {
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+    
+    .result-card {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .badge-istimewa {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #78350f;
+    }
+    
+    .badge-baik {
+      background: linear-gradient(135deg, #34d399, #10b981);
+      color: #064e3b;
+    }
+    
+    .badge-memadai {
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      color: #1e3a8a;
+    }
+    
+    .score-box {
+      border-radius: 12px;
+      padding: 16px;
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      border: 2px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+    
+    .score-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo-circle {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1e40af;
+    }
+    
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #cbd5e1, transparent);
+      margin: 24px 0;
+    }
+    
+    input {
+      transition: all 0.3s ease;
+    }
+    
+    input:focus {
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(59, 130, 246, 0.3);
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .decorative-icon {
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.1;
+      pointer-events: none;
+    }
+    
+    .subject-icon {
+      font-size: 1.5rem;
+      margin-right: 8px;
+    }
+    
+    .achievement-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-radius: 30px;
+      border: 2px solid #fbbf24;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #92400e;
+      margin-top: 12px;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg overflow-auto">
+  <div id="app" class="w-full min-h-full flex flex-col"><!-- Decorative Background Icons -->
+   <div class="decorative-icon" style="top: 10%; left: 5%;">
+    📚
+   </div>
+   <div class="decorative-icon" style="top: 20%; right: 8%;">
+    ✏️
+   </div>
+   <div class="decorative-icon" style="top: 60%; left: 10%;">
+    🎯
+   </div>
+   <div class="decorative-icon" style="top: 70%; right: 5%;">
+    📖
+   </div>
+   <div class="decorative-icon" style="top: 40%; left: 3%;">
+    🏆
+   </div>
+   <div class="decorative-icon" style="top: 50%; right: 10%;">
+    ⭐
+   </div><!-- Login Page -->
+   <div id="loginPage" class="flex-1 flex items-center justify-center p-6">
+    <div class="result-card card-shadow rounded-2xl p-8 w-full max-w-md animate-fade-in">
+     <div class="text-center mb-8">
+      <div class="logo-circle mx-auto mb-4">
+       <center> <img src="smantar.png" alt="SMAN Taruna Nala" width="50" ></center>
+      </div>
+      <h1 id="schoolName" class="text-2xl font-bold text-gray-800 mb-2">SMA Negeri Taruna Nala Jawa Timur</h1>
+      <h2 id="announcementTitle" class="text-lg font-semibold text-blue-600 mb-1">Pengumuman Hasil Tes Kemampuan Akademik</h2>
+      <p id="academicYear" class="text-sm text-gray-600">Tahun Pelajaran 2025/2026</p>
+     </div>
+     <div class="divider"></div>
+     <form id="loginForm" class="space-y-6">
+      <div><label for="nameInput" class="block text-sm font-semibold text-gray-700 mb-2">Nomor Induk Siswa Nasional (NISN) </label> <input type="text" id="nameInput" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="Masukkan NISN Anda" required>
+      </div>
+      <div><label for="dobInput" class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Lahir</label> <input type="date" id="dobInput" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-blue-500" required>
+      </div>
+      <div id="errorMessage" class="hidden text-red-600 text-sm text-center bg-red-50 p-3 rounded-lg"></div><button type="submit" class="w-full btn-primary text-white font-semibold py-3 rounded-xl"> Lihat Hasil Tes </button>
+     </form>
+     <div class="mt-8 text-center">
+      <p id="footerText" class="text-xs text-gray-500">Hasil Tes Kemampuan Akademik Tahun 2025 SMAN Taruna Nala Jawa Timur</p>
+     </div>
+    </div>
+   </div><!-- Result Page -->
+   <div id="resultPage" class="hidden flex-1 p-6">
+    <div class="max-w-4xl mx-auto animate-fade-in">
+     <div class="result-card card-shadow rounded-2xl p-8 mb-6">
+      <div class="text-center mb-6">
+       <div class="logo-circle mx-auto mb-4">
+        🎓
+       </div>
+       <h1 class="text-2xl font-bold text-gray-800 mb-2" id="resultSchoolName">SMA Negeri Taruna Nala Jawa Timur</h1>
+       <h2 class="text-lg font-semibold text-blue-600 mb-1" id="resultAnnouncementTitle">Pengumuman Hasil Tes Kemampuan Akademik</h2>
+       <p class="text-sm text-gray-600" id="resultAcademicYear">Tahun Pelajaran 2025/2026</p>
+      </div>
+      <div class="divider"></div>
+      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-6">
+       <div class="flex items-center justify-between mb-4">
+        <div>
+         <p class="text-sm text-gray-600 mb-1">Nama Peserta</p>
+         <h3 id="studentName" class="text-xl font-bold text-gray-800"></h3>
+        </div>
+        <div class="text-right">
+         <p class="text-sm text-gray-600 mb-1">No. Urut</p>
+         <p id="studentNumber" class="text-xl font-bold text-blue-600"></p>
+        </div>
+       </div>
+       <p class="text-sm text-gray-600 mb-3"><span class="font-semibold">Tempat, Tanggal Lahir:</span> <span id="studentDOB" class="ml-2"></span></p>
+       <div id="achievementBadge" class="achievement-badge"><span>🏆</span> <span>Selamat! Anda telah menyelesaikan tes dengan baik</span>
+       </div>
+      </div>
+      <h3 class="text-lg font-bold text-gray-800 mb-4">📊 Nilai Tes Kemampuan Akademik</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+       <div class="score-box">
+        <p class="text-sm text-gray-600 font-semibold mb-2"><span class="subject-icon">📝</span> Bahasa Indonesia</p>
+        <p id="scoreIndo" class="text-2xl font-bold text-gray-800 mb-2"></p><span id="badgeIndo" class="badge"></span>
+       </div>
+       <div class="score-box">
+        <p class="text-sm text-gray-600 font-semibold mb-2"><span class="subject-icon">🔢</span> Matematika</p>
+        <p id="scoreMath" class="text-2xl font-bold text-gray-800 mb-2"></p><span id="badgeMath" class="badge"></span>
+       </div>
+       <div class="score-box">
+        <p class="text-sm text-gray-600 font-semibold mb-2"><span class="subject-icon">🌍</span> Bahasa Inggris</p>
+        <p id="scoreEng" class="text-2xl font-bold text-gray-800 mb-2"></p><span id="badgeEng" class="badge"></span>
+       </div>
+      </div>
+      <h3 class="text-lg font-bold text-gray-800 mb-4">📚 Nilai Mata Pelajaran Pilihan</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+       <div class="score-box">
+        <p class="text-sm text-gray-600 font-semibold mb-2"><span id="icon1" class="subject-icon"></span> Pilihan 1</p>
+        <p id="subject1" class="text-lg font-bold text-gray-800 mb-2"></p>
+        <p id="score1" class="text-2xl font-bold text-gray-800 mb-2"></p><span id="badge1" class="badge"></span>
+       </div>
+       <div class="score-box">
+        <p class="text-sm text-gray-600 font-semibold mb-2"><span id="icon2" class="subject-icon"></span> Pilihan 2</p>
+        <p id="subject2" class="text-lg font-bold text-gray-800 mb-2"></p>
+        <p id="score2" class="text-2xl font-bold text-gray-800 mb-2"></p><span id="badge2" class="badge"></span>
+       </div>
+      </div><button id="logoutBtn" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-xl transition-all"> Kembali ke Halaman Login </button>
+     </div>
+     <div class="text-center">
+      <p class="text-sm text-white opacity-90" id="resultFooterText">Hasil Tes Kemampuan Akademik Tahun 2025 SMAN Taruna Nala Jawa Timur</p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const studentData = [
+  { no: "3078661604", name: "ADINDA NOVITA PUTRI FADILLAH", birthPlace: "SIDOARJO", birthDate: "2007-11-02", scores: { indo: { value: "70.42", grade: "Istimewa"},  math: { value: "52.15", grade: "Baik"}, eng: { value: "44.19", grade: "Istimewa"}, subject1: { name: "Biologi", value: "61.22", grade: "Baik"}, subject2: { name: "Fisika", value: "49.99", grade: "Memadai"}}
+},
+{ no: "0087610949", name: "AHMAD ROYYAN AL-FIKRI", birthPlace: "DENPASAR", birthDate: "2008-05-24", scores: { indo: { value: "57.68", grade: "Baik"},  math: { value: "43.92", grade: "Memadai"}, eng: { value: "33.37", grade: "Baik"}, subject1: { name: "Biologi", value: "40.48", grade: "Kurang"}, subject2: { name: "Fisika", value: "34.19", grade: "Kurang"}}
+},
+{ no: "0076491355", name: "A'IDAH PUTRI NABILAH SUPENDI", birthPlace: "PASURUAN", birthDate: "2007-10-31", scores: { indo: { value: "81.49", grade: "Istimewa"},  math: { value: "44.4", grade: "Baik"}, eng: { value: "46.7", grade: "Istimewa"}, subject1: { name: "Biologi", value: "59.17", grade: "Baik"}, subject2: { name: "Kimia", value: "29.43", grade: "Kurang"}}
+},
+{ no: "0076568989", name: "B'TARI SAGITA MAHESWARI", birthPlace: "JAKARTA", birthDate: "2007-12-05", scores: { indo: { value: "57.48", grade: "Baik"},  math: { value: "59.26", grade: "Istimewa"}, eng: { value: "48.35", grade: "Istimewa"}, subject1: { name: "Biologi", value: "65", grade: "Baik"}, subject2: { name: "Sosiologi", value: "79.48", grade: "Istimewa"}}
+},
+{ no: "0075154466", name: "EZRA NALA ARGANTARA", birthPlace: "PEMALANG", birthDate: "2007-12-16", scores: { indo: { value: "43.04", grade: "Memadai"},  math: { value: "38.02", grade: "Memadai"}, eng: { value: "28.66", grade: "Memadai"}, subject1: { name: "Fisika", value: "38.52", grade: "Kurang"}, subject2: { name: "Sosiologi", value: "66.56", grade: "Baik"}}
+},
+{ no: "0088912913", name: "FADHILA SALMA KAMILA ZAHRANI", birthPlace: "MALANG", birthDate: "2008-12-14", scores: { indo: { value: "72.7", grade: "Istimewa"},  math: { value: "39.54", grade: "Memadai"}, eng: { value: "48.6", grade: "Istimewa"}, subject1: { name: "Biologi", value: "58.53", grade: "Baik"}, subject2: { name: "Fisika", value: "37.53", grade: "Kurang"}}
+},
+{ no: "0085173397", name: "FATAR SATRIO PANINGIT", birthPlace: "JAKARTA", birthDate: "2008-05-27", scores: { indo: { value: "78.23", grade: "Istimewa"},  math: { value: "46.94", grade: "Baik"}, eng: { value: "56.39", grade: "Istimewa"}, subject1: { name: "Kimia", value: "38.01", grade: "Memadai"}, subject2: { name: "Biologi", value: "56.36", grade: "Memadai"}}
+},
+{ no: "0076625673", name: "FIRLI ASHFI HANI", birthPlace: "SAMPANG", birthDate: "2007-09-10", scores: { indo: { value: "64.84", grade: "Istimewa"},  math: { value: "33.44", grade: "Kurang"}, eng: { value: "22.97", grade: "Memadai"}, subject1: { name: "Biologi", value: "45.49", grade: "Kurang"}, subject2: { name: "Sosiologi", value: "68.33", grade: "Baik"}}
+},
+{ no: "0072223773", name: "FITRI", birthPlace: "NUNUKAN", birthDate: "2007-11-10", scores: { indo: { value: "76.69", grade: "Istimewa"},  math: { value: "39.7", grade: "Memadai"}, eng: { value: "48.8", grade: "Istimewa"}, subject1: { name: "Kimia", value: "30.69", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "80.56", grade: "Istimewa"}}
+},
+{ no: "0086361316", name: "GHALIYA FALISHABINA SULAIMAN", birthPlace: "SURABAYA", birthDate: "2008-02-02", scores: { indo: { value: "60.61", grade: "Istimewa"},  math: { value: "50.83", grade: "Baik"}, eng: { value: "44.55", grade: "Istimewa"}, subject1: { name: "Biologi", value: "59.7", grade: "Baik"}, subject2: { name: "Kimia", value: "42.6", grade: "Memadai"}}
+},
+{ no: "0084713297", name: "KEISCHA SIERRALOVA FATAHILAH", birthPlace: "TANGERANG", birthDate: "2008-06-25", scores: { indo: { value: "68.75", grade: "Istimewa"},  math: { value: "54.27", grade: "Baik"}, eng: { value: "54.63", grade: "Istimewa"}, subject1: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "78.34", grade: "Istimewa"}, subject2: { name: "Sosiologi", value: "71.14", grade: "Baik"}}
+},
+{ no: "0087042662", name: "KEISYA KHUMAIROH TIYANING ATMUKO", birthPlace: "SURABAYA", birthDate: "2008-06-22", scores: { indo: { value: "74.44", grade: "Istimewa"},  math: { value: "61.88", grade: "Istimewa"}, eng: { value: "47.09", grade: "Istimewa"}, subject1: { name: "Biologi", value: "57.66", grade: "Baik"}, subject2: { name: "Kimia", value: "47.35", grade: "Baik"}}
+},
+{ no: "0072719490", name: "MAULANA RIZQI HERMAWAN", birthPlace: "JAKARTA", birthDate: "2007-10-17", scores: { indo: { value: "46.21", grade: "Baik"},  math: { value: "40.28", grade: "Memadai"}, eng: { value: "24.13", grade: "Memadai"}, subject1: { name: "Fisika", value: "48.85", grade: "Memadai"}, subject2: { name: "Kimia", value: "26.96", grade: "Kurang"}}
+},
+{ no: "0071758633", name: "MIKA ZAHRAN RAZZAQ", birthPlace: "JAKARTA", birthDate: "2007-09-11", scores: { indo: { value: "43.54", grade: "Memadai"},  math: { value: "35.82", grade: "Memadai"}, eng: { value: "29.16", grade: "Memadai"}, subject1: { name: "Fisika", value: "26.84", grade: "Kurang"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "59.7", grade: "Memadai"}}
+},
+{ no: "0079724465", name: "MOCH AGUNG LAKSANA PUTRA", birthPlace: "MALANG", birthDate: "2007-08-11", scores: { indo: { value: "67.01", grade: "Istimewa"},  math: { value: "46.78", grade: "Baik"}, eng: { value: "38.83", grade: "Istimewa"}, subject1: { name: "Fisika", value: "36.6", grade: "Kurang"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "74.15", grade: "Baik"}}
+},
+{ no: "0089441391", name: "MUHAMMAD EDWIN ALDRIN RAHMANI", birthPlace: "SURABAYA", birthDate: "2008-08-26", scores: { indo: { value: "75.64", grade: "Istimewa"},  math: { value: "51.83", grade: "Baik"}, eng: { value: "40.65", grade: "Istimewa"}, subject1: { name: "Fisika", value: "41.8", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "76.88", grade: "Baik"}}
+},
+{ no: "0082586159", name: "MUTIARA UMROTUS CANTIKA", birthPlace: "SURABAYA", birthDate: "2008-07-27", scores: { indo: { value: "67.21", grade: "Istimewa"},  math: { value: "46.28", grade: "Baik"}, eng: { value: "39.09", grade: "Istimewa"}, subject1: { name: "Biologi", value: "62.54", grade: "Baik"}, subject2: { name: "Sosiologi", value: "68.94", grade: "Baik"}}
+},
+{ no: "0087835939", name: "NAURA REIKO NAQUITA", birthPlace: "JAKARTA", birthDate: "2008-03-31", scores: { indo: { value: "66.45", grade: "Istimewa"},  math: { value: "33.33", grade: "Kurang"}, eng: { value: "46.99", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "77.06", grade: "Baik"}, subject2: { name: "Sejarah", value: "83.22", grade: "Istimewa"}}
+},
+{ no: "0086710535", name: "RADITHYA ARDHI PRATAMA", birthPlace: "MALANG", birthDate: "2008-08-17", scores: { indo: { value: "95.9", grade: "Istimewa"},  math: { value: "63.47", grade: "Istimewa"}, eng: { value: "58.8", grade: "Istimewa"}, subject1: { name: "Biologi", value: "74.35", grade: "Istimewa"}, subject2: { name: "Sosiologi", value: "74.64", grade: "Baik"}}
+},
+{ no: "0083680775", name: "RAFA FADHIL RAMADHAN", birthPlace: "SURABAYA", birthDate: "2008-09-18", scores: { indo: { value: "75.03", grade: "Istimewa"},  math: { value: "47.7", grade: "Baik"}, eng: { value: "55.06", grade: "Istimewa"}, subject1: { name: "Kimia", value: "38.88", grade: "Memadai"}, subject2: { name: "Biologi", value: "58.79", grade: "Baik"}}
+},
+{ no: "0074250128", name: "RAMADHANSYAH APTA KUSUMA CANDRA", birthPlace: "SURABAYA", birthDate: "2007-10-08", scores: { indo: { value: "63.78", grade: "Istimewa"},  math: { value: "42.59", grade: "Memadai"}, eng: { value: "37.36", grade: "Baik"}, subject1: { name: "Biologi", value: "51.99", grade: "Memadai"}, subject2: { name: "Kimia", value: "17.68", grade: "Kurang"}}
+},
+{ no: "0081886235", name: "REVALINA LAURA FEBRIANTI", birthPlace: "MALANG", birthDate: "2008-02-22", scores: { indo: { value: "68.59", grade: "Istimewa"},  math: { value: "39.73", grade: "Memadai"}, eng: { value: "37.82", grade: "Istimewa"}, subject1: { name: "Biologi", value: "48.5", grade: "Memadai"}, subject2: { name: "Kimia", value: "38.54", grade: "Memadai"}}
+},
+{ no: "3088396750", name: "RYO FEBRI ZHAFIRIN", birthPlace: "MALANG", birthDate: "2008-02-09", scores: { indo: { value: "56.91", grade: "Baik"},  math: { value: "33.94", grade: "Kurang"}, eng: { value: "25.99", grade: "Memadai"}, subject1: { name: "Sosiologi", value: "62.33", grade: "Memadai"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "81.3", grade: "Istimewa"}}
+},
+{ no: "0076139923", name: "SURYANING SARI", birthPlace: "PASURUAN", birthDate: "2007-12-09", scores: { indo: { value: "61.61", grade: "Istimewa"},  math: { value: "22.41", grade: "Kurang"}, eng: { value: "34.79", grade: "Baik"}, subject1: { name: "Kimia", value: "35.71", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "78.25", grade: "Istimewa"}}
+},
+{ no: "0082236858", name: "VALENTINO AFINZA GUSTI DWI SAPUTRA S.W.", birthPlace: "SEMARANG", birthDate: "2008-08-29", scores: { indo: { value: "59.3", grade: "Istimewa"},  math: { value: "37.95", grade: "Memadai"}, eng: { value: "32.32", grade: "Baik"}, subject1: { name: "Fisika", value: "29.6", grade: "Kurang"}, subject2: { name: "Sosiologi", value: "82.3", grade: "Istimewa"}}
+},
+{ no: "0087261541", name: "YUNDA ARVIN ATHIYYA IRAWAN", birthPlace: "SIDOARJO", birthDate: "2008-06-04", scores: { indo: { value: "70.47", grade: "Istimewa"},  math: { value: "43.67", grade: "Memadai"}, eng: { value: "30.25", grade: "Baik"}, subject1: { name: "Biologi", value: "57.88", grade: "Baik"}, subject2: { name: "Kimia", value: "34.25", grade: "Memadai"}}
+},
+{ no: "0073696076", name: "ZHAFRAN IJLAL WACHGI", birthPlace: "PONTIANAK", birthDate: "2007-11-20", scores: { indo: { value: "68.31", grade: "Istimewa"},  math: { value: "48.81", grade: "Baik"}, eng: { value: "28.08", grade: "Memadai"}, subject1: { name: "Biologi", value: "58", grade: "Baik"}, subject2: { name: "Kimia", value: "36.6", grade: "Memadai"}}
+},
+{ no: "0084769939", name: "AHADINA ZAIMIRA", birthPlace: "LUWUK", birthDate: "2008-01-13", scores: { indo: { value: "59.39", grade: "Istimewa"},  math: { value: "37.56", grade: "Memadai"}, eng: { value: "38.15", grade: "Istimewa"}, subject1: { name: "Biologi", value: "70.07", grade: "Baik"}, subject2: { name: "Kimia", value: "32.32", grade: "Memadai"}}
+},
+{ no: "0089571672", name: "ALBY DHAFFA ARIO MARSHADA", birthPlace: "JOMBANG", birthDate: "2008-04-10", scores: { indo: { value: "59.84", grade: "Istimewa"},  math: { value: "51.42", grade: "Baik"}, eng: { value: "24.55", grade: "Memadai"}, subject1: { name: "Sosiologi", value: "56.6", grade: "Kurang"}, subject2: { name: "Fisika", value: "46.96", grade: "Memadai"}}
+},
+{ no: "0086382432", name: "ALEXANDER AXELL TRISTAN GERALDO", birthPlace: "LAMONGAN", birthDate: "2008-04-25", scores: { indo: { value: "70.72", grade: "Istimewa"},  math: { value: "50.57", grade: "Baik"}, eng: { value: "48.76", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "70.66", grade: "Baik"}, subject2: { name: "Sejarah", value: "70.22", grade: "Memadai"}}
+},
+{ no: "0081833692", name: "ALIF FATH IBRAHIMOVIC ALBANI", birthPlace: "SURABAYA", birthDate: "2008-09-28", scores: { indo: { value: "58.99", grade: "Istimewa"},  math: { value: "46.91", grade: "Baik"}, eng: { value: "40.57", grade: "Istimewa"}, subject1: { name: "Fisika", value: "30.29", grade: "Kurang"}, subject2: { name: "Kimia", value: "23.8", grade: "Kurang"}}
+},
+{ no: "0074962165", name: "AMANDA AURELYA SUSANTO", birthPlace: "MALANG", birthDate: "2007-09-09", scores: { indo: { value: "55.74", grade: "Baik"},  math: { value: "29", grade: "Kurang"}, eng: { value: "44.78", grade: "Istimewa"}, subject1: { name: "Biologi", value: "54.73", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "65.17", grade: "Memadai"}}
+},
+{ no: "0081364740", name: "ARLYA SALSABILLA PUTRI MARGONO", birthPlace: "MALANG", birthDate: "2008-03-23", scores: { indo: { value: "64.36", grade: "Istimewa"},  math: { value: "39.02", grade: "Memadai"}, eng: { value: "39.36", grade: "Istimewa"}, subject1: { name: "Biologi", value: "63.81", grade: "Baik"}, subject2: { name: "Fisika", value: "47.68", grade: "Memadai"}}
+},
+{ no: "0085802943", name: "ARVIN BAHTIAR SUKMONO", birthPlace: "BLITAR", birthDate: "2008-01-22", scores: { indo: { value: "65.41", grade: "Istimewa"},  math: { value: "36.52", grade: "Memadai"}, eng: { value: "27.68", grade: "Memadai"}, subject1: { name: "Fisika", value: "38.93", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "57.8", grade: "Memadai"}}
+},
+{ no: "0071003522", name: "AULIA RAHMA", birthPlace: "JOMBANG", birthDate: "2007-08-22", scores: { indo: { value: "60.45", grade: "Istimewa"},  math: { value: "25.83", grade: "Kurang"}, eng: { value: "25.97", grade: "Memadai"}, subject1: { name: "Biologi", value: "40.07", grade: "Kurang"}, subject2: { name: "Kimia", value: "31.6", grade: "Memadai"}}
+},
+{ no: "0084467006", name: "AURELLIA PRADIPA MAHESWARI", birthPlace: "SURABAYA", birthDate: "2008-04-25", scores: { indo: { value: "83.55", grade: "Istimewa"},  math: { value: "51.46", grade: "Baik"}, eng: { value: "35.14", grade: "Baik"}, subject1: { name: "Biologi", value: "69.54", grade: "Baik"}, subject2: { name: "Sosiologi", value: "74.5", grade: "Baik"}}
+},
+{ no: "0081665431", name: "CHESTA ADABI SUTILISTIO", birthPlace: "SURABAYA", birthDate: "2008-05-04", scores: { indo: { value: "56.54", grade: "Baik"},  math: { value: "39.3", grade: "Memadai"}, eng: { value: "48.14", grade: "Istimewa"}, subject1: { name: "Kimia", value: "24.42", grade: "Kurang"}, subject2: { name: "Sosiologi", value: "63.51", grade: "Memadai"}}
+},
+{ no: "0073103944", name: "CLARISSA EVELINA DANESHWARI", birthPlace: "BANDUNG", birthDate: "2007-11-26", scores: { indo: { value: "76.11", grade: "Istimewa"},  math: { value: "54.76", grade: "Baik"}, eng: { value: "53.26", grade: "Istimewa"}, subject1: { name: "Fisika", value: "41.29", grade: "Memadai"}, subject2: { name: "Ekonomi", value: "49.06", grade: "Istimewa"}}
+},
+{ no: "0064552060", name: "EGAN BRAMARA NAYOTTAMA", birthPlace: "TANGERANG", birthDate: "2008-04-03", scores: { indo: { value: "67.77", grade: "Istimewa"},  math: { value: "32.73", grade: "Kurang"}, eng: { value: "49.12", grade: "Istimewa"}, subject1: { name: "Fisika", value: "51.84", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "64.02", grade: "Memadai"}}
+},
+{ no: "0077241231", name: "FARREL IHZA MAULANA", birthPlace: "SURABAYA", birthDate: "2007-06-26", scores: { indo: { value: "82.33", grade: "Istimewa"},  math: { value: "45.2", grade: "Baik"}, eng: { value: "45.1", grade: "Istimewa"}, subject1: { name: "Fisika", value: "48.48", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "69.18", grade: "Baik"}}
+},
+{ no: "0081208932", name: "GRACIA RIGEL BELLADONA", birthPlace: "SURABAYA", birthDate: "2008-12-08", scores: { indo: { value: "64.35", grade: "Istimewa"},  math: { value: "59.36", grade: "Istimewa"}, eng: { value: "59.55", grade: "Istimewa"}, subject1: { name: "Fisika", value: "62.23", grade: "Istimewa"}, subject2: { name: "Matematika Tingkat Lanjut", value: "63.49", grade: "Istimewa"}}
+},
+{ no: "0074535030", name: "HILMY ARFIANTO FAHREZI", birthPlace: "SURABAYA", birthDate: "2007-11-10", scores: { indo: { value: "60.24", grade: "Istimewa"},  math: { value: "5", grade: "Kurang"}, eng: { value: "35.12", grade: "Baik"}, subject1: { name: "Fisika", value: "27.22", grade: "Kurang"}, subject2: { name: "Ekonomi", value: "34.26", grade: "Memadai"}}
+},
+{ no: "0072914308", name: "MAHARDIKA SYAFFADI PUTRA", birthPlace: "SURABAYA", birthDate: "2007-07-18", scores: { indo: { value: "48.28", grade: "Baik"},  math: { value: "51.28", grade: "Baik"}, eng: { value: "29.53", grade: "Memadai"}, subject1: { name: "Fisika", value: "39.86", grade: "Memadai"}, subject2: { name: "Biologi", value: "50.95", grade: "Memadai"}}
+},
+{ no: "0076426997", name: "MUHAMMAD FARREL HAZELLOVA SENNAPUTRA", birthPlace: "SURABAYA", birthDate: "2007-12-05", scores: { indo: { value: "76.48", grade: "Istimewa"},  math: { value: "44.92", grade: "Baik"}, eng: { value: "45.14", grade: "Istimewa"}, subject1: { name: "Kimia", value: "44.07", grade: "Memadai"}, subject2: { name: "Fisika", value: "50.05", grade: "Memadai"}}
+},
+{ no: "0087566488", name: "MUHAMMAD RAFFAEARL ALRYADI", birthPlace: "MALANG", birthDate: "2008-06-14", scores: { indo: { value: "69.56", grade: "Istimewa"},  math: { value: "40.99", grade: "Memadai"}, eng: { value: "57.48", grade: "Istimewa"}, subject1: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "65.57", grade: "Memadai"}, subject2: { name: "Sejarah", value: "75.81", grade: "Baik"}}
+},
+{ no: "0087770545", name: "NAYLA APRILIA NAOMIRA", birthPlace: "BANDUNG", birthDate: "2008-04-26", scores: { indo: { value: "60.92", grade: "Istimewa"},  math: { value: "43.52", grade: "Memadai"}, eng: { value: "44.24", grade: "Istimewa"}, subject1: { name: "Kimia", value: "39.19", grade: "Memadai"}, subject2: { name: "Biologi", value: "73.42", grade: "Istimewa"}}
+},
+{ no: "0085819137", name: "NELSON LIONELL EDRICH PRAMONO", birthPlace: "MALANG", birthDate: "2008-05-31", scores: { indo: { value: "68.65", grade: "Istimewa"},  math: { value: "56.05", grade: "Baik"}, eng: { value: "52.67", grade: "Istimewa"}, subject1: { name: "Biologi", value: "80.01", grade: "Istimewa"}, subject2: { name: "Fisika", value: "58.82", grade: "Baik"}}
+},
+{ no: "0087007413", name: "NI NYOMAN AYU CITRA PERMATA DEWI", birthPlace: "SURABAYA", birthDate: "2008-11-06", scores: { indo: { value: "79.94", grade: "Istimewa"},  math: { value: "40.04", grade: "Memadai"}, eng: { value: "44.42", grade: "Istimewa"}, subject1: { name: "Biologi", value: "57.78", grade: "Baik"}, subject2: { name: "Kimia", value: "28.35", grade: "Kurang"}}
+},
+{ no: "0088734116", name: "QOWIYUL AULIA", birthPlace: "SURABAYA", birthDate: "2008-03-27", scores: { indo: { value: "69.26", grade: "Istimewa"},  math: { value: "34.96", grade: "Memadai"}, eng: { value: "34.19", grade: "Baik"}, subject1: { name: "Kimia", value: "32.06", grade: "Memadai"}, subject2: { name: "Biologi", value: "59.92", grade: "Baik"}}
+},
+{ no: "0081187312", name: "RAFAEL DIANDRA PAKUSADEWA", birthPlace: "SURABAYA", birthDate: "2008-03-08", scores: { indo: { value: "71.47", grade: "Istimewa"},  math: { value: "40.73", grade: "Memadai"}, eng: { value: "63.17", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "78.11", grade: "Istimewa"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "83.23", grade: "Istimewa"}}
+},
+{ no: "0071340698", name: "RAMDANIA HILALA ARDELIANSYAH", birthPlace: "BANGKALAN", birthDate: "2007-10-02", scores: { indo: { value: "60.11", grade: "Istimewa"},  math: { value: "28.96", grade: "Kurang"}, eng: { value: "28.26", grade: "Memadai"}, subject1: { name: "Sosiologi", value: "62.27", grade: "Memadai"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "64.56", grade: "Memadai"}}
+},
+{ no: "0076211678", name: "R.R NADIA MUSTIKA RADITIANINGRUM", birthPlace: "PANGKALAN BUN", birthDate: "2007-10-24", scores: { indo: { value: "69.38", grade: "Istimewa"},  math: { value: "29.94", grade: "Kurang"}, eng: { value: "55.98", grade: "Istimewa"}, subject1: { name: "Biologi", value: "69.25", grade: "Baik"}, subject2: { name: "Kimia", value: "30.14", grade: "Kurang"}}
+},
+{ no: "0082692806", name: "SAELY MASAYU", birthPlace: "SALATIGA", birthDate: "2008-08-27", scores: { indo: { value: "54.47", grade: "Baik"},  math: { value: "42.02", grade: "Memadai"}, eng: { value: "34.14", grade: "Baik"}, subject1: { name: "Sosiologi", value: "71.83", grade: "Baik"}, subject2: { name: "Bahasa Jerman", value: "53.28", grade: "Baik"}}
+},
+{ no: "0077580343", name: "SALSABILA RAHAYU EFFENDI", birthPlace: "MALANG", birthDate: "2007-12-06", scores: { indo: { value: "75.72", grade: "Istimewa"},  math: { value: "30.06", grade: "Kurang"}, eng: { value: "42.28", grade: "Istimewa"}, subject1: { name: "Kimia", value: "34.6", grade: "Memadai"}, subject2: { name: "Biologi", value: "73.39", grade: "Istimewa"}}
+},
+{ no: "0087791342", name: "VIARA DEVITA KIRANI", birthPlace: "MALANG", birthDate: "2008-01-08", scores: { indo: { value: "59.02", grade: "Istimewa"},  math: { value: "32.63", grade: "Kurang"}, eng: { value: "12.54", grade: "Kurang"}, subject1: { name: "Sosiologi", value: "69.82", grade: "Baik"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "75.17", grade: "Baik"}}
+},
+{ no: "0089529754", name: "ZAYYAN RABBANI AL HAQQI", birthPlace: "JEMBER", birthDate: "2008-01-25", scores: { indo: { value: "65.11", grade: "Istimewa"},  math: { value: "40.13", grade: "Memadai"}, eng: { value: "47.78", grade: "Istimewa"}, subject1: { name: "Kimia", value: "20.65", grade: "Kurang"}, subject2: { name: "Fisika", value: "35.67", grade: "Kurang"}}
+},
+{ no: "0075295810", name: "ANDI AMIRAH ALIA BADARUDDIN", birthPlace: "BALIKPAPAN", birthDate: "2007-11-18", scores: { indo: { value: "43.06", grade: "Memadai"},  math: { value: "32.95", grade: "Kurang"}, eng: { value: "28.55", grade: "Memadai"}, subject1: { name: "Biologi", value: "58.67", grade: "Baik"}, subject2: { name: "Kimia", value: "20.11", grade: "Kurang"}}
+},
+{ no: "0086472247", name: "ARTIKA ALIN KIRANIA", birthPlace: "MALANG", birthDate: "2008-02-11", scores: { indo: { value: "55.55", grade: "Baik"},  math: { value: "31.28", grade: "Kurang"}, eng: { value: "36.47", grade: "Baik"}, subject1: { name: "Sosiologi", value: "71.03", grade: "Baik"}, subject2: { name: "Ekonomi", value: "49.98", grade: "Istimewa"}}
+},
+{ no: "0076971874", name: "AURELLIA HAFIZAH PUTRI", birthPlace: "BONDOWOSO", birthDate: "2007-10-25", scores: { indo: { value: "68.24", grade: "Istimewa"},  math: { value: "34.37", grade: "Kurang"}, eng: { value: "37.78", grade: "Istimewa"}, subject1: { name: "Biologi", value: "60.64", grade: "Baik"}, subject2: { name: "Sosiologi", value: "60.1", grade: "Memadai"}}
+},
+{ no: "0081527556", name: "BATRISYA MIRANTI NARESWARI", birthPlace: "SURABAYA", birthDate: "2008-06-06", scores: { indo: { value: "59.99", grade: "Istimewa"},  math: { value: "37.88", grade: "Memadai"}, eng: { value: "46.66", grade: "Istimewa"}, subject1: { name: "Biologi", value: "66.42", grade: "Baik"}, subject2: { name: "Sosiologi", value: "81.49", grade: "Istimewa"}}
+},
+{ no: "0075587249", name: "CALVIN MAULANA MIKO RAHMAPUTRA", birthPlace: "SURABAYA", birthDate: "2008-03-19", scores: { indo: { value: "73.54", grade: "Istimewa"},  math: { value: "25.92", grade: "Kurang"}, eng: { value: "50.28", grade: "Istimewa"}, subject1: { name: "Fisika", value: "43.05", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "74.34", grade: "Baik"}}
+},
+{ no: "0088781501", name: "CHARISSA MEYQUENA JUANITA", birthPlace: "SURABAYA", birthDate: "2008-05-14", scores: { indo: { value: "49.1", grade: "Baik"},  math: { value: "50.93", grade: "Baik"}, eng: { value: "43.76", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "57.12", grade: "Memadai"}, subject2: { name: "Ekonomi", value: "5", grade: "Kurang"}}
+},
+{ no: "0072594140", name: "CLAUDIA RAISYA PUTRI", birthPlace: "MOJOKERTO", birthDate: "2007-10-25", scores: { indo: { value: "51.58", grade: "Baik"},  math: { value: "28.55", grade: "Kurang"}, eng: { value: "32.22", grade: "Baik"}, subject1: { name: "Sosiologi", value: "58.43", grade: "Memadai"}, subject2: { name: "Ekonomi", value: "49.76", grade: "Istimewa"}}
+},
+{ no: "0088709825", name: "DHINANTI TALITA ZAKIYAH", birthPlace: "MALANG", birthDate: "2008-05-28", scores: { indo: { value: "73.97", grade: "Istimewa"},  math: { value: "44.33", grade: "Baik"}, eng: { value: "38.34", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "72.74", grade: "Baik"}, subject2: { name: "Sejarah", value: "68.71", grade: "Memadai"}}
+},
+{ no: "0072675631", name: "DZAKIRAH PUTERI NARESWARI", birthPlace: "BLITAR", birthDate: "2007-09-28", scores: { indo: { value: "89.21", grade: "Istimewa"},  math: { value: "55.03", grade: "Baik"}, eng: { value: "51.31", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "82.15", grade: "Istimewa"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "79.11", grade: "Istimewa"}}
+},
+{ no: "0073341112", name: "FAHMI ABIDIRA SUSILO", birthPlace: "SURABAYA", birthDate: "2007-11-02", scores: { indo: { value: "59.81", grade: "Istimewa"},  math: { value: "41.15", grade: "Memadai"}, eng: { value: "35.2", grade: "Baik"}, subject1: { name: "Sosiologi", value: "61.31", grade: "Memadai"}, subject2: { name: "Ekonomi", value: "49.59", grade: "Istimewa"}}
+},
+{ no: "0074685858", name: "HALWA IFFAH HASYA", birthPlace: "JAKARTA", birthDate: "2007-11-28", scores: { indo: { value: "67.31", grade: "Istimewa"},  math: { value: "44.64", grade: "Baik"}, eng: { value: "40.23", grade: "Istimewa"}, subject1: { name: "Kimia", value: "36.23", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "68.27", grade: "Baik"}}
+},
+{ no: "0085274104", name: "INOMINA JASUA ONTHONIE", birthPlace: "SURABAYA", birthDate: "2008-06-22", scores: { indo: { value: "67.34", grade: "Istimewa"},  math: { value: "49.79", grade: "Baik"}, eng: { value: "45.14", grade: "Istimewa"}, subject1: { name: "Fisika", value: "42.64", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "55.95", grade: "Kurang"}}
+},
+{ no: "0073330041", name: "IRENE ALICIA SINAGA", birthPlace: "GRESIK", birthDate: "2007-11-25", scores: { indo: { value: "62.44", grade: "Istimewa"},  math: { value: "39.32", grade: "Memadai"}, eng: { value: "41.1", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "62.25", grade: "Memadai"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "79.1", grade: "Istimewa"}}
+},
+{ no: "0085516174", name: "KENZIE HARVARD DARSONO", birthPlace: "SURABAYA", birthDate: "2008-08-08", scores: { indo: { value: "58.78", grade: "Istimewa"},  math: { value: "53.73", grade: "Baik"}, eng: { value: "29.25", grade: "Memadai"}, subject1: { name: "Sosiologi", value: "67.04", grade: "Baik"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "47.41", grade: "Kurang"}}
+},
+{ no: "0081246578", name: "KEVANIA VANESA NARESWARI", birthPlace: "SURABAYA", birthDate: "2008-01-31", scores: { indo: { value: "84.99", grade: "Istimewa"},  math: { value: "63.79", grade: "Istimewa"}, eng: { value: "53.62", grade: "Istimewa"}, subject1: { name: "Biologi", value: "77.5", grade: "Istimewa"}, subject2: { name: "Kimia", value: "34.74", grade: "Memadai"}}
+},
+{ no: "0084402265", name: "KIKI GERARDO", birthPlace: "PANGKALPINANG", birthDate: "2008-06-14", scores: { indo: { value: "73.93", grade: "Istimewa"},  math: { value: "62.81", grade: "Istimewa"}, eng: { value: "48.25", grade: "Istimewa"}, subject1: { name: "Matematika Tingkat Lanjut", value: "55.97", grade: "Istimewa"}, subject2: { name: "Kimia", value: "43.91", grade: "Memadai"}}
+},
+{ no: "0073820369", name: "MAHENDRA PUTRA BAHARI", birthPlace: "SURABAYA", birthDate: "2007-09-10", scores: { indo: { value: "75.59", grade: "Istimewa"},  math: { value: "57.85", grade: "Baik"}, eng: { value: "37.05", grade: "Baik"}, subject1: { name: "Sosiologi", value: "92.21", grade: "Istimewa"}, subject2: { name: "Matematika Tingkat Lanjut", value: "48.75", grade: "Baik"}}
+},
+{ no: "0092539697", name: "MALVIANEGA RICHTAMA TIDJA", birthPlace: "MUARA TEWEH", birthDate: "2009-03-24", scores: { indo: { value: "58.92", grade: "Istimewa"},  math: { value: "50.48", grade: "Baik"}, eng: { value: "34.38", grade: "Baik"}, subject1: { name: "Biologi", value: "55.03", grade: "Memadai"}, subject2: { name: "Kimia", value: "28.61", grade: "Kurang"}}
+},
+{ no: "0083142927", name: "MARIO CHRISTOPHER BALLO", birthPlace: "SURABAYA", birthDate: "2008-01-14", scores: { indo: { value: "73.11", grade: "Istimewa"},  math: { value: "54.83", grade: "Baik"}, eng: { value: "48.89", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "77.44", grade: "Istimewa"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "49.65", grade: "Kurang"}}
+},
+{ no: "0084008974", name: "MUHAMMAD ADRIAN PRAMUDYA", birthPlace: "BANDUNG", birthDate: "2008-11-16", scores: { indo: { value: "80.97", grade: "Istimewa"},  math: { value: "36.91", grade: "Memadai"}, eng: { value: "45.22", grade: "Istimewa"}, subject1: { name: "Matematika Tingkat Lanjut", value: "43.1", grade: "Memadai"}, subject2: { name: "Fisika", value: "18.52", grade: "Kurang"}}
+},
+{ no: "0084529936", name: "MUHAMMAD ATHAILLAH FATIH", birthPlace: "BANDAR LAMPUNG", birthDate: "2008-03-19", scores: { indo: { value: "56.31", grade: "Baik"},  math: { value: "43.5", grade: "Memadai"}, eng: { value: "39.33", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "78.98", grade: "Istimewa"}, subject2: { name: "Sejarah", value: "76.46", grade: "Baik"}}
+},
+{ no: "0084683460", name: "MUHAMMAD TAUFIQQURRAHMAN SANJAYA", birthPlace: "MAKASSAR", birthDate: "2008-02-27", scores: { indo: { value: "63.94", grade: "Istimewa"},  math: { value: "53.47", grade: "Baik"}, eng: { value: "49.09", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "76.45", grade: "Baik"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "75.58", grade: "Baik"}}
+},
+{ no: "3074541375", name: "NADIA RAMADHANI AZHARA ZUHRI", birthPlace: "SURABAYA", birthDate: "2007-09-27", scores: { indo: { value: "67.7", grade: "Istimewa"},  math: { value: "35.89", grade: "Memadai"}, eng: { value: "56.63", grade: "Istimewa"}, subject1: { name: "Biologi", value: "61.85", grade: "Baik"}, subject2: { name: "Kimia", value: "30.51", grade: "Kurang"}}
+},
+{ no: "0076430473", name: "NUR AFLAH SABIRAH RAMADHANI", birthPlace: "BEKASI", birthDate: "2007-09-16", scores: { indo: { value: "75.53", grade: "Istimewa"},  math: { value: "60.53", grade: "Istimewa"}, eng: { value: "53.19", grade: "Istimewa"}, subject1: { name: "Fisika", value: "46.37", grade: "Memadai"}, subject2: { name: "Biologi", value: "63.45", grade: "Baik"}}
+},
+{ no: "0071263686", name: "RENOW SAMUDERA PUTRA ERFIANTO", birthPlace: "MALANG", birthDate: "2007-06-24", scores: { indo: { value: "63.88", grade: "Istimewa"},  math: { value: "26.41", grade: "Kurang"}, eng: { value: "32.38", grade: "Baik"}, subject1: { name: "Matematika Tingkat Lanjut", value: "47.67", grade: "Baik"}, subject2: { name: "Fisika", value: "35.14", grade: "Kurang"}}
+},
+{ no: "0073546653", name: "SHAMS FATTAN RAMADHAN", birthPlace: "TULUNGAGUNG", birthDate: "2007-10-11", scores: { indo: { value: "65.93", grade: "Istimewa"},  math: { value: "49.85", grade: "Baik"}, eng: { value: "41.24", grade: "Istimewa"}, subject1: { name: "Matematika Tingkat Lanjut", value: "45.57", grade: "Memadai"}, subject2: { name: "Fisika", value: "40.04", grade: "Memadai"}}
+},
+{ no: "0078415222", name: "STEPHANIE GRACIA NATHALIA SIMANGUNSONG", birthPlace: "MEDAN", birthDate: "2007-12-21", scores: { indo: { value: "56.2", grade: "Baik"},  math: { value: "57.5", grade: "Baik"}, eng: { value: "42.08", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "64.69", grade: "Memadai"}, subject2: { name: "Sejarah", value: "68.54", grade: "Memadai"}}
+},
+{ no: "0088517450", name: "SYAHIRA MAKAYLA", birthPlace: "SAMARINDA", birthDate: "2008-03-04", scores: { indo: { value: "63.97", grade: "Istimewa"},  math: { value: "49.29", grade: "Baik"}, eng: { value: "55.21", grade: "Istimewa"}, subject1: { name: "Biologi", value: "56.08", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "82.68", grade: "Istimewa"}}
+},
+{ no: "0082662117", name: "ZALFA PRITAMASARI", birthPlace: "MALANG", birthDate: "2008-07-31", scores: { indo: { value: "83.22", grade: "Istimewa"},  math: { value: "51.87", grade: "Baik"}, eng: { value: "38.37", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "79.45", grade: "Istimewa"}, subject2: { name: "Ekonomi", value: "48.37", grade: "Istimewa"}}
+},
+{ no: "0085803251", name: "ADEK BELLANGI ARIGAYO", birthPlace: "MALANG", birthDate: "2008-05-07", scores: { indo: { value: "64.1", grade: "Istimewa"},  math: { value: "44.65", grade: "Baik"}, eng: { value: "44.71", grade: "Istimewa"}, subject1: { name: "Biologi", value: "62.95", grade: "Baik"}, subject2: { name: "Fisika", value: "42.72", grade: "Memadai"}}
+},
+{ no: "0082409704", name: "ANDI FAWNIA KHALISAH PALLAWAGAU", birthPlace: "SURABAYA", birthDate: "2008-06-23", scores: { indo: { value: "58.84", grade: "Istimewa"},  math: { value: "28.79", grade: "Kurang"}, eng: { value: "28.32", grade: "Memadai"}, subject1: { name: "Biologi", value: "56.04", grade: "Memadai"}, subject2: { name: "Kimia", value: "34.91", grade: "Memadai"}}
+},
+{ no: "0076207917", name: "BILQIS TALITA NIANDINI", birthPlace: "PASURUAN", birthDate: "2007-07-04", scores: { indo: { value: "62.23", grade: "Istimewa"},  math: { value: "20.81", grade: "Kurang"}, eng: { value: "25.34", grade: "Memadai"}, subject1: { name: "Kimia", value: "44.56", grade: "Memadai"}, subject2: { name: "Biologi", value: "61.04", grade: "Baik"}}
+},
+{ no: "0075876105", name: "BINTANG SATYA ANGGARA", birthPlace: "SURABAYA", birthDate: "2007-05-22", scores: { indo: { value: "71.33", grade: "Istimewa"},  math: { value: "34.12", grade: "Kurang"}, eng: { value: "54.29", grade: "Istimewa"}, subject1: { name: "Fisika", value: "50.35", grade: "Memadai"}, subject2: { name: "Kimia", value: "32.32", grade: "Memadai"}}
+},
+{ no: "0087276038", name: "CAHYO RAMADHAN PURNOMO", birthPlace: "JAKARTA", birthDate: "2008-09-07", scores: { indo: { value: "49.92", grade: "Baik"},  math: { value: "37.43", grade: "Memadai"}, eng: { value: "28.18", grade: "Memadai"}, subject1: { name: "Biologi", value: "45.83", grade: "Memadai"}, subject2: { name: "Kimia", value: "22.71", grade: "Kurang"}}
+},
+{ no: "0089686179", name: "DANENDRA ARYA WANGSA", birthPlace: "JAKARTA", birthDate: "2008-06-01", scores: { indo: { value: "61.08", grade: "Istimewa"},  math: { value: "34.36", grade: "Kurang"}, eng: { value: "31.04", grade: "Baik"}, subject1: { name: "Matematika Tingkat Lanjut", value: "38.2", grade: "Memadai"}, subject2: { name: "Geografi", value: "79.76", grade: "Baik"}}
+},
+{ no: "0074483406", name: "DAVINDRA RIZQULLAH ANDI ATJO", birthPlace: "JAKARTA", birthDate: "2007-08-01", scores: { indo: { value: "53.1", grade: "Baik"},  math: { value: "44.25", grade: "Baik"}, eng: { value: "39.09", grade: "Istimewa"}, subject1: { name: "Biologi", value: "51.92", grade: "Memadai"}, subject2: { name: "Fisika", value: "52", grade: "Baik"}}
+},
+{ no: "0078128016", name: "DELLIANTI PUTRI RACHMAWATI", birthPlace: "SURABAYA", birthDate: "2007-09-08", scores: { indo: { value: "53.25", grade: "Baik"},  math: { value: "49.63", grade: "Baik"}, eng: { value: "29.14", grade: "Memadai"}, subject1: { name: "Biologi", value: "61.64", grade: "Baik"}, subject2: { name: "Kimia", value: "31.04", grade: "Memadai"}}
+},
+{ no: "0077506146", name: "DESWITA KIRANA PUTRI ERNANTO", birthPlace: "SURABAYA", birthDate: "2007-12-04", scores: { indo: { value: "63.7", grade: "Istimewa"},  math: { value: "36.01", grade: "Memadai"}, eng: { value: "43.13", grade: "Istimewa"}, subject1: { name: "Biologi", value: "62.52", grade: "Baik"}, subject2: { name: "Kimia", value: "22.62", grade: "Kurang"}}
+},
+{ no: "0077899973", name: "DINTA AYU RAMADHANI", birthPlace: "MALANG", birthDate: "2007-08-18", scores: { indo: { value: "76.11", grade: "Istimewa"},  math: { value: "35.24", grade: "Memadai"}, eng: { value: "44.92", grade: "Istimewa"}, subject1: { name: "Kimia", value: "30.49", grade: "Kurang"}, subject2: { name: "Biologi", value: "74.27", grade: "Istimewa"}}
+},
+{ no: "0089490104", name: "GILANG RAFI ACHMAD", birthPlace: "MOJOKERTO", birthDate: "2008-04-04", scores: { indo: { value: "56.49", grade: "Baik"},  math: { value: "36.12", grade: "Memadai"}, eng: { value: "33.74", grade: "Baik"}, subject1: { name: "Biologi", value: "60.46", grade: "Baik"}, subject2: { name: "Geografi", value: "73.96", grade: "Memadai"}}
+},
+{ no: "0081084430", name: "IBHAR RIZQI HIDAYATULLAH", birthPlace: "SIDOARJO", birthDate: "2008-05-11", scores: { indo: { value: "62.76", grade: "Istimewa"},  math: { value: "42.94", grade: "Memadai"}, eng: { value: "31.82", grade: "Baik"}, subject1: { name: "Kimia", value: "5", grade: "Kurang"}, subject2: { name: "Biologi", value: "61.78", grade: "Baik"}}
+},
+{ no: "0081088704", name: "INRA TAFDILA ARIF", birthPlace: "KUPANG", birthDate: "2008-03-12", scores: { indo: { value: "71.39", grade: "Istimewa"},  math: { value: "37.34", grade: "Memadai"}, eng: { value: "49.84", grade: "Istimewa"}, subject1: { name: "Kimia", value: "30.17", grade: "Kurang"}, subject2: { name: "Biologi", value: "80.29", grade: "Istimewa"}}
+},
+{ no: "0088399094", name: "JALADHIMANTRI NALA WAHYUDI", birthPlace: "MALANG", birthDate: "2008-08-06", scores: { indo: { value: "45.26", grade: "Baik"},  math: { value: "37.93", grade: "Memadai"}, eng: { value: "36.22", grade: "Baik"}, subject1: { name: "Fisika", value: "33.06", grade: "Kurang"}, subject2: { name: "Geografi", value: "91.33", grade: "Istimewa"}}
+},
+{ no: "0085853121", name: "LEONARDUS DAMARIO NURCAHYANTO", birthPlace: "SEMARANG", birthDate: "2008-07-30", scores: { indo: { value: "68.17", grade: "Istimewa"},  math: { value: "37.22", grade: "Memadai"}, eng: { value: "48.56", grade: "Istimewa"}, subject1: { name: "Kimia", value: "26.32", grade: "Kurang"}, subject2: { name: "Biologi", value: "61", grade: "Baik"}}
+},
+{ no: "0075784502", name: "MADE BRIAN PRAWIRA", birthPlace: "SURABAYA", birthDate: "2007-09-17", scores: { indo: { value: "45.07", grade: "Baik"},  math: { value: "28.95", grade: "Kurang"}, eng: { value: "21.44", grade: "Kurang"}, subject1: { name: "Kimia", value: "29.06", grade: "Kurang"}, subject2: { name: "Biologi", value: "63.49", grade: "Baik"}}
+},
+{ no: "0083570895", name: "MOH. FAHRI ROZZI ABDILLAH", birthPlace: "MALANG", birthDate: "2008-04-05", scores: { indo: { value: "61.69", grade: "Istimewa"},  math: { value: "36.75", grade: "Memadai"}, eng: { value: "34.6", grade: "Baik"}, subject1: { name: "Matematika Tingkat Lanjut", value: "40.85", grade: "Memadai"}, subject2: { name: "Ekonomi", value: "32.16", grade: "Memadai"}}
+},
+{ no: "0079513850", name: "MUHAMMAD DAFFA ALFATIR TRIONO", birthPlace: "TUBAN", birthDate: "2007-03-13", scores: { indo: { value: "87.2", grade: "Istimewa"},  math: { value: "45.43", grade: "Baik"}, eng: { value: "64.51", grade: "Istimewa"}, subject1: { name: "Biologi", value: "63.34", grade: "Baik"}, subject2: { name: "Kimia", value: "33.95", grade: "Memadai"}}
+},
+{ no: "0076120548", name: "M. FAATHIR FADHILLAH", birthPlace: "SIDOARJO", birthDate: "2007-09-22", scores: { indo: { value: "70.11", grade: "Istimewa"},  math: { value: "32.06", grade: "Kurang"}, eng: { value: "35.52", grade: "Baik"}, subject1: { name: "Biologi", value: "74.8", grade: "Istimewa"}, subject2: { name: "Kimia", value: "24.27", grade: "Kurang"}}
+},
+{ no: "0085954680", name: "MUHAMMAD HISYAM NIZAR H P", birthPlace: "SURABAYA", birthDate: "2008-05-12", scores: { indo: { value: "76.19", grade: "Istimewa"},  math: { value: "38.77", grade: "Memadai"}, eng: { value: "51.24", grade: "Istimewa"}, subject1: { name: "Biologi", value: "78.52", grade: "Istimewa"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "88.48", grade: "Istimewa"}}
+},
+{ no: "0085592270", name: "NAURELIA PUTRI FEBRIANTI", birthPlace: "JAKARTA", birthDate: "2008-02-12", scores: { indo: { value: "72.97", grade: "Istimewa"},  math: { value: "41.73", grade: "Memadai"}, eng: { value: "42.86", grade: "Istimewa"}, subject1: { name: "Matematika Tingkat Lanjut", value: "47.52", grade: "Baik"}, subject2: { name: "Ekonomi", value: "44.91", grade: "Baik"}}
+},
+{ no: "0072631698", name: "NIZMA AZAIRA PUTRI PRASETYO", birthPlace: "NGANJUK", birthDate: "2007-09-06", scores: { indo: { value: "75.23", grade: "Istimewa"},  math: { value: "39.68", grade: "Memadai"}, eng: { value: "48.3", grade: "Istimewa"}, subject1: { name: "Biologi", value: "65.05", grade: "Baik"}, subject2: { name: "Kimia", value: "43.82", grade: "Memadai"}}
+},
+{ no: "0089219833", name: "RAISAH DELVINA PUTRI JALASENASTRI", birthPlace: "SURABAYA", birthDate: "2008-06-26", scores: { indo: { value: "83.04", grade: "Istimewa"},  math: { value: "51.46", grade: "Baik"}, eng: { value: "37.38", grade: "Baik"}, subject1: { name: "Kimia", value: "38.42", grade: "Memadai"}, subject2: { name: "Biologi", value: "69.35", grade: "Baik"}}
+},
+{ no: "0084376439", name: "RIFQI AUFA MAULANA", birthPlace: "SURABAYA", birthDate: "2008-04-14", scores: { indo: { value: "71.45", grade: "Istimewa"},  math: { value: "45.71", grade: "Baik"}, eng: { value: "50.25", grade: "Istimewa"}, subject1: { name: "Matematika Tingkat Lanjut", value: "47.49", grade: "Baik"}, subject2: { name: "Fisika", value: "5", grade: "Kurang"}}
+},
+{ no: "0075650814", name: "SISCHA AMELIA KUSUMAWATI", birthPlace: "SURABAYA", birthDate: "2007-11-27", scores: { indo: { value: "74.58", grade: "Istimewa"},  math: { value: "67.04", grade: "Istimewa"}, eng: { value: "42.99", grade: "Istimewa"}, subject1: { name: "Matematika Tingkat Lanjut", value: "60.12", grade: "Istimewa"}, subject2: { name: "Fisika", value: "62.27", grade: "Istimewa"}}
+},
+{ no: "0079130438", name: "TIRTA AYU PRAMESTI PUTRI SETIAWAN", birthPlace: "MALANG", birthDate: "2007-08-04", scores: { indo: { value: "72.7", grade: "Istimewa"},  math: { value: "44.52", grade: "Baik"}, eng: { value: "47.04", grade: "Istimewa"}, subject1: { name: "Biologi", value: "64.36", grade: "Baik"}, subject2: { name: "Kimia", value: "5", grade: "Kurang"}}
+},
+{ no: "0081188075", name: "VINCENTIUS PRAMUDITO AGUNG NUGROHO", birthPlace: "SURABAYA", birthDate: "2008-08-24", scores: { indo: { value: "73.45", grade: "Istimewa"},  math: { value: "39.43", grade: "Memadai"}, eng: { value: "45.82", grade: "Istimewa"}, subject1: { name: "Biologi", value: "55.33", grade: "Memadai"}, subject2: { name: "Sejarah", value: "84.17", grade: "Istimewa"}}
+},
+{ no: "0084174414", name: "WAODE MARINES MAULIDYA PAKRI", birthPlace: "SURABAYA", birthDate: "2008-03-20", scores: { indo: { value: "74.97", grade: "Istimewa"},  math: { value: "35.96", grade: "Memadai"}, eng: { value: "44.98", grade: "Istimewa"}, subject1: { name: "Biologi", value: "64.64", grade: "Baik"}, subject2: { name: "Kimia", value: "42.34", grade: "Memadai"}}
+},
+{ no: "0073691923", name: "AURORA CLARISSA LUTFIANDANY", birthPlace: "PAMEKASAN", birthDate: "2007-09-03", scores: { indo: { value: "52.45", grade: "Baik"},  math: { value: "34.19", grade: "Kurang"}, eng: { value: "20.7", grade: "Kurang"}, subject1: { name: "Biologi", value: "44.85", grade: "Kurang"}, subject2: { name: "Kimia", value: "30.62", grade: "Kurang"}}
+},
+{ no: "0082274278", name: "DANIEL YUDHO BIMANTORO", birthPlace: "SURABAYA", birthDate: "2008-03-26", scores: { indo: { value: "41.39", grade: "Memadai"},  math: { value: "24.92", grade: "Kurang"}, eng: { value: "5", grade: "Kurang"}, subject1: { name: "Kimia", value: "33.78", grade: "Memadai"}, subject2: { name: "Biologi", value: "45.9", grade: "Memadai"}}
+},
+{ no: "0074304257", name: "DHONY PRATAMA BHAGASKARA", birthPlace: "TRENGGALEK", birthDate: "2007-09-13", scores: { indo: { value: "57.93", grade: "Baik"},  math: { value: "31.97", grade: "Kurang"}, eng: { value: "46.92", grade: "Istimewa"}, subject1: { name: "Biologi", value: "62.35", grade: "Baik"}, subject2: { name: "Kimia", value: "42.96", grade: "Memadai"}}
+},
+{ no: "0075050377", name: "GILBERT MORLANDO ZEFANYA SINURAT", birthPlace: "JAKARTA", birthDate: "2007-12-01", scores: { indo: { value: "63.27", grade: "Istimewa"},  math: { value: "39.98", grade: "Memadai"}, eng: { value: "51.02", grade: "Istimewa"}, subject1: { name: "Sejarah", value: "70.5", grade: "Memadai"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "78.87", grade: "Istimewa"}}
+},
+{ no: "0094277136", name: "KAKA ARMANDA WIERAYUDHA", birthPlace: "NGANJUK", birthDate: "2009-01-19", scores: { indo: { value: "57.58", grade: "Baik"},  math: { value: "30.5", grade: "Kurang"}, eng: { value: "38.69", grade: "Istimewa"}, subject1: { name: "Biologi", value: "53.88", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "55.43", grade: "Kurang"}}
+},
+{ no: "0081576907", name: "KEYSHIA AURELLIA", birthPlace: "SURABAYA", birthDate: "2008-08-07", scores: { indo: { value: "75.86", grade: "Istimewa"},  math: { value: "39.86", grade: "Memadai"}, eng: { value: "43.16", grade: "Istimewa"}, subject1: { name: "Biologi", value: "66.37", grade: "Baik"}, subject2: { name: "Kimia", value: "39.2", grade: "Memadai"}}
+},
+{ no: "0081223699", name: "KHALISHAH UMAIMAH PUTRI", birthPlace: "BATAM", birthDate: "2008-09-26", scores: { indo: { value: "40.02", grade: "Memadai"},  math: { value: "46.56", grade: "Baik"}, eng: { value: "27.26", grade: "Memadai"}, subject1: { name: "Kimia", value: "28.5", grade: "Kurang"}, subject2: { name: "Biologi", value: "39.52", grade: "Kurang"}}
+},
+{ no: "0088761371", name: "KHANSA ULA BALQIS JANUAR", birthPlace: "BLITAR", birthDate: "2008-01-08", scores: { indo: { value: "78.26", grade: "Istimewa"},  math: { value: "62.51", grade: "Istimewa"}, eng: { value: "44.67", grade: "Istimewa"}, subject1: { name: "Kimia", value: "37", grade: "Memadai"}, subject2: { name: "Geografi", value: "81.74", grade: "Istimewa"}}
+},
+{ no: "0087099243", name: "KIRANI AULIA ALILATUL BARIZA", birthPlace: "MALANG", birthDate: "2008-05-26", scores: { indo: { value: "83.57", grade: "Istimewa"},  math: { value: "52.99", grade: "Baik"}, eng: { value: "51.08", grade: "Istimewa"}, subject1: { name: "Biologi", value: "73.01", grade: "Istimewa"}, subject2: { name: "Kimia", value: "53.51", grade: "Baik"}}
+},
+{ no: "0082596024", name: "KOMANG DIVO DHARMA WIJAYA", birthPlace: "JAKARTA", birthDate: "2008-11-26", scores: { indo: { value: "75.09", grade: "Istimewa"},  math: { value: "53.3", grade: "Baik"}, eng: { value: "33.61", grade: "Baik"}, subject1: { name: "Fisika", value: "39.51", grade: "Memadai"}, subject2: { name: "Biologi", value: "50.5", grade: "Memadai"}}
+},
+{ no: "0076787451", name: "LALU MUHAMMAD RAYYAN", birthPlace: "JAYAPURA", birthDate: "2007-10-25", scores: { indo: { value: "53.1", grade: "Baik"},  math: { value: "50.07", grade: "Baik"}, eng: { value: "34.34", grade: "Baik"}, subject1: { name: "Biologi", value: "50.26", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "47.47", grade: "Kurang"}}
+},
+{ no: "0075090075", name: "MAXEMYANUS JUAN HENDRYC MOFU", birthPlace: "MANOKWARI", birthDate: "2007-06-01", scores: { indo: { value: "53.59", grade: "Baik"},  math: { value: "30.21", grade: "Kurang"}, eng: { value: "16.77", grade: "Kurang"}, subject1: { name: "Sosiologi", value: "60.21", grade: "Memadai"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "56.42", grade: "Kurang"}}
+},
+{ no: "0073937797", name: "NABILA SAFIRA JALASENA PUTRI", birthPlace: "PEMALANG", birthDate: "2007-12-15", scores: { indo: { value: "78.44", grade: "Istimewa"},  math: { value: "49.1", grade: "Baik"}, eng: { value: "45.55", grade: "Istimewa"}, subject1: { name: "Kimia", value: "45.05", grade: "Memadai"}, subject2: { name: "Biologi", value: "70.31", grade: "Istimewa"}}
+},
+{ no: "0081466389", name: "NAUFAL ARKANANTA", birthPlace: "SLEMAN", birthDate: "2008-01-03", scores: { indo: { value: "79.92", grade: "Istimewa"},  math: { value: "47.64", grade: "Baik"}, eng: { value: "60.28", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "74.73", grade: "Baik"}, subject2: { name: "Fisika", value: "46.42", grade: "Memadai"}}
+},
+{ no: "0088396482", name: "NAYLA KANARRA AZ ZIQQIAH", birthPlace: "SURABAYA", birthDate: "2008-03-06", scores: { indo: { value: "88.25", grade: "Istimewa"},  math: { value: "24.81", grade: "Kurang"}, eng: { value: "41.64", grade: "Istimewa"}, subject1: { name: "Biologi", value: "56.79", grade: "Memadai"}, subject2: { name: "Kimia", value: "39.45", grade: "Memadai"}}
+},
+{ no: "0088341645", name: "NI PUTU CHESIL ANGELICA AGATHA MONTOLALU", birthPlace: "BLIMBINGSARI", birthDate: "2008-06-02", scores: { indo: { value: "50.71", grade: "Baik"},  math: { value: "22.63", grade: "Kurang"}, eng: { value: "24.53", grade: "Memadai"}, subject1: { name: "Kimia", value: "28.87", grade: "Kurang"}, subject2: { name: "Biologi", value: "50.48", grade: "Memadai"}}
+},
+{ no: "0088901103", name: "RAFIQA NOVA MUFIDA", birthPlace: "SAMPANG", birthDate: "2008-11-03", scores: { indo: { value: "53", grade: "Baik"},  math: { value: "32.23", grade: "Kurang"}, eng: { value: "33.87", grade: "Baik"}, subject1: { name: "Kimia", value: "25.44", grade: "Kurang"}, subject2: { name: "Biologi", value: "54.69", grade: "Memadai"}}
+},
+{ no: "0074462755", name: "RASENDRIYA RAISA ZEVA THALASSA", birthPlace: "JAKARTA", birthDate: "2008-01-25", scores: { indo: { value: "71.82", grade: "Istimewa"},  math: { value: "42.28", grade: "Memadai"}, eng: { value: "48.11", grade: "Istimewa"}, subject1: { name: "Biologi", value: "56.58", grade: "Memadai"}, subject2: { name: "Geografi", value: "72.23", grade: "Memadai"}}
+},
+{ no: "0086815533", name: "SAFA ALZENA SAKHI", birthPlace: "SURABAYA", birthDate: "2008-07-12", scores: { indo: { value: "60.23", grade: "Istimewa"},  math: { value: "52.24", grade: "Baik"}, eng: { value: "34.1", grade: "Baik"}, subject1: { name: "Kimia", value: "34.61", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "74.47", grade: "Baik"}}
+},
+{ no: "0077165102", name: "AHMADYKA JULIANDRA AINURRAHMAN", birthPlace: "BANGKALAN", birthDate: "2007-07-02", scores: { indo: { value: "64.57", grade: "Istimewa"},  math: { value: "46.4", grade: "Baik"}, eng: { value: "37.68", grade: "Istimewa"}, subject1: { name: "Fisika", value: "26.99", grade: "Kurang"}, subject2: { name: "Geografi", value: "82.39", grade: "Istimewa"}}
+},
+{ no: "0084320995", name: "ANJELINA PERMATA DEWI", birthPlace: "SIDOARJO", birthDate: "2008-05-06", scores: { indo: { value: "50.11", grade: "Baik"},  math: { value: "43.9", grade: "Memadai"}, eng: { value: "52.02", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "83.32", grade: "Istimewa"}, subject2: { name: "Geografi", value: "84.59", grade: "Istimewa"}}
+},
+{ no: "0086088201", name: "ARJUNA SATRIO WIBOWO", birthPlace: "BANGKALAN", birthDate: "2008-03-17", scores: { indo: { value: "65.73", grade: "Istimewa"},  math: { value: "44.72", grade: "Baik"}, eng: { value: "40.04", grade: "Istimewa"}, subject1: { name: "Kimia", value: "25.68", grade: "Kurang"}, subject2: { name: "Fisika", value: "30.6", grade: "Kurang"}}
+},
+{ no: "0089853810", name: "AZHARINE AUDREY DZAKIRAH", birthPlace: "JOMBANG", birthDate: "2008-01-16", scores: { indo: { value: "66.96", grade: "Istimewa"},  math: { value: "57.47", grade: "Baik"}, eng: { value: "52.27", grade: "Istimewa"}, subject1: { name: "Biologi", value: "61.13", grade: "Baik"}, subject2: { name: "Sosiologi", value: "77.87", grade: "Istimewa"}}
+},
+{ no: "0082788981", name: "BIMA ENDRA SOEBAGJO", birthPlace: "SIDOARJO", birthDate: "2008-08-29", scores: { indo: { value: "60.33", grade: "Istimewa"},  math: { value: "27.21", grade: "Kurang"}, eng: { value: "48.85", grade: "Istimewa"}, subject1: { name: "Fisika", value: "39.41", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "81.66", grade: "Istimewa"}}
+},
+{ no: "0088165345", name: "BINTANG FADLAN FIRMAN HASIBUAN", birthPlace: "JAKARTA", birthDate: "2008-08-03", scores: { indo: { value: "62.99", grade: "Istimewa"},  math: { value: "46.41", grade: "Baik"}, eng: { value: "38.54", grade: "Istimewa"}, subject1: { name: "Fisika", value: "33.89", grade: "Kurang"}, subject2: { name: "Geografi", value: "81.53", grade: "Istimewa"}}
+},
+{ no: "0082443895", name: "DESELLA BERLIANA LUNA DEWI", birthPlace: "SIDOARJO", birthDate: "2008-12-20", scores: { indo: { value: "63.4", grade: "Istimewa"},  math: { value: "27.15", grade: "Kurang"}, eng: { value: "47.42", grade: "Istimewa"}, subject1: { name: "Biologi", value: "53.65", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "69.18", grade: "Baik"}}
+},
+{ no: "0075431949", name: "FERNANDO RUSLI AUGUSTA", birthPlace: "SIDOARJO", birthDate: "2007-08-19", scores: { indo: { value: "67.03", grade: "Istimewa"},  math: { value: "33.99", grade: "Kurang"}, eng: { value: "44.02", grade: "Istimewa"}, subject1: { name: "Kimia", value: "26.28", grade: "Kurang"}, subject2: { name: "Sosiologi", value: "69.77", grade: "Baik"}}
+},
+{ no: "0087982064", name: "I NGURAH ARYA WINATHA", birthPlace: "SIDOARJO", birthDate: "2008-05-26", scores: { indo: { value: "81.48", grade: "Istimewa"},  math: { value: "56.22", grade: "Baik"}, eng: { value: "53.09", grade: "Istimewa"}, subject1: { name: "Fisika", value: "27.21", grade: "Kurang"}, subject2: { name: "Biologi", value: "59.09", grade: "Baik"}}
+},
+{ no: "0072515684", name: "KAYLA KRISNA AULIYYA RAHMAH", birthPlace: "SURABAYA", birthDate: "2007-11-15", scores: { indo: { value: "63.41", grade: "Istimewa"},  math: { value: "43.91", grade: "Memadai"}, eng: { value: "37.98", grade: "Istimewa"}, subject1: { name: "Fisika", value: "33.57", grade: "Kurang"}, subject2: { name: "Sosiologi", value: "65.77", grade: "Memadai"}}
+},
+{ no: "0073721060", name: "LYRA VIANTIKA NUR ROHMAH", birthPlace: "BANGKALAN", birthDate: "2007-11-10", scores: { indo: { value: "70.66", grade: "Istimewa"},  math: { value: "39.89", grade: "Memadai"}, eng: { value: "47.26", grade: "Istimewa"}, subject1: { name: "Biologi", value: "68.87", grade: "Baik"}, subject2: { name: "Kimia", value: "38.51", grade: "Memadai"}}
+},
+{ no: "0082554413", name: "NAYAKA NIRWASITA ANTYADININGRUM", birthPlace: "TANAH GROGOT", birthDate: "2008-03-08", scores: { indo: { value: "69.45", grade: "Istimewa"},  math: { value: "31.11", grade: "Kurang"}, eng: { value: "43.27", grade: "Istimewa"}, subject1: { name: "Kimia", value: "31.1", grade: "Memadai"}, subject2: { name: "Sosiologi", value: "79.07", grade: "Istimewa"}}
+},
+{ no: "0082229832", name: "NAYURA ALEYA MUKHBITA", birthPlace: "SIDOARJO", birthDate: "2008-06-13", scores: { indo: { value: "66.96", grade: "Istimewa"},  math: { value: "47.36", grade: "Baik"}, eng: { value: "39.21", grade: "Istimewa"}, subject1: { name: "Biologi", value: "68.29", grade: "Baik"}, subject2: { name: "Kimia", value: "35.13", grade: "Memadai"}}
+},
+{ no: "0088630062", name: "RASYA SATRIA WARDANA", birthPlace: "JOMBANG", birthDate: "2008-06-27", scores: { indo: { value: "68.86", grade: "Istimewa"},  math: { value: "50.22", grade: "Baik"}, eng: { value: "39", grade: "Istimewa"}, subject1: { name: "Fisika", value: "45.26", grade: "Memadai"}, subject2: { name: "Geografi", value: "85.71", grade: "Istimewa"}}
+},
+{ no: "0083779183", name: "SASI KIRONO SATRIYO WIDHIANDARU", birthPlace: "MALANG", birthDate: "2008-04-14", scores: { indo: { value: "72.41", grade: "Istimewa"},  math: { value: "42.74", grade: "Memadai"}, eng: { value: "55.51", grade: "Istimewa"}, subject1: { name: "Biologi", value: "60.96", grade: "Baik"}, subject2: { name: "Sosiologi", value: "70.96", grade: "Baik"}}
+},
+{ no: "0084415948", name: "SISKA DWI WULANDARI", birthPlace: "MOJOKERTO", birthDate: "2008-01-24", scores: { indo: { value: "42.56", grade: "Memadai"},  math: { value: "33.85", grade: "Kurang"}, eng: { value: "35.65", grade: "Baik"}, subject1: { name: "Sosiologi", value: "51.81", grade: "Kurang"}, subject2: { name: "Geografi", value: "73.18", grade: "Memadai"}}
+},
+{ no: "0086468309", name: "SYAFIERA PUTRI NUGRAHIZZAH NUR NATAYA", birthPlace: "KEDIRI", birthDate: "2008-03-11", scores: { indo: { value: "70.7", grade: "Istimewa"},  math: { value: "45.32", grade: "Baik"}, eng: { value: "49.65", grade: "Istimewa"}, subject1: { name: "Sosiologi", value: "90.47", grade: "Istimewa"}, subject2: { name: "Pendidikan Pancasila dan Kewarganegaraan", value: "72.65", grade: "Baik"}}
+}
+
+
+];
+
+
+    const defaultConfig = {
+      school_name: "SMA Negeri Taruna Nala Jawa Timur",
+      announcement_title: "Pengumuman Hasil Tes Kemampuan Akademik",
+      academic_year: "Tahun Pelajaran 2025/2026",
+      footer_text: "Hasil Tes Kemampuan Akademik Tahun 2025 SMAN Taruna Nala Jawa Timur",
+      primary_color: "#3b82f6",
+      secondary_color: "#1e40af",
+      text_color: "#1f2937",
+      background_color: "#1e3a8a",
+      accent_color: "#fbbf24"
+    };
+
+    function getBadgeClass(grade) {
+      if (grade === "Istimewa") return "badge-istimewa";
+      if (grade === "Baik") return "badge-baik";
+      return "badge-memadai";
+    }
+    
+    function getSubjectIcon(subjectName) {
+      const iconMap = {
+        'Fisika': '⚡',
+        'Kimia': '🧪',
+        'Biologi': '🧬',
+        'Sosiologi': '👥',
+        'Sejarah': '📜',
+        'Pendidikan Pancasila dan Kewarganegaraan': '🇮🇩'
+      };
+      return iconMap[subjectName] || '📘';
+    }
+
+    function formatDate(dateStr) {
+      const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+                     "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      const date = new Date(dateStr);
+      return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    }
+
+    function showError(message) {
+      const errorEl = document.getElementById('errorMessage');
+      errorEl.textContent = message;
+      errorEl.classList.remove('hidden');
+      setTimeout(() => errorEl.classList.add('hidden'), 3000);
+    }
+
+    function showResult(student) {
+      document.getElementById('studentName').textContent = student.name;
+      document.getElementById('studentNumber').textContent = student.no;
+      document.getElementById('studentDOB').textContent = `${student.birthPlace}, ${formatDate(student.birthDate)}`;
+      
+      document.getElementById('scoreIndo').textContent = student.scores.indo.value;
+      document.getElementById('badgeIndo').textContent = student.scores.indo.grade;
+      document.getElementById('badgeIndo').className = `badge ${getBadgeClass(student.scores.indo.grade)}`;
+      
+      document.getElementById('scoreMath').textContent = student.scores.math.value;
+      document.getElementById('badgeMath').textContent = student.scores.math.grade;
+      document.getElementById('badgeMath').className = `badge ${getBadgeClass(student.scores.math.grade)}`;
+      
+      document.getElementById('scoreEng').textContent = student.scores.eng.value;
+      document.getElementById('badgeEng').textContent = student.scores.eng.grade;
+      document.getElementById('badgeEng').className = `badge ${getBadgeClass(student.scores.eng.grade)}`;
+      
+      document.getElementById('icon1').textContent = getSubjectIcon(student.scores.subject1.name);
+      document.getElementById('subject1').textContent = student.scores.subject1.name;
+      document.getElementById('score1').textContent = student.scores.subject1.value;
+      document.getElementById('badge1').textContent = student.scores.subject1.grade;
+      document.getElementById('badge1').className = `badge ${getBadgeClass(student.scores.subject1.grade)}`;
+      
+      document.getElementById('icon2').textContent = getSubjectIcon(student.scores.subject2.name);
+      document.getElementById('subject2').textContent = student.scores.subject2.name;
+      document.getElementById('score2').textContent = student.scores.subject2.value;
+      document.getElementById('badge2').textContent = student.scores.subject2.grade;
+      document.getElementById('badge2').className = `badge ${getBadgeClass(student.scores.subject2.grade)}`;
+      
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('resultPage').classList.remove('hidden');
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('nameInput').value.trim().toUpperCase();
+      const dob = document.getElementById('dobInput').value;
+      
+      const student = studentData.find(s => 
+        s.no.toUpperCase() === name && s.birthDate === dob
+      );
+      
+      if (student) {
+        showResult(student);
+      } else {
+        showError('Data tidak ditemukan. Periksa kembali nama dan tanggal lahir Anda.');
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      document.getElementById('loginPage').classList.remove('hidden');
+      document.getElementById('resultPage').classList.add('hidden');
+      document.getElementById('loginForm').reset();
+    });
+
+    async function onConfigChange(config) {
+      const schoolName = config.school_name || defaultConfig.school_name;
+      const announcementTitle = config.announcement_title || defaultConfig.announcement_title;
+      const academicYear = config.academic_year || defaultConfig.academic_year;
+      const footerText = config.footer_text || defaultConfig.footer_text;
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      
+      document.getElementById('schoolName').textContent = schoolName;
+      document.getElementById('announcementTitle').textContent = announcementTitle;
+      document.getElementById('academicYear').textContent = academicYear;
+      document.getElementById('footerText').textContent = footerText;
+      
+      document.getElementById('resultSchoolName').textContent = schoolName;
+      document.getElementById('resultAnnouncementTitle').textContent = announcementTitle;
+      document.getElementById('resultAcademicYear').textContent = academicYear;
+      document.getElementById('resultFooterText').textContent = footerText;
+      
+      document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${primaryColor} 100%)`;
+      
+      const buttons = document.querySelectorAll('.btn-primary');
+      buttons.forEach(btn => {
+        btn.style.background = `linear-gradient(135deg, ${primaryColor}, ${backgroundColor})`;
+      });
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["school_name", config.school_name || defaultConfig.school_name],
+          ["announcement_title", config.announcement_title || defaultConfig.announcement_title],
+          ["academic_year", config.academic_year || defaultConfig.academic_year],
+          ["footer_text", config.footer_text || defaultConfig.footer_text]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b993e38f30dfd31',t:'MTc2NzY4MTgyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

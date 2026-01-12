@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Pengumuman TKA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&amp;family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #0c1445 0%, #1a237e 50%, #283593 100%);
+    }
+    
+    .card-glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .time-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .glow {
+      box-shadow: 0 0 60px rgba(255, 193, 7, 0.3);
+    }
+    
+    .text-glow {
+      text-shadow: 0 0 30px rgba(255, 193, 7, 0.5);
+    }
+    
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.02); }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    .animate-pulse-slow {
+      animation: pulse-slow 3s ease-in-out infinite;
+    }
+    
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+    
+    .shimmer-text {
+      background: linear-gradient(90deg, #ffc107, #fff8e1, #ffc107);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite;
+    }
+    
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s ease-in-out infinite;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-container" class="w-full h-full gradient-bg relative overflow-auto"><!-- Stars Background -->
+   <div id="stars" class="absolute inset-0 overflow-hidden pointer-events-none"></div><!-- Main Content -->
+   <div class="relative z-10 min-h-full flex flex-col items-center justify-center px-4 py-8"><!-- Logo/Emblem -->
+    <div class="mb-6 animate-float">
+     <div class="w-24 h-24 md:w-32 md:h-32 rounded-full card-glass flex items-center justify-center glow">
+      <center> <img src="smantar.png" alt="SMAN Taruna Nala" width="150" ></center>
+
+     </div>
+    </div><!-- Title -->a
+    <div class="text-center mb-8">
+     <p id="subtitle" class="text-amber-300 text-sm md:text-base font-semibold tracking-widest uppercase mb-2" style="font-family: 'Poppins', sans-serif;">Pengumuman Hasil TKA</p>
+     <h1 id="main-title" class="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 shimmer-text" style="font-family: 'Playfair Display', serif;">SMA Negeri Taruna Nala</h1>
+     <p id="school-location" class="text-white/80 text-lg md:text-xl font-medium" style="font-family: 'Poppins', sans-serif;">Jawa Timur</p>
+    </div><!-- Countdown Container -->
+    <div class="card-glass rounded-3xl p-6 md:p-10 mb-8 glow animate-pulse-slow">
+     <p class="text-center text-white/70 text-sm mb-6 uppercase tracking-wider" style="font-family: 'Poppins', sans-serif;">Waktu Menuju Pengumuman</p>
+     <div id="countdown" class="flex flex-wrap justify-center gap-3 md:gap-4"><!-- Days -->
+      <div class="time-card rounded-2xl p-4 md:p-6 min-w-[80px] md:min-w-[100px] text-center">
+       <div id="days" class="text-3xl md:text-5xl font-extrabold text-white text-glow" style="font-family: 'Poppins', sans-serif;">
+        00
+       </div>
+       <div class="text-amber-300 text-xs md:text-sm font-semibold mt-1 uppercase tracking-wider">
+        Hari
+       </div>
+      </div><!-- Hours -->
+      <div class="time-card rounded-2xl p-4 md:p-6 min-w-[80px] md:min-w-[100px] text-center">
+       <div id="hours" class="text-3xl md:text-5xl font-extrabold text-white text-glow" style="font-family: 'Poppins', sans-serif;">
+        00
+       </div>
+       <div class="text-amber-300 text-xs md:text-sm font-semibold mt-1 uppercase tracking-wider">
+        Jam
+       </div>
+      </div><!-- Minutes -->
+      <div class="time-card rounded-2xl p-4 md:p-6 min-w-[80px] md:min-w-[100px] text-center">
+       <div id="minutes" class="text-3xl md:text-5xl font-extrabold text-white text-glow" style="font-family: 'Poppins', sans-serif;">
+        00
+       </div>
+       <div class="text-amber-300 text-xs md:text-sm font-semibold mt-1 uppercase tracking-wider">
+        Menit
+       </div>
+      </div><!-- Seconds -->
+      <div class="time-card rounded-2xl p-4 md:p-6 min-w-[80px] md:min-w-[100px] text-center">
+       <div id="seconds" class="text-3xl md:text-5xl font-extrabold text-white text-glow" style="font-family: 'Poppins', sans-serif;">
+        00
+       </div>
+       <div class="text-amber-300 text-xs md:text-sm font-semibold mt-1 uppercase tracking-wider">
+        Detik
+       </div>
+      </div>
+     </div>
+    </div><!-- Target Date Info -->
+    <div class="text-center mb-6">
+     <div class="inline-flex items-center gap-2 card-glass rounded-full px-6 py-3">
+      <svg class="w-5 h-5 text-amber-300" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg><span id="target-date" class="text-white font-semibold" style="font-family: 'Poppins', sans-serif;"> 13 Januari 2026 • 07:00 WIB </span>
+     </div>
+    </div><!-- Footer Message -->
+    <p id="footer-message" class="text-white/60 text-sm text-center max-w-md px-4" style="font-family: 'Poppins', sans-serif;">Tetap semangat dan berdoa! Semoga hasil terbaik menyertai kalian semua. 🙏✨</p><!-- Completed State (Hidden by default) -->
+    <div id="completed-state" class="hidden text-center">
+     <div class="card-glass rounded-3xl p-8 md:p-12 glow">
+      <div class="text-6xl mb-4">
+       🎉
+      </div>
+      <h2 class="text-2xl md:text-4xl font-bold text-amber-300 mb-4 shimmer-text" style="font-family: 'Playfair Display', serif;">Pengumuman Telah Dibuka!</h2>
+      <p class="text-white/80 text-lg" style="font-family: 'Poppins', sans-serif;">Silakan cek hasil pengumuman Anda sekarang.</p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_title: 'SMA Negeri Taruna Nala',
+      school_name: 'Jawa Timur',
+      event_date: '13 Januari 2026 • 07:00 WIB',
+      footer_text: 'Tetap semangat dan berdoa! Semoga hasil terbaik menyertai kalian semua. 🙏✨',
+      primary_color: '#1a237e',
+      secondary_color: '#ffc107',
+      text_color: '#ffffff',
+      accent_color: '#ffd54f',
+      bg_color: '#0c1445'
+    };
+
+    // Target date: 13 January 2026, 07:00 WIB (UTC+7)
+    const targetDate = new Date('2026-01-13T00:00:00Z'); // 07:00 WIB = 00:00 UTC
+
+    // Create stars
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.width = Math.random() * 3 + 1 + 'px';
+        star.style.height = star.style.width;
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // Update countdown
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('countdown').parentElement.classList.add('hidden');
+        document.getElementById('completed-state').classList.remove('hidden');
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    async function onConfigChange(config) {
+      document.getElementById('main-title').textContent = config.main_title || defaultConfig.main_title;
+      document.getElementById('school-location').textContent = config.school_name || defaultConfig.school_name;
+      document.getElementById('target-date').textContent = config.event_date || defaultConfig.event_date;
+      document.getElementById('footer-message').textContent = config.footer_text || defaultConfig.footer_text;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.bg_color || defaultConfig.bg_color,
+            set: (value) => {
+              config.bg_color = value;
+              window.elementSdk.setConfig({ bg_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_color || defaultConfig.secondary_color,
+            set: (value) => {
+              config.secondary_color = value;
+              window.elementSdk.setConfig({ secondary_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['main_title', config.main_title || defaultConfig.main_title],
+        ['school_name', config.school_name || defaultConfig.school_name],
+        ['event_date', config.event_date || defaultConfig.event_date],
+        ['footer_text', config.footer_text || defaultConfig.footer_text]
+      ]);
+    }
+
+    // Initialize
+    createStars();
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bcb50e6a361c6e4',t:'MTc2ODIwNjg4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

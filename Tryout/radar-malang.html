@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Informasi Try Out</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0d1f33 50%, #0a1628 100%);
+    }
+    .card-glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+    }
+    .input-focus:focus {
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+    }
+    .float-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-up {
+      animation: slideUp 0.6s ease-out forwards;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .pulse-ring {
+      animation: pulseRing 2s ease-out infinite;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(0.9); opacity: 1; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+    .data-card {
+      transition: all 0.3s ease;
+    }
+    .data-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    .copy-btn {
+      transition: all 0.2s ease;
+    }
+    .copy-btn:hover {
+      background: #3b82f6;
+      color: white;
+    }
+    .toast {
+      animation: toastIn 0.3s ease-out forwards;
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: particleFloat 15s infinite linear;
+    }
+    @keyframes particleFloat {
+      0% { transform: translateY(100%) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100%) rotate(720deg); opacity: 0; }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full gradient-bg overflow-auto relative"><!-- Particles Background -->
+   <div id="particles" class="absolute inset-0 overflow-hidden pointer-events-none"></div><!-- Login Page -->
+   <div id="login-page" class="min-h-full w-full flex items-center justify-center p-4 relative z-10">
+    <div class="w-full max-w-md"><!-- Logo Section -->
+     <div class="text-center mb-8 fade-in">
+      <div class="relative inline-block">
+       <div class="absolute inset-0 bg-blue-500 rounded-full pulse-ring"></div>
+       <div class="relative w-24 h-24 mx-auto bg-white rounded-full flex items-center justify-center shadow-2xl float-animation">
+         <center> <img src="smantar.png" alt="SMAN Taruna Nala" width="100" ></center>
+       </div>
+      </div>
+      <h1 id="school-name" class="text-2xl font-bold text-white mt-6 tracking-tight">SMA Negeri Taruna Nala Jawa Timur</h1>
+      <p id="welcome-text" class="text-blue-200 mt-2 text-sm">Portal Informasi Try Out Siswa</p>
+     </div><!-- Login Card -->
+     <div class="card-glass rounded-3xl shadow-2xl p-8 slide-up" style="animation-delay: 0.2s;">
+      <div class="text-center mb-6">
+       <h2 class="text-xl font-bold text-gray-800">Masuk ke Akun</h2>
+       <p class="text-gray-500 text-sm mt-1">Gunakan NIS dan tanggal lahir Anda</p>
+      </div>
+      <form id="login-form" class="space-y-5">
+       <div><label for="nis" class="block text-sm font-semibold text-gray-700 mb-2">Nomor Induk Siswa (NIS)</label>
+        <div class="relative"><span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg></span> <input type="text" id="nis" name="nis" required class="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl input-focus outline-none transition-all text-gray-800 font-medium" placeholder="Masukkan NIS Anda">
+        </div>
+       </div>
+       <div><label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Lahir (Password)</label>
+        <div class="relative"><span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg></span> <input type="date" id="password" name="password" required class="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl input-focus outline-none transition-all text-gray-800 font-medium">
+        </div>
+        <p class="text-xs text-gray-400 mt-2">Format: DD/MM/YYYY</p>
+       </div>
+       <div id="error-message" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm font-medium">
+        <div class="flex items-center gap-2">
+         <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+         </svg><span>NIS atau tanggal lahir tidak valid</span>
+        </div>
+       </div><button type="submit" id="login-btn" class="w-full btn-primary text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 text-lg"> <span>Masuk</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg></button>
+      </form>
+      <div class="mt-6 pt-6 border-t border-gray-100">
+       <p class="text-center text-gray-400 text-xs">Hubungi admin sekolah jika mengalami kendala login</p>
+      </div>
+     </div>
+     <p class="text-center text-blue-200/60 text-xs mt-6">© 2026 Informasi Kurikulum SMANTARNALA. All rights reserved.</p>
+    </div>
+   </div><!-- Data Page -->
+   <div id="data-page" class="hidden min-h-full w-full p-4 md:p-8 relative z-10">
+    <div class="max-w-4xl mx-auto"><!-- Header -->
+     <div class="flex items-center justify-between mb-8 fade-in">
+      <div class="flex items-center gap-4">
+       <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+        <svg class="w-7 h-7 text-blue-600" fill="currentColor" viewbox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3z" />
+        </svg>
+       </div>
+       <div>
+        <h1 id="header-school-name" class="text-xl font-bold text-white">SMA Negeri Taruna Nala Jawa Timur</h1>
+        <p class="text-blue-200 text-sm">Portal Informasi Try Out</p>
+       </div>
+      </div><button id="logout-btn" class="bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+       </svg><span class="hidden sm:inline">Keluar</span> </button>
+     </div><!-- Welcome Card -->
+     <div class="card-glass rounded-2xl p-6 mb-6 slide-up">
+      <div class="flex items-center gap-4">
+       <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg"><span id="avatar-initial">A</span>
+       </div>
+       <div>
+        <p class="text-gray-500 text-sm">Selamat datang,</p>
+        <h2 id="student-name-display" class="text-2xl font-bold text-gray-800">Ahmad Rizki Pratama</h2>
+        <p class="text-blue-600 font-medium" id="student-class-display">Kelas XII IPA 1</p>
+       </div>
+      </div>
+     </div><!-- Data Cards Grid -->
+     <div class="grid md:grid-cols-2 gap-4 mb-6"><!-- Student Info Card -->
+      <div class="card-glass rounded-2xl p-6 data-card slide-up" style="animation-delay: 0.1s;">
+       <div class="flex items-center gap-3 mb-5">
+        <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+         </svg>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800">Data Siswa</h3>
+       </div>
+       <div class="space-y-4">
+        <div class="flex justify-between items-center py-3 border-b border-gray-100"><span class="text-gray-500 text-sm">Nama Lengkap</span> <span id="data-nama" class="font-semibold text-gray-800 text-right">Ahmad Rizki Pratama</span>
+        </div>
+        <div class="flex justify-between items-center py-3 border-b border-gray-100"><span class="text-gray-500 text-sm">NISN</span> <span id="data-nisn" class="font-semibold text-gray-800 font-mono">0012345678</span>
+        </div>
+        <div class="flex justify-between items-center py-3 border-b border-gray-100"><span class="text-gray-500 text-sm">NIS</span> <span id="data-nis" class="font-semibold text-gray-800 font-mono">12345</span>
+        </div>
+        <div class="flex justify-between items-center py-3"><span class="text-gray-500 text-sm">Kelas</span> <span id="data-kelas" class="font-semibold text-gray-800">XII IPA 1</span>
+        </div>
+       </div>
+      </div><!-- Try Out Credentials Card -->
+      <div class="card-glass rounded-2xl p-6 data-card slide-up" style="animation-delay: 0.2s;">
+       <div class="flex items-center gap-3 mb-5">
+        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+         <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+         </svg>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800">Akses Try Out</h3>
+       </div>
+       <div class="space-y-4">
+        <div class="bg-gray-50 rounded-xl p-4">
+         <div class="flex justify-between items-center mb-2"><span class="text-gray-500 text-sm">Username</span> <button onclick="copyToClipboard('data-username')" class="copy-btn text-gray-400 hover:text-blue-600 p-1.5 rounded-lg bg-white shadow-sm">
+           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+           </svg></button>
+         </div>
+         <p id="data-username" class="font-bold text-gray-800 text-lg font-mono">TO_12345</p>
+        </div>
+        <div class="bg-gray-50 rounded-xl p-4">
+         <div class="flex justify-between items-center mb-2"><span class="text-gray-500 text-sm">Password</span>
+          <div class="flex gap-1"><button id="toggle-password" onclick="togglePassword()" class="copy-btn text-gray-400 hover:text-blue-600 p-1.5 rounded-lg bg-white shadow-sm">
+            <svg id="eye-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg></button> <button onclick="copyToClipboard('data-password-value')" class="copy-btn text-gray-400 hover:text-blue-600 p-1.5 rounded-lg bg-white shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg></button>
+          </div>
+         </div>
+         <p id="data-password" class="font-bold text-gray-800 text-lg font-mono">••••••••</p><span id="data-password-value" class="hidden">tryout2024!</span>
+        </div>
+       </div>
+      </div>
+     </div><!-- Important Notice -->
+     <div class="card-glass rounded-2xl p-6 border-l-4 border-amber-400 slide-up" style="animation-delay: 0.3s;">
+      <div class="flex gap-4">
+       <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
+        <svg class="w-5 h-5 text-amber-600" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+       </div>
+       <div>
+        <h4 class="font-bold text-gray-800 mb-2">Informasi Penting</h4>
+        <ul class="text-gray-600 text-sm space-y-1">
+         <li>• Jangan bagikan username dan password kepada siapapun</li>
+         <li>• Pastikan koneksi internet stabil saat mengerjakan Try Out</li>
+         <li>• Hubungi panitia jika mengalami kendala teknis</li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <p class="text-center text-blue-200/60 text-xs mt-8">© 2026 Informasi Kurikulum SMANTARNALA. All rights reserved.</p>
+    </div>
+   </div><!-- Toast Notification -->
+   <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-5 py-3 rounded-xl shadow-2xl z-50 toast">
+    <div class="flex items-center gap-2">
+     <svg class="w-5 h-5 text-green-400" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+     </svg><span id="toast-message">Berhasil disalin!</span>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Sample student data (in real app, this would come from a backend)
+    const studentsData = [
+      {
+        nis: "12345",
+        password: "2006-05-15",
+        nama: "Ahmad Rizki Pratama",
+        nisn: "0012345678",
+        kelas: "XII IPA 1",
+        usernameTO: "TO_12345",
+        passwordTO: "tryout2024!"
+      },
+      {
+        nis: "12346",
+        password: "2006-08-20",
+        nama: "Siti Nurhaliza",
+        nisn: "0012345679",
+        kelas: "XII IPA 2",
+        usernameTO: "TO_12346",
+        passwordTO: "tryout2024@"
+      },
+      {
+        nis: "12347",
+        password: "2006-03-10",
+        nama: "Budi Santoso",
+        nisn: "0012345680",
+        kelas: "XII IPS 1",
+        usernameTO: "TO_12347",
+        passwordTO: "tryout2024#"
+      },
+      {
+        nis: "12348",
+        password: "2006-11-25",
+        nama: "Dewi Lestari",
+        nisn: "0012345681",
+        kelas: "XII IPA 1",
+        usernameTO: "TO_12348",
+        passwordTO: "tryout2024$"
+      },
+      {
+        nis: "12349",
+        password: "2006-07-08",
+        nama: "Eko Prasetyo",
+        nisn: "0012345682",
+        kelas: "XII IPS 2",
+        usernameTO: "TO_12349",
+        passwordTO: "tryout2024%"
+      },
+{nis: "1295", password: "2007-11-02", nama: "Adinda Novita Putri Fadillah", nisn:"3078661604", kelas: "XII-1", usernameTO: "KOT12263486", passwordTO: "SNBT3486"},
+{nis: "1297", password: "2008-05-24", nama: "Ahmad Royyan Al-Fikri", nisn:"0087610949", kelas: "XII-1", usernameTO: "KOT12263487", passwordTO: "SNBT3487"},
+{nis: "1299", password: "2007-10-31", nama: "A'Idah Putri Nabilah Supendi", nisn:"0076491355", kelas: "XII-1", usernameTO: "KOT12263488", passwordTO: "SNBT3488"},
+{nis: "1322", password: "2007-12-05", nama: "B'Tari Sagita Maheswari", nisn:"0076568989", kelas: "XII-1", usernameTO: "KOT12263489", passwordTO: "SNBT3489"},
+{nis: "1342", password: "2007-12-16", nama: "Ezra Nala Argantara", nisn:"0075154466", kelas: "XII-1", usernameTO: "KOT12263490", passwordTO: "SNBT3490"},
+{nis: "1343", password: "2008-12-14", nama: "Fadhila Salma Kamila Zahrani", nisn:"0088912913", kelas: "XII-1", usernameTO: "KOT12263491", passwordTO: "SNBT3491"},
+{nis: "1346", password: "2008-05-27", nama: "Fatar Satrio Paningit", nisn:"0085173397", kelas: "XII-1", usernameTO: "KOT12263492", passwordTO: "SNBT3492"},
+{nis: "1348", password: "2007-09-10", nama: "Firli Ashfi Hani", nisn:"0076625673", kelas: "XII-1", usernameTO: "KOT12263493", passwordTO: "SNBT3493"},
+{nis: "1349", password: "2007-11-10", nama: "Fitri", nisn:"0072223773", kelas: "XII-1", usernameTO: "KOT12263494", passwordTO: "SNBT3494"},
+{nis: "1350", password: "2008-02-02", nama: "Ghaliya Falishabina Sulaiman", nisn:"0086361316", kelas: "XII-1", usernameTO: "KOT12263495", passwordTO: "SNBT3495"},
+{nis: "1363", password: "2008-06-25", nama: "Keischa Sierralova Fatahilah", nisn:"0084713297", kelas: "XII-1", usernameTO: "KOT12263496", passwordTO: "SNBT3496"},
+{nis: "1364", password: "2008-06-22", nama: "Keisya Khumairoh Tiyaning Atmuko", nisn:"0087042662", kelas: "XII-1", usernameTO: "KOT12263497", passwordTO: "SNBT3497"},
+{nis: "1382", password: "2007-10-17", nama: "Maulana Rizqi Hermawan", nisn:"0072719490", kelas: "XII-1", usernameTO: "KOT12263498", passwordTO: "SNBT3498"},
+{nis: "1384", password: "2007-09-11", nama: "Mika Zahran Razzaq", nisn:"0071758633", kelas: "XII-1", usernameTO: "KOT12263499", passwordTO: "SNBT3499"},
+{nis: "1385", password: "2007-08-11", nama: "Moch Agung Laksana Putra", nisn:"0079724465", kelas: "XII-1", usernameTO: "KOT12263500", passwordTO: "SNBT3500"},
+{nis: "1390", password: "2008-08-26", nama: "Muhammad Edwin Aldrin Rahmani", nisn:"0089441391", kelas: "XII-1", usernameTO: "KOT12263501", passwordTO: "SNBT3501"},
+{nis: "1394", password: "2008-07-27", nama: "Mutiara Umrotus Cantika", nisn:"0082586159", kelas: "XII-1", usernameTO: "KOT12263502", passwordTO: "SNBT3502"},
+{nis: "1399", password: "2008-03-31", nama: "Naura Reiko Naquita", nisn:"0087835939", kelas: "XII-1", usernameTO: "KOT12263503", passwordTO: "SNBT3503"},
+{nis: "1412", password: "2008-08-17", nama: "Radithya Ardhi Pratama", nisn:"0086710535", kelas: "XII-1", usernameTO: "KOT12263504", passwordTO: "SNBT3504"},
+{nis: "1413", password: "2008-09-18", nama: "Rafa Fadhil Ramadhan", nisn:"0083680775", kelas: "XII-1", usernameTO: "KOT12263505", passwordTO: "SNBT3505"},
+{nis: "1417", password: "2007-10-08", nama: "Ramadhansyah Apta Kusuma Candra", nisn:"0074250128", kelas: "XII-1", usernameTO: "KOT12263506", passwordTO: "SNBT3506"},
+{nis: "1422", password: "2008-02-22", nama: "Revalina Laura Febrianti", nisn:"0081886235", kelas: "XII-1", usernameTO: "KOT12263507", passwordTO: "SNBT3507"},
+{nis: "1425", password: "2008-02-09", nama: "Ryo Febri Zhafirin", nisn:"3088396750", kelas: "XII-1", usernameTO: "KOT12263508", passwordTO: "SNBT3508"},
+{nis: "1434", password: "2007-12-09", nama: "Suryaning Sari", nisn:"0076139923", kelas: "XII-1", usernameTO: "KOT12263509", passwordTO: "SNBT3509"},
+{nis: "1438", password: "2008-08-29", nama: "Valentino Afinza Gusti Dwi Saputra S.W.", nisn:"0082236858", kelas: "XII-1", usernameTO: "KOT12263510", passwordTO: "SNBT3510"},
+{nis: "1442", password: "2008-06-04", nama: "Yunda Arvin Athiyya Irawan", nisn:"0087261541", kelas: "XII-1", usernameTO: "KOT12263511", passwordTO: "SNBT3511"},
+{nis: "1445", password: "2007-11-20", nama: "Zhafran Ijlal Wachgi", nisn:"0073696076", kelas: "XII-1", usernameTO: "KOT12263512", passwordTO: "SNBT3512"},
+{nis: "1296", password: "2008-01-13", nama: "Ahadina Zaimira", nisn:"0084769939", kelas: "XII-2", usernameTO: "KOT12263513", passwordTO: "SNBT3513"},
+{nis: "1301", password: "2008-04-10", nama: "Alby Dhaffa Ario Marshada", nisn:"0089571672", kelas: "XII-2", usernameTO: "KOT12263514", passwordTO: "SNBT3514"},
+{nis: "1302", password: "2008-04-25", nama: "Alexander Axell Tristan Geraldo", nisn:"0086382432", kelas: "XII-2", usernameTO: "KOT12263515", passwordTO: "SNBT3515"},
+{nis: "1303", password: "2008-09-28", nama: "Alif Fath Ibrahimovic Albani", nisn:"0081833692", kelas: "XII-2", usernameTO: "KOT12263516", passwordTO: "SNBT3516"},
+{nis: "1304", password: "2007-09-09", nama: "Amanda Aurelya Susanto", nisn:"0074962165", kelas: "XII-2", usernameTO: "KOT12263517", passwordTO: "SNBT3517"},
+{nis: "1309", password: "2008-03-23", nama: "Arlya Salsabilla Putri Margono", nisn:"0081364740", kelas: "XII-2", usernameTO: "KOT12263518", passwordTO: "SNBT3518"},
+{nis: "1311", password: "2008-01-22", nama: "Arvin Bahtiar Sukmono", nisn:"0085802943", kelas: "XII-2", usernameTO: "KOT12263519", passwordTO: "SNBT3519"},
+{nis: "1312", password: "2007-08-22", nama: "Aulia Rahma", nisn:"0071003522", kelas: "XII-2", usernameTO: "KOT12263520", passwordTO: "SNBT3520"},
+{nis: "1314", password: "2008-04-25", nama: "Aurellia Pradipa Maheswari", nisn:"0084467006", kelas: "XII-2", usernameTO: "KOT12263521", passwordTO: "SNBT3521"},
+{nis: "1327", password: "2008-05-04", nama: "Chesta Adabi Sutilistio", nisn:"0081665431", kelas: "XII-2", usernameTO: "KOT12263522", passwordTO: "SNBT3522"},
+{nis: "1329", password: "2007-11-26", nama: "Clarissa Evelina Daneshwari", nisn:"0073103944", kelas: "XII-2", usernameTO: "KOT12263523", passwordTO: "SNBT3523"},
+{nis: "1341", password: "2008-04-03", nama: "Egan Bramara Nayottama", nisn:"0064552060", kelas: "XII-2", usernameTO: "KOT12263524", passwordTO: "SNBT3524"},
+{nis: "1345", password: "2007-06-26", nama: "Farrel Ihza Maulana", nisn:"0077241231", kelas: "XII-2", usernameTO: "KOT12263525", passwordTO: "SNBT3525"},
+{nis: "1352", password: "2008-12-08", nama: "Gracia Rigel Belladona", nisn:"0081208932", kelas: "XII-2", usernameTO: "KOT12263526", passwordTO: "SNBT3526"},
+{nis: "1354", password: "2007-11-10", nama: "Hilmy Arfianto Fahrezi", nisn:"0074535030", kelas: "XII-2", usernameTO: "KOT12263527", passwordTO: "SNBT3527"},
+{nis: "1378", password: "2007-07-18", nama: "Mahardika Syaffadi Putra", nisn:"0072914308", kelas: "XII-2", usernameTO: "KOT12263528", passwordTO: "SNBT3528"},
+{nis: "1392", password: "2007-12-05", nama: "Muhammad Farrel Hazellova Sennaputra", nisn:"0076426997", kelas: "XII-2", usernameTO: "KOT12263529", passwordTO: "SNBT3529"},
+{nis: "1447", password: "2008-06-14", nama: "Muhammad Raffaearl Alryadi", nisn:"0087566488", kelas: "XII-2", usernameTO: "KOT12263530", passwordTO: "SNBT3530"},
+{nis: "1402", password: "2008-04-26", nama: "Nayla Aprilia Naomira", nisn:"0087770545", kelas: "XII-2", usernameTO: "KOT12263531", passwordTO: "SNBT3531"},
+{nis: "1405", password: "2008-05-31", nama: "Nelson Lionell Edrich Pramono", nisn:"0085819137", kelas: "XII-2", usernameTO: "KOT12263532", passwordTO: "SNBT3532"},
+{nis: "1406", password: "2008-11-06", nama: "Ni Nyoman Ayu Citra Permata Dewi", nisn:"0087007413", kelas: "XII-2", usernameTO: "KOT12263533", passwordTO: "SNBT3533"},
+{nis: "1410", password: "2008-03-27", nama: "Qowiyul Aulia", nisn:"0088734116", kelas: "XII-2", usernameTO: "KOT12263534", passwordTO: "SNBT3534"},
+{nis: "1424", password: "2007-10-24", nama: "R.R Nadia Mustika Raditianingrum", nisn:"0076211678", kelas: "XII-2", usernameTO: "KOT12263535", passwordTO: "SNBT3535"},
+{nis: "1414", password: "2008-03-08", nama: "Rafael Diandra Pakusadewa", nisn:"0081187312", kelas: "XII-2", usernameTO: "KOT12263536", passwordTO: "SNBT3536"},
+{nis: "1418", password: "2007-10-02", nama: "Ramdania Hilala Ardeliansyah", nisn:"0071340698", kelas: "XII-2", usernameTO: "KOT12263537", passwordTO: "SNBT3537"},
+{nis: "1426", password: "2008-08-27", nama: "Saely Masayu", nisn:"0082692806", kelas: "XII-2", usernameTO: "KOT12263538", passwordTO: "SNBT3538"},
+{nis: "1428", password: "2007-12-06", nama: "Salsabila Rahayu Effendi", nisn:"0077580343", kelas: "XII-2", usernameTO: "KOT12263539", passwordTO: "SNBT3539"},
+{nis: "1439", password: "2008-01-08", nama: "Viara Devita Kirani", nisn:"0087791342", kelas: "XII-2", usernameTO: "KOT12263540", passwordTO: "SNBT3540"},
+{nis: "1444", password: "2008-01-25", nama: "Zayyan Rabbani Al Haqqi", nisn:"0089529754", kelas: "XII-2", usernameTO: "KOT12263541", passwordTO: "SNBT3541"},
+{nis: "1305", password: "2007-11-18", nama: "Andi Amirah Alia Badaruddin", nisn:"0075295810", kelas: "XII-3", usernameTO: "KOT12263542", passwordTO: "SNBT3542"},
+{nis: "1310", password: "2008-02-11", nama: "Artika Alin Kirania", nisn:"0086472247", kelas: "XII-3", usernameTO: "KOT12263543", passwordTO: "SNBT3543"},
+{nis: "1313", password: "2007-10-25", nama: "Aurellia Hafizah Putri", nisn:"0076971874", kelas: "XII-3", usernameTO: "KOT12263544", passwordTO: "SNBT3544"},
+{nis: "1317", password: "2008-06-06", nama: "Batrisya Miranti Nareswari", nisn:"0081527556", kelas: "XII-3", usernameTO: "KOT12263545", passwordTO: "SNBT3545"},
+{nis: "1324", password: "2008-03-19", nama: "Calvin Maulana Miko Rahmaputra", nisn:"0075587249", kelas: "XII-3", usernameTO: "KOT12263546", passwordTO: "SNBT3546"},
+{nis: "1326", password: "2008-05-14", nama: "Charissa Meyquena Juanita", nisn:"0088781501", kelas: "XII-3", usernameTO: "KOT12263547", passwordTO: "SNBT3547"},
+{nis: "1330", password: "2007-10-25", nama: "Claudia Raisya Putri", nisn:"0072594140", kelas: "XII-3", usernameTO: "KOT12263548", passwordTO: "SNBT3548"},
+{nis: "1337", password: "2008-05-28", nama: "Dhinanti Talita Zakiyah", nisn:"0088709825", kelas: "XII-3", usernameTO: "KOT12263549", passwordTO: "SNBT3549"},
+{nis: "1340", password: "2007-09-28", nama: "Dzakirah Puteri Nareswari", nisn:"0072675631", kelas: "XII-3", usernameTO: "KOT12263550", passwordTO: "SNBT3550"},
+{nis: "1344", password: "2007-11-02", nama: "Fahmi Abidira Susilo", nisn:"0073341112", kelas: "XII-3", usernameTO: "KOT12263551", passwordTO: "SNBT3551"},
+{nis: "1353", password: "2007-11-28", nama: "Halwa Iffah Hasya", nisn:"0074685858", kelas: "XII-3", usernameTO: "KOT12263552", passwordTO: "SNBT3552"},
+{nis: "1357", password: "2008-06-22", nama: "Inomina Jasua Onthonie", nisn:"0085274104", kelas: "XII-3", usernameTO: "KOT12263553", passwordTO: "SNBT3553"},
+{nis: "1359", password: "2007-11-25", nama: "Irene Alicia Sinaga", nisn:"0073330041", kelas: "XII-3", usernameTO: "KOT12263554", passwordTO: "SNBT3554"},
+{nis: "1365", password: "2008-08-08", nama: "Kenzie Harvard Darsono", nisn:"0085516174", kelas: "XII-3", usernameTO: "KOT12263555", passwordTO: "SNBT3555"},
+{nis: "1366", password: "2008-01-31", nama: "Kevania Vanesa Nareswari", nisn:"0081246578", kelas: "XII-3", usernameTO: "KOT12263556", passwordTO: "SNBT3556"},
+{nis: "1370", password: "2008-06-14", nama: "Kiki Gerardo", nisn:"0084402265", kelas: "XII-3", usernameTO: "KOT12263557", passwordTO: "SNBT3557"},
+{nis: "1379", password: "2007-09-10", nama: "Mahendra Putra Bahari", nisn:"0073820369", kelas: "XII-3", usernameTO: "KOT12263558", passwordTO: "SNBT3558"},
+{nis: "1380", password: "2009-03-24", nama: "Malvianega Richtama Tidja", nisn:"0092539697", kelas: "XII-3", usernameTO: "KOT12263559", passwordTO: "SNBT3559"},
+{nis: "1381", password: "2008-01-14", nama: "Mario Christopher Ballo", nisn:"0083142927", kelas: "XII-3", usernameTO: "KOT12263560", passwordTO: "SNBT3560"},
+{nis: "1387", password: "2008-11-16", nama: "Muhammad Adrian Pramudya", nisn:"0084008974", kelas: "XII-3", usernameTO: "KOT12263561", passwordTO: "SNBT3561"},
+{nis: "1388", password: "2008-03-19", nama: "Muhammad Athaillah Fatih", nisn:"0084529936", kelas: "XII-3", usernameTO: "KOT12263562", passwordTO: "SNBT3562"},
+{nis: "1446", password: "2008-02-27", nama: "Muhammad Taufiqqurrahman Sanjaya", nisn:"0084683460", kelas: "XII-3", usernameTO: "KOT12263563", passwordTO: "SNBT3563"},
+{nis: "1396", password: "2007-09-27", nama: "Nadia Ramadhani Azhara Zuhri", nisn:"3074541375", kelas: "XII-3", usernameTO: "KOT12263564", passwordTO: "SNBT3564"},
+{nis: "1409", password: "2007-09-16", nama: "Nur Aflah Sabirah Ramadhani", nisn:"0076430473", kelas: "XII-3", usernameTO: "KOT12263565", passwordTO: "SNBT3565"},
+{nis: "1421", password: "2007-06-24", nama: "Renow Samudera Putra Erfianto", nisn:"0071263686", kelas: "XII-3", usernameTO: "KOT12263566", passwordTO: "SNBT3566"},
+{nis: "1430", password: "2007-10-11", nama: "Shams Fattan Ramadhan", nisn:"0073546653", kelas: "XII-3", usernameTO: "KOT12263567", passwordTO: "SNBT3567"},
+{nis: "1433", password: "2007-12-21", nama: "Stephanie Gracia Nathalia Simangunsong", nisn:"0078415222", kelas: "XII-3", usernameTO: "KOT12263568", passwordTO: "SNBT3568"},
+{nis: "1436", password: "2008-03-04", nama: "Syahira Makayla", nisn:"0088517450", kelas: "XII-3", usernameTO: "KOT12263569", passwordTO: "SNBT3569"},
+{nis: "1443", password: "2008-07-31", nama: "Zalfa Pritamasari", nisn:"0082662117", kelas: "XII-3", usernameTO: "KOT12263570", passwordTO: "SNBT3570"},
+{nis: "1294", password: "2008-05-07", nama: "Adek Bellangi Arigayo", nisn:"0085803251", kelas: "XII-4", usernameTO: "KOT12263571", passwordTO: "SNBT3571"},
+{nis: "1306", password: "2008-06-23", nama: "Andi Fawnia Khalisah Pallawagau", nisn:"0082409704", kelas: "XII-4", usernameTO: "KOT12263572", passwordTO: "SNBT3572"},
+{nis: "1318", password: "2007-07-04", nama: "Bilqis Talita Niandini", nisn:"0076207917", kelas: "XII-4", usernameTO: "KOT12263573", passwordTO: "SNBT3573"},
+{nis: "1321", password: "2007-05-22", nama: "Bintang Satya Anggara", nisn:"0075876105", kelas: "XII-4", usernameTO: "KOT12263574", passwordTO: "SNBT3574"},
+{nis: "1323", password: "2008-09-07", nama: "Cahyo Ramadhan Purnomo", nisn:"0087276038", kelas: "XII-4", usernameTO: "KOT12263575", passwordTO: "SNBT3575"},
+{nis: "1331", password: "2008-06-01", nama: "Danendra Arya Wangsa", nisn:"0089686179", kelas: "XII-4", usernameTO: "KOT12263576", passwordTO: "SNBT3576"},
+{nis: "1333", password: "2007-08-01", nama: "Davindra Rizqullah Andi Atjo", nisn:"0074483406", kelas: "XII-4", usernameTO: "KOT12263577", passwordTO: "SNBT3577"},
+{nis: "1334", password: "2007-09-08", nama: "Dellianti Putri Rachmawati", nisn:"0078128016", kelas: "XII-4", usernameTO: "KOT12263578", passwordTO: "SNBT3578"},
+{nis: "1336", password: "2007-12-04", nama: "Deswita Kirana Putri Ernanto", nisn:"0077506146", kelas: "XII-4", usernameTO: "KOT12263579", passwordTO: "SNBT3579"},
+{nis: "1339", password: "2007-08-18", nama: "Dinta Ayu Ramadhani", nisn:"0077899973", kelas: "XII-4", usernameTO: "KOT12263580", passwordTO: "SNBT3580"},
+{nis: "1351", password: "2008-04-04", nama: "Gilang Rafi Achmad", nisn:"0089490104", kelas: "XII-4", usernameTO: "KOT12263581", passwordTO: "SNBT3581"},
+{nis: "1356", password: "2008-05-11", nama: "Ibhar Rizqi Hidayatullah", nisn:"0081084430", kelas: "XII-4", usernameTO: "KOT12263582", passwordTO: "SNBT3582"},
+{nis: "1358", password: "2008-03-12", nama: "Inra Tafdila Arif", nisn:"0081088704", kelas: "XII-4", usernameTO: "KOT12263583", passwordTO: "SNBT3583"},
+{nis: "1360", password: "2008-08-06", nama: "Jaladhimantri Nala Wahyudi", nisn:"0088399094", kelas: "XII-4", usernameTO: "KOT12263584", passwordTO: "SNBT3584"},
+{nis: "1374", password: "2008-07-30", nama: "Leonardus Damario Nurcahyanto", nisn:"0085853121", kelas: "XII-4", usernameTO: "KOT12263585", passwordTO: "SNBT3585"},
+{nis: "1377", password: "2007-09-17", nama: "Made Brian Prawira", nisn:"0075784502", kelas: "XII-4", usernameTO: "KOT12263586", passwordTO: "SNBT3586"},
+{nis: "1386", password: "2008-04-05", nama: "Moh. Fahri Rozzi Abdillah", nisn:"0083570895", kelas: "XII-4", usernameTO: "KOT12263587", passwordTO: "SNBT3587"},
+{nis: "1389", password: "2007-03-13", nama: "Muhammad Daffa Alfatir Triono", nisn:"0079513850", kelas: "XII-4", usernameTO: "KOT12263588", passwordTO: "SNBT3588"},
+{nis: "1376", password: "2007-09-22", nama: "M. Faathir Fadhillah", nisn:"0076120548", kelas: "XII-4", usernameTO: "KOT12263589", passwordTO: "SNBT3589"},
+{nis: "1393", password: "2008-05-12", nama: "Muhammad Hisyam Nizar H P", nisn:"0085954680", kelas: "XII-4", usernameTO: "KOT12263590", passwordTO: "SNBT3590"},
+{nis: "1400", password: "2008-02-12", nama: "Naurelia Putri Febrianti", nisn:"0085592270", kelas: "XII-4", usernameTO: "KOT12263591", passwordTO: "SNBT3591"},
+{nis: "1408", password: "2007-09-06", nama: "Nizma Azaira Putri Prasetyo", nisn:"0072631698", kelas: "XII-4", usernameTO: "KOT12263592", passwordTO: "SNBT3592"},
+{nis: "1416", password: "2008-06-26", nama: "Raisah Delvina Putri Jalasenastri", nisn:"0089219833", kelas: "XII-4", usernameTO: "KOT12263593", passwordTO: "SNBT3593"},
+{nis: "1423", password: "2008-04-14", nama: "Rifqi Aufa Maulana", nisn:"0084376439", kelas: "XII-4", usernameTO: "KOT12263594", passwordTO: "SNBT3594"},
+{nis: "1431", password: "2007-11-27", nama: "Sischa Amelia Kusumawati", nisn:"0075650814", kelas: "XII-4", usernameTO: "KOT12263595", passwordTO: "SNBT3595"},
+{nis: "1437", password: "2007-08-04", nama: "Tirta Ayu Pramesti Putri Setiawan", nisn:"0079130438", kelas: "XII-4", usernameTO: "KOT12263596", passwordTO: "SNBT3596"},
+{nis: "1440", password: "2008-08-24", nama: "Vincentius Pramudito Agung Nugroho", nisn:"0081188075", kelas: "XII-4", usernameTO: "KOT12263597", passwordTO: "SNBT3597"},
+{nis: "1441", password: "2008-03-20", nama: "Waode Marines Maulidya Pakri", nisn:"0084174414", kelas: "XII-4", usernameTO: "KOT12263598", passwordTO: "SNBT3598"},
+{nis: "1315", password: "2007-09-03", nama: "Aurora Clarissa Lutfiandany", nisn:"0073691923", kelas: "XII-5", usernameTO: "KOT12263599", passwordTO: "SNBT3599"},
+{nis: "1332", password: "2008-03-26", nama: "Daniel Yudho Bimantoro", nisn:"0082274278", kelas: "XII-5", usernameTO: "KOT12263600", passwordTO: "SNBT3600"},
+{nis: "1338", password: "2007-09-13", nama: "Dhony Pratama Bhagaskara", nisn:"0074304257", kelas: "XII-5", usernameTO: "KOT12263601", passwordTO: "SNBT3601"},
+{nis: "1671", password: "2007-12-01", nama: "Gilbert Morlando Zefanya Sinurat", nisn:"0075050377", kelas: "XII-5", usernameTO: "KOT12263602", passwordTO: "SNBT3602"},
+{nis: "1361", password: "2009-01-19", nama: "Kaka Armanda Wierayudha", nisn:"0094277136", kelas: "XII-5", usernameTO: "KOT12263603", passwordTO: "SNBT3603"},
+{nis: "1367", password: "2008-08-07", nama: "Keyshia Aurellia", nisn:"0081576907", kelas: "XII-5", usernameTO: "KOT12263604", passwordTO: "SNBT3604"},
+{nis: "1368", password: "2008-09-26", nama: "Khalishah Umaimah Putri", nisn:"0081223699", kelas: "XII-5", usernameTO: "KOT12263605", passwordTO: "SNBT3605"},
+{nis: "1369", password: "2008-01-08", nama: "Khansa Ula Balqis Januar", nisn:"0088761371", kelas: "XII-5", usernameTO: "KOT12263606", passwordTO: "SNBT3606"},
+{nis: "1371", password: "2008-05-26", nama: "Kirani Aulia Alilatul Bariza", nisn:"0087099243", kelas: "XII-5", usernameTO: "KOT12263607", passwordTO: "SNBT3607"},
+{nis: "1372", password: "2008-11-26", nama: "Komang Divo Dharma Wijaya", nisn:"0082596024", kelas: "XII-5", usernameTO: "KOT12263608", passwordTO: "SNBT3608"},
+{nis: "1373", password: "2007-10-25", nama: "Lalu Muhammad Rayyan", nisn:"0076787451", kelas: "XII-5", usernameTO: "KOT12263609", passwordTO: "SNBT3609"},
+{nis: "1383", password: "2007-06-01", nama: "Maxemyanus Juan Hendryc Mofu", nisn:"0075090075", kelas: "XII-5", usernameTO: "KOT12263610", passwordTO: "SNBT3610"},
+{nis: "1395", password: "2007-12-15", nama: "Nabila Safira Jalasena Putri", nisn:"0073937797", kelas: "XII-5", usernameTO: "KOT12263611", passwordTO: "SNBT3611"},
+{nis: "1398", password: "2008-01-03", nama: "Naufal Arkananta", nisn:"0081466389", kelas: "XII-5", usernameTO: "KOT12263612", passwordTO: "SNBT3612"},
+{nis: "1403", password: "2008-03-06", nama: "Nayla Kanarra Az Ziqqiah", nisn:"0088396482", kelas: "XII-5", usernameTO: "KOT12263613", passwordTO: "SNBT3613"},
+{nis: "1407", password: "2008-06-02", nama: "Ni Putu Chesil Angelica Agatha Montolalu", nisn:"0088341645", kelas: "XII-5", usernameTO: "KOT12263614", passwordTO: "SNBT3614"},
+{nis: "1415", password: "2008-11-03", nama: "Rafiqa Nova Mufida", nisn:"0088901103", kelas: "XII-5", usernameTO: "KOT12263615", passwordTO: "SNBT3615"},
+{nis: "1419", password: "2008-01-25", nama: "Rasendriya Raisa Zeva Thalassa", nisn:"0074462755", kelas: "XII-5", usernameTO: "KOT12263616", passwordTO: "SNBT3616"},
+{nis: "1427", password: "2008-07-12", nama: "Safa Alzena Sakhi", nisn:"0086815533", kelas: "XII-5", usernameTO: "KOT12263617", passwordTO: "SNBT3617"},
+{nis: "1298", password: "2007-07-02", nama: "Ahmadyka Juliandra Ainurrahman", nisn:"0077165102", kelas: "XII-6", usernameTO: "KOT12263618", passwordTO: "SNBT3618"},
+{nis: "1307", password: "2008-05-06", nama: "Anjelina Permata Dewi", nisn:"0084320995", kelas: "XII-6", usernameTO: "KOT12263619", passwordTO: "SNBT3619"},
+{nis: "1308", password: "2008-03-17", nama: "Arjuna Satrio Wibowo", nisn:"0086088201", kelas: "XII-6", usernameTO: "KOT12263620", passwordTO: "SNBT3620"},
+{nis: "1316", password: "2008-01-16", nama: "Azharine Audrey Dzakirah", nisn:"0089853810", kelas: "XII-6", usernameTO: "KOT12263621", passwordTO: "SNBT3621"},
+{nis: "1319", password: "2008-08-29", nama: "Bima Endra Soebagjo", nisn:"0082788981", kelas: "XII-6", usernameTO: "KOT12263622", passwordTO: "SNBT3622"},
+{nis: "1320", password: "2008-08-03", nama: "Bintang Fadlan Firman Hasibuan", nisn:"0088165345", kelas: "XII-6", usernameTO: "KOT12263623", passwordTO: "SNBT3623"},
+{nis: "1335", password: "2008-12-20", nama: "Desella Berliana Luna Dewi", nisn:"0082443895", kelas: "XII-6", usernameTO: "KOT12263624", passwordTO: "SNBT3624"},
+{nis: "1347", password: "2007-08-19", nama: "Fernando Rusli Augusta", nisn:"0075431949", kelas: "XII-6", usernameTO: "KOT12263625", passwordTO: "SNBT3625"},
+{nis: "1355", password: "2008-05-26", nama: "I Ngurah Arya Winatha", nisn:"0087982064", kelas: "XII-6", usernameTO: "KOT12263626", passwordTO: "SNBT3626"},
+{nis: "1362", password: "2007-11-15", nama: "Kayla Krisna Auliyya Rahmah", nisn:"0072515684", kelas: "XII-6", usernameTO: "KOT12263627", passwordTO: "SNBT3627"},
+{nis: "1375", password: "2007-11-10", nama: "Lyra Viantika Nur Rohmah", nisn:"0073721060", kelas: "XII-6", usernameTO: "KOT12263628", passwordTO: "SNBT3628"},
+{nis: "1401", password: "2008-03-08", nama: "Nayaka Nirwasita Antyadiningrum", nisn:"0082554413", kelas: "XII-6", usernameTO: "KOT12263629", passwordTO: "SNBT3629"},
+{nis: "1404", password: "2008-06-13", nama: "Nayura Aleya Mukhbita", nisn:"0082229832", kelas: "XII-6", usernameTO: "KOT12263630", passwordTO: "SNBT3630"},
+{nis: "1420", password: "2008-06-27", nama: "Rasya Satria Wardana", nisn:"0088630062", kelas: "XII-6", usernameTO: "KOT12263631", passwordTO: "SNBT3631"},
+{nis: "1429", password: "2008-04-14", nama: "Sasi Kirono Satriyo Widhiandaru", nisn:"0083779183", kelas: "XII-6", usernameTO: "KOT12263632", passwordTO: "SNBT3632"},
+{nis: "1432", password: "2008-01-24", nama: "Siska Dwi Wulandari", nisn:"0084415948", kelas: "XII-6", usernameTO: "KOT12263633", passwordTO: "SNBT3633"},
+{nis: "1435", password: "2008-03-11", nama: "Syafiera Putri Nugrahizzah Nur Nataya", nisn:"0086468309", kelas: "XII-6", usernameTO: "KOT12263634", passwordTO: "SNBT3634"},
+
+    ];
+
+    let currentStudent = null;
+    let passwordVisible = false;
+
+    const defaultConfig = {
+      school_name: "SMA Negeri 1 Indonesia",
+      welcome_text: "Portal Informasi Try Out Siswa"
+    };
+
+    // Create particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const size = Math.random() * 100 + 50;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+        container.appendChild(particle);
+      }
+    }
+
+    // Login form handler
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const nis = document.getElementById('nis').value.trim();
+      const password = document.getElementById('password').value;
+      
+      const student = studentsData.find(s => s.nis === nis && s.password === password);
+      
+      if (student) {
+        currentStudent = student;
+        showDataPage();
+        document.getElementById('error-message').classList.add('hidden');
+      } else {
+        document.getElementById('error-message').classList.remove('hidden');
+        document.getElementById('error-message').classList.add('fade-in');
+      }
+    });
+
+    // Show data page
+    function showDataPage() {
+      document.getElementById('login-page').classList.add('hidden');
+      document.getElementById('data-page').classList.remove('hidden');
+      
+      // Populate data
+      document.getElementById('avatar-initial').textContent = currentStudent.nama.charAt(0);
+      document.getElementById('student-name-display').textContent = currentStudent.nama;
+      document.getElementById('student-class-display').textContent = 'Kelas ' + currentStudent.kelas;
+      document.getElementById('data-nama').textContent = currentStudent.nama;
+      document.getElementById('data-nisn').textContent = currentStudent.nisn;
+      document.getElementById('data-nis').textContent = currentStudent.nis;
+      document.getElementById('data-kelas').textContent = currentStudent.kelas;
+      document.getElementById('data-username').textContent = currentStudent.usernameTO;
+      document.getElementById('data-password-value').textContent = currentStudent.passwordTO;
+      
+      // Reset password visibility
+      passwordVisible = false;
+      document.getElementById('data-password').textContent = '••••••••';
+    }
+
+    // Logout handler
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      currentStudent = null;
+      document.getElementById('data-page').classList.add('hidden');
+      document.getElementById('login-page').classList.remove('hidden');
+      document.getElementById('login-form').reset();
+      document.getElementById('error-message').classList.add('hidden');
+    });
+
+    // Toggle password visibility
+    function togglePassword() {
+      passwordVisible = !passwordVisible;
+      const passwordDisplay = document.getElementById('data-password');
+      const passwordValue = document.getElementById('data-password-value').textContent;
+      const eyeIcon = document.getElementById('eye-icon');
+      
+      if (passwordVisible) {
+        passwordDisplay.textContent = passwordValue;
+        eyeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>';
+      } else {
+        passwordDisplay.textContent = '••••••••';
+        eyeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>';
+      }
+    }
+
+    // Copy to clipboard
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Berhasil disalin ke clipboard!');
+      }).catch(() => {
+        showToast('Gagal menyalin');
+      });
+    }
+
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = message;
+      toast.classList.remove('hidden');
+      
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2500);
+    }
+
+    // Element SDK integration
+    async function onConfigChange(config) {
+      const schoolName = config.school_name || defaultConfig.school_name;
+      const welcomeText = config.welcome_text || defaultConfig.welcome_text;
+      
+      document.getElementById('school-name').textContent = schoolName;
+      document.getElementById('header-school-name').textContent = schoolName;
+      document.getElementById('welcome-text').textContent = welcomeText;
+    }
+
+    // Initialize
+    createParticles();
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["school_name", config.school_name || defaultConfig.school_name],
+          ["welcome_text", config.welcome_text || defaultConfig.welcome_text]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c2256d4b5f8252c',t:'MTc2OTExOTM4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

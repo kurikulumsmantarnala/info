@@ -499,13 +499,13 @@ const reader = new FileReader();
         showToast('error', 'Foto Diperlukan', 'Silakan ambil foto kegiatan terlebih dahulu.');
         return;
       }
-
-      const namaPelatih = document.getElementById('nama-pelatih').value.trim();
+      const pelatihChecked = document.querySelectorAll('input[name="nama-pelatih[]"]:checked');
+      const namaPelatih = Array.from(pelatihChecked).map(cb => cb.value);
       const namaEkskul = document.getElementById('nama-ekskul').value;
       const tanggal = document.getElementById('tanggal').value;
       const materi = document.getElementById('materi').value.trim();
 
-      if (!namaPelatih || !namaEkskul || !tanggal || !materi) {
+      if (namaPelatih.length === 0 || !namaEkskul || !tanggal || !materi) {
         showToast('error', 'Data Tidak Lengkap', 'Mohon lengkapi semua field yang diperlukan.');
         return;
       }
@@ -523,13 +523,14 @@ const reader = new FileReader();
 
       // Prepare data
       const formData = {
-        timestamp: timestamp,
-        namaPelatih: namaPelatih,
-        namaEkskul: namaEkskul,
-        tanggal: tanggal,
-        materi: materi,
-        foto: photoData
-      };
+      timestamp: timestamp,
+      namaPelatih: namaPelatih.join(', '), // jadi string rapi
+      namaEkskul: namaEkskul,
+      tanggal: tanggal,
+      materi: materi,
+     foto: photoData
+	};
+
 
       // Show loading state
       btnSubmit.disabled = true;

@@ -351,29 +351,44 @@
     }
 
     function capturePhoto() {
-      const canvas = photoCanvas;
-      const video = cameraPreview;
-      
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0);
-      
-      photoData = canvas.toDataURL('image/jpeg', 0.8);
-      fotoDataInput.value = photoData;
-      
-      photoPreview.src = photoData;
-      
-      stopCamera();
-      
-      cameraPreview.classList.add('hidden');
-      photoPreview.classList.remove('hidden');
-      
-      btnCapture.classList.add('hidden');
-      btnSwitchCamera.classList.add('hidden');
-      btnRetake.classList.remove('hidden');
-    }
+  const canvas = photoCanvas;
+  const video = cameraPreview;
+  const ctx = canvas.getContext('2d');
+
+  const vw = video.videoWidth;
+  const vh = video.videoHeight;
+
+  // Jika kamera mengirim portrait (umum di HP)
+  if (vh > vw) {
+    canvas.width = vh;
+    canvas.height = vw;
+
+    ctx.save();
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(90 * Math.PI / 180);
+    ctx.drawImage(video, -vw / 2, -vh / 2, vw, vh);
+    ctx.restore();
+  } else {
+    // Normal landscape (laptop / webcam)
+    canvas.width = vw;
+    canvas.height = vh;
+    ctx.drawImage(video, 0, 0, vw, vh);
+  }
+
+  photoData = canvas.toDataURL('image/jpeg', 0.8);
+  fotoDataInput.value = photoData;
+
+  photoPreview.src = photoData;
+
+  stopCamera();
+
+  cameraPreview.classList.add('hidden');
+  photoPreview.classList.remove('hidden');
+
+  btnCapture.classList.add('hidden');
+  btnSwitchCamera.classList.add('hidden');
+  btnRetake.classList.
+
 
     function retakePhoto() {
       photoData = null;

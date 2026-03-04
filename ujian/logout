@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Logout - PIN Pengawas</title>
+
+<style>
+body {
+    font-family: Arial;
+    text-align: center;
+    margin-top: 100px;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#error {
+    color: red;
+    margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<h2>ANDA TELAH KELUAR DARI UJIAN</h2>
+<p>Masukkan PIN Pengawas untuk melanjutkan</p>
+
+<input type="password" id="pinInput" placeholder="Masukkan PIN">
+<br>
+<button onclick="checkPIN()">Masuk Kembali</button>
+
+<div id="error"></div>
+
+<script>
+
+// ===========================
+// UBAH PIN DI SINI
+// ===========================
+const adminPIN = "12345";  // <-- GANTI PIN DI SINI
+
+function checkPIN() {
+    const input = document.getElementById("pinInput").value;
+
+    if (input === adminPIN) {
+        window.location.href = "index.html";
+    } else {
+        document.getElementById("error").innerText = "PIN salah!";
+    }
+}
+
+</script>
+
+</body>
+</html>

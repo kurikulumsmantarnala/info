@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistem Ujian Online</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    width: 450px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.school-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.exam-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.rules {
+    font-size: 14px;
+    text-align: left;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+button {
+    padding: 14px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background: #00c6ff;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(0, 114, 255, 0.6);
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+iframe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="card" id="startScreen">
+    <div class="school-title">SMA NEGERI TARUNA NALA JAWA TIMUR</div>
+    <div class="exam-title">SISTEM UJIAN ONLINE</div>
+
+    <div class="rules">
+        • Ujian harus dalam mode fullscreen<br>
+        • Dilarang membuka aplikasi lain<br>
+        • Jika keluar dari halaman, sistem akan logout otomatis<br>
+        • Hubungi pengawas jika terjadi kendala untuk meminta PIN
+    </div>
+
+    <button onclick="startExam()">Mulai Ujian</button>
+
+    <footer>
+        © 2026 Kurikulum SMAN Taruna Nala Jawa Timur
+    </footer>
+</div>
+
+<iframe id="examFrame" src="http://192.168.49.30/"></iframe>
+
+<script>
+
+function startExam() {
+    const elem = document.documentElement;
+
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    }
+
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("examFrame").style.display = "block";
+}
+
+
+
+// =========================
+// AUTO LOGOUT
+// =========================
+function autoLogout() {
+    window.location.href = "logout.html";
+}
+
+// Keluar fullscreen = logout
+document.addEventListener("fullscreenchange", function() {
+    if (!document.fullscreenElement) {
+        autoLogout();
+    }
+	
+});
+
+
+
+
+// Pindah tab / minimize = logout
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        autoLogout();
+    }
+	if (e.altKey && e.key === "Tab") {
+        autoLogout();
+	}
+});
+
+// Disable klik kanan
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+</script>
+
+</body>
+</html>

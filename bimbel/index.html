@@ -340,11 +340,14 @@
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full m-0 p-0">
-  <div id="app-wrapper" class="app-bg w-full h-full overflow-auto"><!-- Toast Container -->
+  <div id="app-wrapper" class="app-bg w-full h-full overflow-auto">
+   <!-- Toast Container -->
    <div id="toast-container" class="toast-container"></div>
-   <div class="w-full max-w-2xl mx-auto px-4 py-8"><!-- Header Section -->
+   <div class="w-full max-w-2xl mx-auto px-4 py-8">
+    <!-- Header Section -->
     <header class="text-center mb-8 fade-in stagger-1">
-     <div class="flex justify-center mb-4"><img src="https://kurikulumsmantarnala.github.io/info/smantar.png" alt="Logo SMA Negeri Taruna Nala Jawa Timur" class="w-24 h-24 logo-glow rounded-full object-contain bg-white/10 p-1" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='rgba(255,255,255,0.15)'; this.alt='Logo tidak tersedia'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center';">
+     <div class="flex justify-center mb-4">
+      <img src="https://kurikulumsmantarnala.github.io/info/smantar.png" alt="Logo SMA Negeri Taruna Nala Jawa Timur" class="w-24 h-24 logo-glow rounded-full object-contain bg-white/10 p-1" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='rgba(255,255,255,0.15)'; this.alt='Logo tidak tersedia'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center';">
      </div>
      <h1 id="judul-sekolah" class="heading-font text-2xl md:text-3xl font-bold text-white mb-2 tracking-wide">SMA Negeri Taruna Nala Jawa Timur</h1>
      <h2 id="subjudul" class="text-base md:text-lg font-medium text-white/80 tracking-wider uppercase">Pendaftaran Bimbel Persiapan Study Lanjut</h2>
@@ -352,31 +355,36 @@
     </header><!-- Info Card -->
     <div class="glass-card rounded-2xl p-5 mb-6 fade-in stagger-2">
      <div class="flex items-start gap-3">
-      <div class="flex-shrink-0 mt-1"><i data-lucide="info" class="w-5 h-5 text-white/80"></i>
+      <div class="flex-shrink-0 mt-1">
+       <i data-lucide="info" class="w-5 h-5 text-white/80"></i>
       </div>
-      <p id="keterangan-awal" class="text-white/90 text-sm leading-relaxed">Bagi Bapak/Ibu yang berminat mendaftarkan putra/putrinya untuk mengikuti bimbingan belajar Master Prima/Psikologi Pak Prabowo silahkan menuliskan pada formulir berikut. <strong>Apabila mendaftar keduanya</strong>, silahkan mengisi formulir 2 kali sesuai dengan pilihan bimbel masing-masing.</p>
+      <p id="keterangan-awal" class="text-white/90 text-sm leading-relaxed">Bagi Bapak/Ibu yang berminat mendaftarkan putra/putrinya untuk mengikuti bimbingan belajar Master Prima/Psikologi Pak Prabowo silahkan menuliskan pada formulir berikut. Apabila mendaftar keduanya, silahkan mengisi formulir 2 kali sesuai dengan pilihan bimbel masing-masing.</p>
      </div>
     </div><!-- Form Section -->
-    <form id="registration-form" class="glass-card rounded-2xl p-6 md:p-8 mb-6"><!-- Pilihan Bimbel -->
-     <div class="mb-5 fade-in stagger-3"><label for="pilihan-bimbel" class="block text-white/90 font-semibold text-sm mb-2"> <i data-lucide="book-open" class="w-4 h-4 inline-block mr-1 -mt-0.5"></i> Pilihan Bimbel </label> <select id="pilihan-bimbel" class="glass-input w-full px-4 py-3 rounded-xl text-sm appearance-none" required> <option value="" disabled selected>-- Pilih Bimbel --</option> <option value="Master Prima">Master Prima</option> <option value="Bimbel Psikologi Pak Prabowo">Bimbel Psikologi Pak Prabowo</option> </select>
+    <form id="registration-form" class="glass-card rounded-2xl p-6 md:p-8 mb-6">
+     <!-- Pilihan Bimbel -->
+     <div class="mb-5 fade-in stagger-3">
+      <label for="pilihan-bimbel" class="block text-white/90 font-semibold text-sm mb-2"> <i data-lucide="book-open" class="w-4 h-4 inline-block mr-1 -mt-0.5"></i> Pilihan Bimbel </label> <select id="pilihan-bimbel" class="glass-input w-full px-4 py-3 rounded-xl text-sm appearance-none" required> <option value="" disabled selected>-- Pilih Bimbel --</option> <option value="Master Prima">Master Prima</option> <option value="Bimbel Psikologi Pak Prabowo">Bimbel Psikologi Pak Prabowo</option> </select>
      </div><!-- Nama Siswa -->
-     <div class="mb-5 fade-in stagger-4 relative" id="nama-wrapper"><label for="nama-siswa" class="block text-white/90 font-semibold text-sm mb-2"> <i data-lucide="user" class="w-4 h-4 inline-block mr-1 -mt-0.5"></i> Nama Siswa </label> <input type="text" id="nama-siswa" placeholder="Ketik inisial nama siswa..." class="glass-input w-full px-4 py-3 rounded-xl text-sm" autocomplete="off" required>
+     <div class="mb-5 fade-in stagger-4 relative" id="nama-wrapper">
+      <label for="nama-siswa" class="block text-white/90 font-semibold text-sm mb-2"> <i data-lucide="user" class="w-4 h-4 inline-block mr-1 -mt-0.5"></i> Nama Siswa </label> <input type="text" id="nama-siswa" placeholder="Ketik inisial nama siswa..." class="glass-input w-full px-4 py-3 rounded-xl text-sm" autocomplete="off" required>
       <div id="suggestion-list" class="suggestion-list"></div>
       <p class="text-white/50 text-xs mt-1.5 mb-5">Ketik inisial untuk mencari nama siswa</p>
-     </div>
-
-
-<!-- Kelas -->
-     <div class="mb-5 fade-in stagger-5"><label for="kelas" class="block text-white/90 font-semibold text-sm mb-2"> <i data-lucide="school" class="w-4 h-4 inline-block mr-1 -mt-0.5"></i> Kelas </label> <select id="kelas" class="glass-input w-full px-4 py-3 rounded-xl text-sm appearance-none" required> <option value="" disabled selected>-- Pilih Kelas --</option> <option value="XII-1">XII-1</option> <option value="XII-2">XII-2</option> <option value="XII-3">XII-3</option> <option value="XII-4">XII-4</option> <option value="XII-5">XII-5</option> <option value="XII-6">XII-6</option> </select>
+     </div><!-- Kelas -->
+     <div class="mb-5 fade-in stagger-5">
+      <label for="kelas" class="block text-white/90 font-semibold text-sm mb-2"> <i data-lucide="school" class="w-4 h-4 inline-block mr-1 -mt-0.5"></i> Kelas </label> <select id="kelas" class="glass-input w-full px-4 py-3 rounded-xl text-sm appearance-none" required> <option value="" disabled selected>-- Pilih Kelas --</option> <option value="XII-1">XII-1</option> <option value="XII-2">XII-2</option> <option value="XII-3">XII-3</option> <option value="XII-4">XII-4</option> <option value="XII-5">XII-5</option> <option value="XII-6">XII-6</option> </select>
      </div>
 
 
 <!-- Upload Bukti Pembayaran -->
-     <div class="mb-6 fade-in stagger-6"><label class="block text-white/90 font-semibold text-sm mb-2"> <i data-lucide="upload" class="w-4 h-4 inline-block mr-1 -mt-0.5"></i> Unggah Bukti Pembayaran </label>
-      <div id="payment-info" class="glass-card rounded-lg p-3 mb-3 text-sm text-white/80"></div>
-      <div id="file-drop-zone" class="file-drop-zone rounded-xl p-6 text-center"><input type="file" id="file-input" accept="image/*" capture="environment" class="hidden">
-       <div id="upload-placeholder"><i data-lucide="camera" class="w-10 h-10 text-white/50 mx-auto mb-3"></i>
-        <p class="text-white/70 text-sm font-medium mb-1">Ketuk untuk foto atau pilih file</p>
+     <div class="mb-6 fade-in stagger-6">
+      <label class="block text-white/90 font-semibold text-sm mb-2"> <i data-lucide="upload" class="w-4 h-4 inline-block mr-1 -mt-0.5"></i> Unggah Bukti Pembayaran </label>
+      <div id="payment-info" class="glass-card rounded-lg p-3 mb-3 text-sm text-white/80"></div><!-- Upload Options -->
+      <div id="upload-options" class="flex gap-3 mb-4"><button type="button" id="btn-upload-file" class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-semibold transition-colors border border-white/20"> <i data-lucide="folder-open" class="w-4 h-4"></i> Pilih File </button> <button type="button" id="btn-take-photo" class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-semibold transition-colors border border-white/20"> <i data-lucide="camera" class="w-4 h-4"></i> Ambil Foto </button>
+      </div><!-- Upload Zone -->
+      <div id="file-drop-zone" class="file-drop-zone rounded-xl p-6 text-center"><input type="file" id="file-input" accept="image/*" class="hidden"> <input type="file" id="camera-input" accept="image/*" capture="environment" class="hidden">
+       <div id="upload-placeholder"><i data-lucide="upload" class="w-10 h-10 text-white/50 mx-auto mb-3"></i>
+        <p class="text-white/70 text-sm font-medium mb-1">Drag file ke sini atau gunakan tombol di atas</p>
         <p class="text-white/40 text-xs">Format: JPG, PNG, HEIC</p>
        </div>
        <div id="upload-preview" class="hidden"><img id="preview-image" class="preview-img mx-auto mb-2" alt="Preview bukti pembayaran">
@@ -384,7 +392,8 @@
        </div>
       </div>
      </div><!-- Submit Button -->
-     <div class="fade-in stagger-7"><button type="submit" id="submit-btn" class="submit-btn w-full py-3.5 rounded-xl font-bold text-base tracking-wide flex items-center justify-center gap-2"> <i data-lucide="send" class="w-5 h-5"></i> <span id="submit-text">Kirim Pendaftaran</span> </button>
+     <div class="fade-in stagger-7">
+      <button type="submit" id="submit-btn" class="submit-btn w-full py-3.5 rounded-xl font-bold text-base tracking-wide flex items-center justify-center gap-2"> <i data-lucide="send" class="w-5 h-5"></i> <span id="submit-text">Kirim Pendaftaran</span> </button>
      </div>
     </form><!-- Registered List -->
     <div id="registered-section" class="glass-card rounded-2xl p-6 mb-6 hidden">
@@ -400,21 +409,155 @@
   <script>
     // ========== DATABASE SISWA ==========
     const DATABASE_SISWA = [
-      "Achmad Rizky Pratama", "Adelia Putri Ramadhani", "Agus Setiawan", "Aisyah Nur Hidayah",
-      "Aldo Pratama Putra", "Amelia Sari Dewi", "Andi Firmansyah", "Anisa Rahma Wati",
-      "Bagas Dwi Cahyo", "Bagus Saputra", "Bella Oktaviani", "Bima Arya Nugraha",
-      "Cahya Ningrum", "Candra Wijaya", "Cindy Aulia", "Dafa Ardiansyah",
-      "Dani Kurniawan", "Dea Ananda Putri", "Devi Lestari", "Dhimas Aditya",
-      "Eka Prasetyo", "Elsa Maharani", "Evan Maulana", "Fadhil Rahman",
-      "Fani Amelia", "Farhan Nugroho", "Fauzan Hakim", "Galuh Candra Kirana",
-      "Gilang Ramadhan", "Hana Safitri", "Hendra Gunawan", "Ika Nur Fitriani",
-      "Ilham Maulana", "Indah Permata Sari", "Irfan Habibi", "Jasmine Azzahra",
-      "Kevin Anggara", "Laila Nur Aini", "Luthfi Hakim", "Maharani Putri",
-      "Muhammad Farel", "Nabila Zahra", "Nadia Kusuma", "Naufal Ghifari",
-      "Novia Rahmawati", "Oscar Julio", "Putri Ayu Lestari", "Rafi Aditya",
-      "Rani Kartika", "Rizki Amalia", "Salsabila Putri", "Surya Adi Pratama",
-      "Tania Dewi", "Umar Faruq", "Vina Oktaviani", "Wahyu Hidayat",
-      "Wulan Dari", "Yusuf Maulana", "Zahra Aulia Putri", "Zidan Alfarizi"
+      "ADINDA NOVITA PUTRI FADILLAH", 
+"AHMAD ROYYAN AL-FIKRI", 
+"A'IDAH PUTRI NABILAH SUPENDI", 
+"B'TARI SAGITA MAHESWARI", 
+"EZRA NALA ARGANTARA", 
+"FADHILA SALMA KAMILA ZAHRANI", 
+"FATAR SATRIO PANINGIT", 
+"FIRLI ASHFI HANI", 
+"FITRI", 
+"GHALIYA FALISHABINA SULAIMAN", 
+"KEISCHA SIERRALOVA FATAHILAH", 
+"KEISYA KHUMAIROH TIYANING ATMUKO", 
+"MAULANA RIZQI HERMAWAN", 
+"MIKA ZAHRAN RAZZAQ", 
+"MOCH AGUNG LAKSANA PUTRA", 
+"MUHAMMAD EDWIN ALDRIN RAHMANI", 
+"MUTIARA UMROTUS CANTIKA", 
+"NAURA REIKO NAQUITA", 
+"RADITHYA ARDHI PRATAMA", 
+"RAFA FADHIL RAMADHAN", 
+"RAMADHANSYAH APTA KUSUMA CANDRA", 
+"REVALINA LAURA FEBRIANTI", 
+"RYO FEBRI ZHAFIRIN", 
+"SURYANING SARI", 
+"VALENTINO AFINZA GUSTI DWI SAPUTRA S.W.", 
+"YUNDA ARVIN ATHIYYA IRAWAN", 
+"ZHAFRAN IJLAL WACHGI", 
+"AHADINA ZAIMIRA", 
+"ALBY DHAFFA ARIO MARSHADA", 
+"ALEXANDER AXELL TRISTAN GERALDO (K)", 
+"ALIF FATH IBRAHIMOVIC ALBANI", 
+"AMANDA AURELYA SUSANTO", 
+"ARLYA SALSABILLA PUTRI MARGONO", 
+"ARVIN BAHTIAR SUKMONO", 
+"AULIA RAHMA", 
+"AURELLIA PRADIPA MAHESWARI", 
+"CHESTA ADABI SUTILISTIO", 
+"CLARISSA EVELINA DANESHWARI", 
+"EGAN BRAMARA NAYOTTAMA (KP)", 
+"FARREL IHZA MAULANA", 
+"GRACIA RIGEL BELLADONA (K)", 
+"HILMY ARFIANTO FAHREZI", 
+"MAHARDIKA SYAFFADI PUTRA", 
+"MUHAMMAD FARREL HAZELLOVA SENNAPUTRA", 
+"MUHAMMAD RAFFAEARL ALRYADI", 
+"NAYLA APRILIA NAOMIRA", 
+"NELSON LIONELL EDRICH PRAMONO (KP)", 
+"NI NYOMAN AYU CITRA PERMATA DEWI (H)", 
+"QOWIYUL AULIA", 
+"RAFAEL DIANDRA PAKUSADEWA (K)", 
+"RAMDANIA HILALA ARDELIANSYAH", 
+"R.R NADIA MUSTIKA RADITIANINGRUM", 
+"SAELY MASAYU", 
+"SALSABILA RAHAYU EFFENDI", 
+"VIARA DEVITA KIRANI", 
+"ZAYYAN RABBANI AL HAQQI", 
+"ANDI AMIRAH ALIA BADARUDDIN", 
+"ARTIKA ALIN KIRANIA", 
+"AURELLIA HAFIZAH PUTRI", 
+"BATRISYA MIRANTI NARESWARI", 
+"CALVIN MAULANA MIKO RAHMAPUTRA", 
+"CHARISSA MEYQUENA JUANITA", 
+"CLAUDIA RAISYA PUTRI", 
+"DHINANTI TALITA ZAKIYAH", 
+"DZAKIRAH PUTERI NARESWARI", 
+"FAHMI ABIDIRA SUSILO", 
+"HALWA IFFAH HASYA", 
+"INOMINA JASUA ONTHONIE (KP)", 
+"IRENE ALICIA SINAGA (KP)", 
+"KENZIE HARVARD DARSONO", 
+"KEVANIA VANESA NARESWARI (H)", 
+"KIKI GERARDO (KP)", 
+"MAHENDRA PUTRA BAHARI", 
+"MALVIANEGA RICHTAMA TIDJA (KP)", 
+"MARIO CHRISTOPHER BALLO (KP)", 
+"MUHAMMAD ADRIAN PRAMUDYA", 
+"MUHAMMAD ATHAILLAH FATIH", 
+"MUHAMMAD TAUFIQQURRAHMAN SANJAYA", 
+"NADIA RAMADHANI AZHARA ZUHRI", 
+"NUR AFLAH SABIRAH RAMADHANI", 
+"RENOW SAMUDERA PUTRA ERFIANTO", 
+"SHAMS FATTAN RAMADHAN", 
+"STEPHANIE GRACIA NATHALIA SIMANGUNSONG (KP)", 
+"SYAHIRA MAKAYLA", 
+"ZALFA PRITAMASARI", 
+"ADEK BELLANGI ARIGAYO", 
+"ANDI FAWNIA KHALISAH PALLAWAGAU", 
+"BILQIS TALITA NIANDINI", 
+"BINTANG SATYA ANGGARA", 
+"CAHYO RAMADHAN PURNOMO", 
+"DANENDRA ARYA WANGSA", 
+"DAVINDRA RIZQULLAH ANDI ATJO", 
+"DELLIANTI PUTRI RACHMAWATI", 
+"DESWITA KIRANA PUTRI ERNANTO", 
+"DINTA AYU RAMADHANI", 
+"GILANG RAFI ACHMAD", 
+"IBHAR RIZQI HIDAYATULLAH", 
+"INRA TAFDILA ARIF", 
+"JALADHIMANTRI NALA WAHYUDI", 
+"LEONARDUS DAMARIO NURCAHYANTO (K)", 
+"MADE BRIAN PRAWIRA (H)", 
+"MOH. FAHRI ROZZI ABDILLAH", 
+"MUHAMMAD DAFFA ALFATIR TRIONO", 
+"M. FAATHIR FADHILLAH", 
+"MUHAMMAD HISYAM NIZAR H P", 
+"NAURELIA PUTRI FEBRIANTI", 
+"NIZMA AZAIRA PUTRI PRASETYO", 
+"RAISAH DELVINA PUTRI JALASENASTRI", 
+"RIFQI AUFA MAULANA", 
+"SISCHA AMELIA KUSUMAWATI", 
+"TIRTA AYU PRAMESTI PUTRI SETIAWAN", 
+"VINCENTIUS PRAMUDITO AGUNG NUGROHO (K)", 
+"WAODE MARINES MAULIDYA PAKRI", 
+"AURORA CLARISSA LUTFIANDANY", 
+"DANIEL YUDHO BIMANTORO (KP)", 
+"DHONY PRATAMA BHAGASKARA", 
+"GILBERT MORLANDO ZEFANYA SINURAT (KP)", 
+"KAKA ARMANDA WIERAYUDHA", 
+"KEYSHIA AURELLIA", 
+"KHALISHAH UMAIMAH PUTRI", 
+"KHANSA ULA BALQIS JANUAR", 
+"KIRANI AULIA ALILATUL BARIZA", 
+"KOMANG DIVO DHARMA WIJAYA(H)", 
+"LALU MUHAMMAD RAYYAN", 
+"MAXEMYANUS JUAN HENDRYC MOFU (KP)", 
+"NABILA SAFIRA JALASENA PUTRI", 
+"NAUFAL ARKANANTA", 
+"NAYLA KANARRA AZ ZIQQIAH", 
+"NI PUTU CHESIL ANGELICA AGATHA MONTOLALU (KP)", 
+"RAFIQA NOVA MUFIDA", 
+"RASENDRIYA RAISA ZEVA THALASSA", 
+"SAFA ALZENA SAKHI", 
+"AHMADYKA JULIANDRA AINURRAHMAN", 
+"ANJELINA PERMATA DEWI", 
+"ARJUNA SATRIO WIBOWO", 
+"AZHARINE AUDREY DZAKIRAH", 
+"BIMA ENDRA SOEBAGJO", 
+"BINTANG FADLAN FIRMAN HASIBUAN", 
+"DESELLA BERLIANA LUNA DEWI", 
+"FERNANDO RUSLI AUGUSTA", 
+"I NGURAH ARYA WINATHA (H)", 
+"KAYLA KRISNA AULIYYA RAHMAH", 
+"LYRA VIANTIKA NUR ROHMAH", 
+"NAYAKA NIRWASITA ANTYADININGRUM", 
+"NAYURA ALEYA MUKHBITA", 
+"RASYA SATRIA WARDANA", 
+"SASI KIRONO SATRIYO WIDHIANDARU", 
+"SISKA DWI WULANDARI", 
+"SYAFIERA PUTRI NUGRAHIZZAH NUR NATAYA"
     ];
 
     // ========== STATE ==========
@@ -541,6 +684,7 @@
       }
     }
 
+
     bimbelSelect.addEventListener('change', function() {
       appWrapper.classList.remove('theme-masterprime', 'theme-prabowo');
       if (this.value === 'Master Prima') {
@@ -625,12 +769,19 @@
 
     // ========== FILE UPLOAD ==========
     const fileInput = document.getElementById('file-input');
+    const cameraInput = document.getElementById('camera-input');
+    const btnUploadFile = document.getElementById('btn-upload-file');
+    const btnTakePhoto = document.getElementById('btn-take-photo');
     const dropZone = document.getElementById('file-drop-zone');
     const uploadPlaceholder = document.getElementById('upload-placeholder');
     const uploadPreview = document.getElementById('upload-preview');
     const previewImage = document.getElementById('preview-image');
     const fileName = document.getElementById('file-name');
     const removeFileBtn = document.getElementById('remove-file-btn');
+
+    // Button event listeners
+    btnUploadFile.addEventListener('click', () => fileInput.click());
+    btnTakePhoto.addEventListener('click', () => cameraInput.click());
 
     dropZone.addEventListener('click', () => fileInput.click());
 
@@ -657,6 +808,12 @@
       }
     });
 
+    cameraInput.addEventListener('change', () => {
+      if (cameraInput.files.length > 0) {
+        handleFile(cameraInput.files[0]);
+      }
+    });
+
     function handleFile(file) {
       if (!file.type.startsWith('image/')) {
         showToast('Hanya file gambar yang diperbolehkan', 'error');
@@ -678,6 +835,7 @@
       e.stopPropagation();
       selectedFile = null;
       fileInput.value = '';
+      cameraInput.value = '';
       uploadPlaceholder.classList.remove('hidden');
       uploadPreview.classList.add('hidden');
       dropZone.classList.remove('has-file');
@@ -758,7 +916,7 @@
           formData.append('file_base64', fileBase64);
           formData.append('file_name', selectedFile.name);
 
-          const gasResponse = await fetch('https://script.google.com/macros/s/AKfycbwFn5zeMekqbkZx2nhYVVfpcjrMz-SMDK_X7w2InF6kCZPRhlwaaGKo9K51zB12SOMr/exec', {
+          const gasResponse = await fetch('https://script.google.com/macros/s/AKfycbyze15seBqm8dh8JE8CKmXMKmUm6xJ7LW45DaIgkvg0BXOBny5CWWhVnNdhjyp-uqE1/exec', {
             method: 'POST',
             body: formData
           });
@@ -989,5 +1147,5 @@
     // Init Lucide
     lucide.createIcons();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e0bed1c67ad6d1c',t:'MTc3NDI1MzA3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e0c42b7c0386d1c',t:'MTc3NDI1NjU4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

@@ -916,7 +916,7 @@
           formData.append('file_base64', fileBase64);
           formData.append('file_name', selectedFile.name);
 
-          const gasResponse = await fetch('https://script.google.com/macros/s/AKfycbyze15seBqm8dh8JE8CKmXMKmUm6xJ7LW45DaIgkvg0BXOBny5CWWhVnNdhjyp-uqE1/exec', {
+          const gasResponse = await fetch('https://script.google.com/macros/s/AKfycbxTC388t_iccBxT4TZU3lHYZcuJ6-W2YEToN6iIRou4JvrPUwIKKDiqiYXRnaq5iDtr/exec', {
             method: 'POST',
             body: formData
           });
@@ -976,7 +976,7 @@
     // 📊 DATABASE DAFTAR PENDAFTAR TERSIMPAN DI:
     // - BROWSER: localStorage dengan key "__canva_data_store__"
     // - GOOGLE SHEETS: Via Google Apps Script (GAS) di:
-    //   https://script.google.com/macros/s/AKfycbyze15seBqm8dh8JE8CKmXMKmUm6xJ7LW45DaIgkvg0BXOBny5CWWhVnNdhjyp-uqE1/exec
+    //   https://script.google.com/macros/s/AKfycbxTC388t_iccBxT4TZU3lHYZcuJ6-W2YEToN6iIRou4JvrPUwIKKDiqiYXRnaq5iDtr/exec
     // - CANVA SHEET: Data SDK menyimpan data di Canva Sheet Anda (klik tombol "Data" di editor Canva)
     //
     // Untuk melihat semua data pendaftar:

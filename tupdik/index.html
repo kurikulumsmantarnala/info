@@ -275,7 +275,17 @@
        <div id="suggestionsPlaceholder" class="min-h-0"></div>
       </div><!-- Kelas -->
       <div class="mb-6 animate-slide-up delay-300">
-       <label class="label-modern mb-3 flex items-center gap-2" for="kelas"> <i data-lucide="book-open" style="width:16px;height:16px;"></i> Kelas <span class="text-red-400">*</span> </label> <select id="kelas" required class="input-field w-full rounded-xl px-4 py-3 text-slate focus:outline-none transition-all appearance-none cursor-pointer" style="background-image: url('data:image/svg+xml;utf8,<svg fill=\" %2306b6d4\ viewbox="\&quot;0" 0 24 24\ xmlns="\&quot;http://www.w3.org/2000/svg\&quot;">'); background-repeat: no-repeat; background-position: right 12px center; background-size: 20px; padding-right: 36px;"&gt; <option value="" disabled selected class="text-slate/40">Pilih Kelas</option> <option value="XII-1">XII-1</option> <option value="XII-2">XII-2</option> <option value="XII-3">XII-3</option> <option value="XII-4">XII-4</option> <option value="XII-5">XII-5</option> <option value="XII-6">XII-6</option> </select>
+       <label class="label-modern mb-3 flex items-center gap-2" for="kelas"> <i data-lucide="book-open" style="width:16px;height:16px;"></i> Kelas <span class="text-red-400">*</span> </label> 
+
+<select id="kelas" required class="input-field w-full rounded-xl px-4 py-3 text-slate focus:outline-none transition-all">
+  <option value="" disabled selected class="text-slate/40">Pilih Kelas</option>
+  <option value="XII-1">XII-1</option>
+  <option value="XII-2">XII-2</option>
+  <option value="XII-3">XII-3</option>
+  <option value="XII-4">XII-4</option>
+  <option value="XII-5">XII-5</option>
+  <option value="XII-6">XII-6</option>
+</select>
       </div><!-- Konfirmasi Kehadiran Tupdik -->
       <div class="mb-6 animate-slide-up delay-400">
        <label class="label-modern mb-4 flex items-center gap-2"> <i data-lucide="check-circle" style="width:16px;height:16px;"></i> Konfirmasi Kehadiran Tupdik <span class="text-red-400">*</span> </label>
@@ -315,6 +325,24 @@
        <div id="tanggalSection" class="hidden">
         <label class="label-modern mb-3 text-xs">Pilih Tanggal Kedatangan <span class="text-red-400">*</span></label> <input type="date" id="tanggalKedatangan" class="input-field w-full rounded-xl px-4 py-3 text-slate focus:outline-none transition-all">
        </div>
+
+
+
+
+ </div><!-- Surat Pernyataan (conditional) -->
+      <div id="suratSection" class="mb-6 hidden animate-slide-up delay-500"><label class="label-modern mb-4 flex items-center gap-2"> <i data-lucide="file-text" style="width:16px;height:16px;"></i> Surat Pernyataan Orangtua <span class="text-red-400">*</span> </label>
+       <p class="text-slate/60 text-sm mb-4">Unggah surat pernyataan orangtua tidak mengikuti Tupdik</p>
+       <div class="grid grid-cols-2 gap-3 mb-4"><button type="button" id="uploadGalleryBtn" class="flex items-center justify-center gap-2 bg-slate/10 hover:bg-slate/20 border border-slate/30 rounded-xl py-3 px-4 text-slate text-sm font-semibold transition-all"> <i data-lucide="image" style="width:18px;height:18px;"></i> Pilih dari Galeri </button> <button type="button" id="uploadCameraBtn" class="flex items-center justify-center gap-2 bg-slate/10 hover:bg-slate/20 border border-slate/30 rounded-xl py-3 px-4 text-slate text-sm font-semibold transition-all"> <i data-lucide="camera" style="width:18px;height:18px;"></i> Ambil Foto </button>
+       </div><input type="file" id="fileInput" class="hidden" accept="image/jpeg,image/png,image/jpg,application/pdf"> <input type="file" id="cameraInput" class="hidden" accept="image/*" capture="environment"> <input type="hidden" id="suratPernyataan">
+       <div id="filePreviewContainer" class="hidden bg-slate/10 border border-slate/30 rounded-xl p-4 relative">
+        <div id="filePreview" class="flex flex-col items-center justify-center"></div><button type="button" id="removeFileBtn" class="absolute top-2 right-2 bg-red-500/80 hover:bg-red-600 text-white rounded-full p-2 transition-all"> <i data-lucide="x" style="width:18px;height:18px;"></i> </button>
+       </div>
+
+
+
+
+
+
       </div><!-- Submit Button --> <button type="submit" id="submitBtn" class="btn-primary w-full text-navy-dark font-bold font-display py-3 rounded-xl tracking-wide uppercase mt-8"> Kirim Formulir </button>
      </form><!-- Toast -->
      <div id="toast" class="hidden mt-6 p-4 rounded-xl text-center text-sm font-semibold"></div>
@@ -593,12 +621,119 @@
       }
     });
 
-    // Conditional fields
+document.addEventListener('DOMContentLoaded', () => {
+  initializeFileHandlers();
+});
+
+
+
+// File upload handlers - Initialize when DOM is ready
+    let uploadGalleryBtn = null;
+    let uploadCameraBtn = null;
+    let fileInput = null;
+    let cameraInput = null;
+    let removeFileBtn = null;
+
+    function initializeFileHandlers() {
+      uploadGalleryBtn = document.getElementById('uploadGalleryBtn');
+      uploadCameraBtn = document.getElementById('uploadCameraBtn');
+      fileInput = document.getElementById('fileInput');
+      cameraInput = document.getElementById('cameraInput');
+      removeFileBtn = document.getElementById('removeFileBtn');
+
+      if (uploadGalleryBtn) {
+        uploadGalleryBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          fileInput.click();
+        });
+      }
+
+      if (uploadCameraBtn) {
+        uploadCameraBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          cameraInput.click();
+        });
+      }
+
+      if (fileInput) {
+        fileInput.addEventListener('change', (e) => {
+          handleFileSelect(e.target.files[0]);
+        });
+      }
+
+      if (cameraInput) {
+        cameraInput.addEventListener('change', (e) => {
+          handleFileSelect(e.target.files[0]);
+        });
+      }
+
+      if (removeFileBtn) {
+        removeFileBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          document.getElementById('suratPernyataan').value = '';
+          document.getElementById('filePreviewContainer').classList.add('hidden');
+          if (fileInput) fileInput.value = '';
+          if (cameraInput) cameraInput.value = '';
+        });
+      }
+    }
+
+    const handleFileSelect = (file) => {
+      if (!file) return;
+
+      // Validate file type
+      const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+      if (!validTypes.includes(file.type)) {
+        showToast('Format file harus JPG, PNG, atau PDF', false);
+        return;
+      }
+
+      // Read file as base64
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64Data = e.target.result;
+        document.getElementById('suratPernyataan').value = base64Data;
+        
+        // Show preview
+        const container = document.getElementById('filePreviewContainer');
+        const preview = document.getElementById('filePreview');
+        
+        if (file.type === 'application/pdf') {
+          preview.innerHTML = `
+            <div class="flex flex-col items-center gap-2">
+              <i data-lucide="file-pdf" style="width:48px;height:48px;color:#fbbf24;"></i>
+              <div class="text-sm text-slate/70">${file.name}</div>
+            </div>
+          `;
+        } else {
+          preview.innerHTML = `
+            <img src="${base64Data}" alt="Surat Pernyataan" class="max-w-full max-h-64 rounded-lg mx-auto">
+            <div class="text-xs text-slate/60 mt-2">${file.name}</div>
+          `;
+        }
+        
+        container.classList.remove('hidden');
+        lucide.createIcons();
+      };
+      reader.readAsDataURL(file);
+    };
+
+
+// Conditional fields
     document.querySelectorAll('input[name="kehadiran"]').forEach(r => {
       r.addEventListener('change', () => {
         document.getElementById('keluargaSection').classList.toggle('hidden', r.value !== 'Hadir');
+        document.getElementById('suratSection').classList.toggle('hidden', r.value !== 'Tidak Hadir');
+        if (r.value === 'Hadir') {
+          document.getElementById('suratPernyataan').value = '';
+          document.getElementById('filePreviewContainer').classList.add('hidden');
+        }
+       
       });
     });
+
+
+
 
     document.querySelectorAll('input[name="kedatangan"]').forEach(r => {
       r.addEventListener('change', () => {
@@ -630,6 +765,10 @@
     document.getElementById('attendanceForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   if (isSubmitting) return;
+
+
+
+
 
   const nama = namaInput.value.trim();
   const kelas = document.getElementById('kelas').value;
@@ -695,6 +834,20 @@
     }
   }
 
+// Validasi surat jika tidak hadir
+if (kehadiran.value === 'Tidak Hadir') {
+  const surat = document.getElementById('suratPernyataan').value;
+
+  if (!surat) {
+    showToast('❌ Upload surat pernyataan wajib!', false);
+
+    document.getElementById('suratSection')
+      .scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    return;
+  }
+}
+
   // ===== SUBMIT =====
   isSubmitting = true;
   const btn = document.getElementById('submitBtn');
@@ -702,35 +855,43 @@
   btn.disabled = true;
   btn.classList.add('opacity-60');
 
-  const formData = new FormData();
-  formData.append('nama_siswa', nama);
-  formData.append('kelas', kelas);
-  formData.append('konfirmasi', kehadiran.value);
-  formData.append('jumlah_hadir', jumlahKeluarga);
-  formData.append('tanggal_kembali', tanggal);
+ const surat = document.getElementById('suratPernyataan').value;
 
-  try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbxFxvAdWGyDGhET_mDIADZQETuMhRzO9RGM2zq6Thl1COnSpoiB_CEzR2qCyGy2Kj9B/exec', {
-      method: 'POST',
-      body: formData
-    });
+const params = new URLSearchParams();
+params.append('nama_siswa', nama);
+params.append('kelas', kelas);
+params.append('konfirmasi', kehadiran.value);
+params.append('jumlah_hadir', jumlahKeluarga);
+params.append('tanggal_kembali', tanggal);
 
-    const result = await response.json();
+// 🔥 INI YANG KEMARIN HILANG
+params.append('surat_pernyataan', surat);
 
-    if (result.status !== "success") {
-      throw new Error(result.message || "Gagal mengirim");
-    }
+try {
+  const response = await fetch('https://script.google.com/macros/s/AKfycbxGXrQCODtAr9Pj-pTC55ZHXxIqbyipvnzLflxw1oEYaTXILweBDNBTjkvZMALY5do/exec', {
+    method: 'POST',
+    body: params
+  });
 
-    showToast('✅ Data kehadiran berhasil dikirim!', true);
+  const result = await response.json();
 
-    document.getElementById('attendanceForm').reset();
-    document.getElementById('keluargaSection').classList.add('hidden');
-    document.getElementById('tanggalSection').classList.add('hidden');
-
-  } catch (error) {
-    console.error(error);
-    showToast('❌ Gagal: ' + error.message, false);
+  if (result.status !== "success") {
+    throw new Error(result.message || "Gagal mengirim");
   }
+
+  showToast('✅ Data kehadiran berhasil dikirim!', true);
+
+  document.getElementById('attendanceForm').reset();
+  document.getElementById('keluargaSection').classList.add('hidden');
+  document.getElementById('tanggalSection').classList.add('hidden');
+  document.getElementById('suratPernyataan').value = '';
+  document.getElementById('filePreviewContainer').classList.add('hidden');
+
+} catch (error) {
+  console.error(error);
+  showToast('❌ Gagal: ' + error.message, false);
+}
+	
 
   isSubmitting = false;
   btn.textContent = 'Kirim Formulir';

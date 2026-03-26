@@ -243,6 +243,26 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
+
+
+/* ERROR STYLE */
+.input-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+}
+
+/* SHAKE ANIMATION */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.shake {
+  animation: shake 0.3s;
+}
+
+
   </style>
   <style>body { box-sizing: border-box; }</style>
  </head>
@@ -345,7 +365,8 @@
 
       </div><!-- Submit Button --> <button type="submit" id="submitBtn" class="btn-primary w-full text-navy-dark font-bold font-display py-3 rounded-xl tracking-wide uppercase mt-8"> Kirim Formulir </button>
      </form><!-- Toast -->
-     <div id="toast" class="hidden mt-6 p-4 rounded-xl text-center text-sm font-semibold"></div>
+     <div id="toast" class="hidden mt-6 p-4 rounded-xl text-center text-sm font-semibold">
+	</div>
     </div><!-- Footer -->
     <div class="text-center text-slate/40 text-xs font-body pb-8 animate-slide-up delay-600">
      © SMA Negeri Taruna Nala Jawa Timur 2026
@@ -509,6 +530,84 @@
     let currentData = [];
     let isSubmitting = false;
 
+
+function showSuccessModal(nama, kelas) {
+  const modal = document.getElementById('successModal');
+  const text = document.getElementById('successText');
+
+  text.innerHTML = `
+    ✅ Data kehadiran berhasil dikirim!<br><br>
+    <strong>${nama}</strong><br>
+    Kelas: <strong>${kelas}</strong><br><br>
+    Terima kasih 🙏
+  `;
+
+  modal.classList.remove('hidden');
+  lucide.createIcons();
+}
+
+
+function showFieldError(element) {
+  if (!element) return;
+
+  element.classList.add('border-red-500', 'ring-2', 'ring-red-400');
+
+  setTimeout(() => {
+    element.classList.remove('border-red-500', 'ring-2', 'ring-red-400');
+  }, 2000);
+}
+
+
+function highlightRadioGroup(name) {
+  const radios = document.querySelectorAll(`input[name="${name}"]`);
+  radios.forEach(r => {
+    const parent = r.closest('label');
+    if (parent) {
+      parent.classList.add('input-error', 'shake');
+      setTimeout(() => parent.classList.remove('shake'), 300);
+    }
+  });
+}
+
+
+
+function showFieldError(element) {
+  if (!element) return;
+
+  element.classList.add('input-error', 'shake');
+
+  setTimeout(() => {
+    element.classList.remove('shake');
+  }, 300);
+}
+
+function clearRadioError(name) {
+  const radios = document.querySelectorAll(`input[name="${name}"]`);
+  radios.forEach(r => {
+    const parent = r.closest('label');
+    if (parent) {
+      parent.classList.remove('input-error');
+    }
+  });
+}
+
+// reset error saat user mulai isi
+function clearErrorOnInput(element) {
+  element.addEventListener('input', () => {
+    element.classList.remove('input-error');
+  });
+
+  element.addEventListener('change', () => {
+    element.classList.remove('input-error');
+  });
+}
+
+
+
+function closeSuccessModal() {
+  document.getElementById('successModal').classList.add('hidden');
+}
+
     // Data SDK
     const dataHandler = {
       onDataChanged(data) {
@@ -628,6 +727,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // File upload handlers - Initialize when DOM is ready
+
+clearErrorOnInput(document.getElementById('namaSiswa'));
+clearErrorOnInput(document.getElementById('kelas'));
+clearErrorOnInput(document.getElementById('tanggalKedatangan'));
     let uploadGalleryBtn = null;
     let uploadCameraBtn = null;
     let fileInput = null;
@@ -719,27 +822,44 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-// Conditional fields
-    document.querySelectorAll('input[name="kehadiran"]').forEach(r => {
-      r.addEventListener('change', () => {
-        document.getElementById('keluargaSection').classList.toggle('hidden', r.value !== 'Hadir');
-        document.getElementById('suratSection').classList.toggle('hidden', r.value !== 'Tidak Hadir');
-        if (r.value === 'Hadir') {
-          document.getElementById('suratPernyataan').value = '';
-          document.getElementById('filePreviewContainer').classList.add('hidden');
-        }
-       
-      });
-    });
+// 🎯 CONDITIONAL + EVENT
+// =======================
 
+// KEHADIRAN → tampilkan keluarga / surat
+document.querySelectorAll('input[name="kehadiran"]').forEach(r => {
+  r.addEventListener('change', () => {
+    const keluarga = document.getElementById('keluargaSection');
+    const surat = document.getElementById('suratSection');
 
+    keluarga.classList.toggle('hidden', r.value !== 'Hadir');
+    surat.classList.toggle('hidden', r.value !== 'Tidak Hadir');
 
+    // reset jika pindah pilihan
+    if (r.value === 'Hadir') {
+      document.getElementById('suratPernyataan').value = '';
+      document.getElementById('filePreviewContainer').classList.add('hidden');
+    }
 
-    document.querySelectorAll('input[name="kedatangan"]').forEach(r => {
-      r.addEventListener('change', () => {
-        document.getElementById('tanggalSection').classList.toggle('hidden', r.value !== 'Hadir');
-      });
-    });
+    clearRadioError('kehadiran');
+  });
+});
+
+// KEDATANGAN → tampilkan tanggal
+document.querySelectorAll('input[name="kedatangan"]').forEach(r => {
+  r.addEventListener('change', () => {
+    const tanggal = document.getElementById('tanggalSection');
+    tanggal.classList.toggle('hidden', r.value !== 'Hadir');
+
+    clearRadioError('kedatangan');
+  });
+});
+
+// JUMLAH KELUARGA → hanya clear error
+document.querySelectorAll('input[name="jumlahKeluarga"]').forEach(r => {
+  r.addEventListener('change', () => {
+    clearRadioError('jumlahKeluarga');
+  });
+});
 
     // Toast helper
     function showToast(msg, success) {
@@ -778,74 +898,81 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== VALIDASI UTAMA =====
   if (!nama) {
     showToast('❌ Nama siswa wajib diisi.', false);
-    namaInput.focus();
+    showFieldError(namaInput);
     return;
   }
 
-  if (!kelas) {
-    showToast('❌ Kelas wajib dipilih.', false);
-    document.getElementById('kelas').focus();
-    return;
-  }
+  const kelasEl = document.getElementById('kelas');
+
+if (!kelas) {
+  showToast('❌ Kelas wajib dipilih.', false);
+  showFieldError(kelasEl);
+  return;
+}
 
   if (!kehadiran) {
-    showToast('❌ Konfirmasi kehadiran Tupdik wajib dipilih.', false);
-    return;
-  }
+  showToast('❌ Silahkan Isi Konfirmasi kehadiran Tupdik.', false);
+  highlightRadioGroup('kehadiran');
+  return;
+}
 
-  if (!kedatangan) {
-    showToast('❌ Konfirmasi kedatangan di sekolah wajib dipilih.', false);
-    return;
-  }
+if (!kedatangan) {
+  showToast('❌ Silahkan Isi Konfirmasi Kedatangan.', false);
+  highlightRadioGroup('kedatangan');
+  return;
+}
 
   // ===== VALIDASI KONDISIONAL =====
   let jumlahKeluarga = '-';
 
-  if (kehadiran.value === 'Hadir') {
-    const jk = document.querySelector('input[name="jumlahKeluarga"]:checked');
+if (kehadiran.value === 'Hadir') {
+  const jk = document.querySelector('input[name="jumlahKeluarga"]:checked');
 
-    if (!jk) {
-      showToast('❌ Pilih jumlah keluarga yang hadir!', false);
+  if (!jk) {
+    showToast('❌ Silahkan isi jumlah keluarga yang hadir!', false);
 
-      document.getElementById('keluargaSection')
-        .scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const section = document.getElementById('keluargaSection');
+    showFieldError(section);
 
-      return;
-    }
+    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-    jumlahKeluarga = jk.value;
+    return;
   }
+
+  jumlahKeluarga = jk.value;
+}
 
   let tanggal = '-';
 
-  if (kedatangan.value === 'Hadir') {
-    const tanggalInput = document.getElementById('tanggalKedatangan');
-    tanggal = tanggalInput.value;
+if (kedatangan.value === 'Hadir') {
+  const tanggalInput = document.getElementById('tanggalKedatangan');
+  tanggal = tanggalInput.value;
 
-    if (!tanggal) {
-      showToast('❌ Pilih tanggal kedatangan terlebih dahulu!', false);
+  if (!tanggal) {
+    showToast('❌ Silahkan Pilih tanggal kedatangan terlebih dahulu!', false);
 
-      tanggalInput.focus();
+    showFieldError(tanggalInput);
 
-      document.getElementById('tanggalSection')
-        .scrollIntoView({ behavior: 'smooth', block: 'center' });
+    tanggalInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-      return;
-    }
+    return;
   }
+}
 
 // Validasi surat jika tidak hadir
 if (kehadiran.value === 'Tidak Hadir') {
   const surat = document.getElementById('suratPernyataan').value;
 
   if (!surat) {
-    showToast('❌ Upload surat pernyataan wajib!', false);
+  showToast('❌ Anda belum Upload surat pernyataan orangtua!', false);
 
-    document.getElementById('suratSection')
-      .scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const section = document.getElementById('suratSection');
+  section.classList.add('input-error', 'shake');
 
-    return;
-  }
+  setTimeout(() => section.classList.remove('shake'), 300);
+
+  return;
+}
 }
 
   // ===== SUBMIT =====
@@ -879,7 +1006,7 @@ try {
     throw new Error(result.message || "Gagal mengirim");
   }
 
-  showToast('✅ Data kehadiran berhasil dikirim!', true);
+  showSuccessModal(nama, kelas);
 
   document.getElementById('attendanceForm').reset();
   document.getElementById('keluargaSection').classList.add('hidden');
@@ -900,6 +1027,35 @@ try {
 });
 
     lucide.createIcons();
+
+
+
+
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e19aa483022a19c',t:'MTc3NDM5NzE0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e19aa483022a19c',t:'MTc3NDM5NzE0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<!-- MODAL SUKSES -->
+<div id="successModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+  <div class="bg-navy rounded-2xl p-8 max-w-md w-full text-center animate-slide-up">
+    
+    <div class="flex justify-center mb-4">
+      <div class="bg-green-500/20 p-4 rounded-full">
+        <i data-lucide="check-circle" style="width:48px;height:48px;color:#22c55e;"></i>
+      </div>
+    </div>
+
+    <h3 class="text-xl font-bold text-slate mb-2">Berhasil!</h3>
+
+    <p id="successText" class="text-slate/70 text-sm mb-6">
+      Data berhasil dikirim.
+    </p>
+
+    <button onclick="closeSuccessModal()" 
+      class="btn-primary px-6 py-2 rounded-lg font-bold text-navy-dark">
+      OK
+    </button>
+
+  </div>
+</div>
+
+</body>
 </html>

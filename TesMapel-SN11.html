@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Tes Mapel Peminatan</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Playfair+Display:wght@700;800&amp;display=swap" rel="stylesheet">
+  <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.page { display: none; height: 100%; width: 100%; overflow: auto; }
+.page.active { display: flex; }
+
+/* Login BG */
+.login-bg {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%);
+  position: relative;
+}
+.login-bg::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(59,130,246,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(168,85,247,0.1) 0%, transparent 40%),
+    radial-gradient(circle at 60% 80%, rgba(14,165,233,0.08) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+/* Grid pattern */
+.grid-pattern {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* Floating particles */
+@keyframes float { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(180deg); } }
+.particle {
+  position: absolute; border-radius: 50%; opacity: 0.15; pointer-events: none;
+  animation: float linear infinite;
+}
+
+/* Card glass */
+.glass-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+}
+
+/* Input styling */
+.login-input {
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: 14px; padding: 14px 16px 14px 48px;
+  color: #f1f5f9; font-size: 15px; width: 100%;
+  transition: all 0.3s ease;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.login-input:focus {
+  outline: none; border-color: #3b82f6;
+  background: rgba(59,130,246,0.08);
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+}
+.login-input::placeholder { color: rgba(255,255,255,0.3); }
+
+/* Suggestion dropdown */
+.suggestion-list {
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 50;
+  background: #1e293b; border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px; margin-top: 6px; max-height: 200px; overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  display: none;
+}
+.suggestion-list.show { display: block; }
+.suggestion-item {
+  padding: 12px 16px; cursor: pointer; color: #cbd5e1;
+  font-size: 14px; transition: all 0.15s;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.suggestion-item:last-child { border-bottom: none; }
+.suggestion-item:hover, .suggestion-item.highlighted {
+  background: rgba(59,130,246,0.15); color: #fff;
+}
+.suggestion-item .match { color: #60a5fa; font-weight: 600; }
+
+/* Login button */
+.login-btn {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border: none; border-radius: 14px; padding: 15px; width: 100%;
+  color: #fff; font-size: 16px; font-weight: 700; cursor: pointer;
+  transition: all 0.3s ease; position: relative; overflow: hidden;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59,130,246,0.4); }
+.login-btn:active { transform: translateY(0); }
+.login-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* Shimmer */
+@keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+.login-btn::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  animation: shimmer 3s infinite;
+}
+
+/* Toast */
+.toast {
+  position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-120px);
+  padding: 14px 24px; border-radius: 14px; z-index: 999;
+  font-size: 14px; font-weight: 600;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.error { background: #ef4444; color: #fff; }
+.toast.success { background: #22c55e; color: #fff; }
+
+/* Info page */
+.info-bg {
+  background: linear-gradient(160deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+}
+
+/* Info card */
+.info-card {
+  background: #fff; border-radius: 20px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* Data row */
+.data-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 0; border-bottom: 1px solid #f1f5f9;
+}
+.data-row:last-child { border-bottom: none; }
+
+/* Copy button */
+.copy-btn {
+  background: #f1f5f9; border: none; border-radius: 8px;
+  padding: 6px 10px; cursor: pointer; color: #64748b;
+  transition: all 0.2s; display: flex; align-items: center; gap: 4px; font-size: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.copy-btn:hover { background: #e2e8f0; color: #3b82f6; }
+.copy-btn.copied { background: #dcfce7; color: #16a34a; }
+
+/* Accordion */
+.accordion-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 24px; cursor: pointer; user-select: none;
+  transition: background 0.2s;
+}
+.accordion-header:hover { background: #f8fafc; }
+.accordion-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.accordion-body.open { max-height: 800px; }
+.accordion-chevron { transition: transform 0.3s ease; }
+.accordion-chevron.rotated { transform: rotate(180deg); }
+
+/* Exam link button */
+.exam-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: #fff; padding: 16px 32px; border-radius: 16px;
+  text-decoration: none; font-weight: 700; font-size: 16px;
+  transition: all 0.3s; box-shadow: 0 4px 20px rgba(59,130,246,0.3);
+}
+.exam-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(59,130,246,0.4); }
+
+/* Animations */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fadeUp 0.6s ease forwards; }
+.delay-1 { animation-delay: 0.1s; opacity: 0; }
+.delay-2 { animation-delay: 0.2s; opacity: 0; }
+.delay-3 { animation-delay: 0.3s; opacity: 0; }
+.delay-4 { animation-delay: 0.4s; opacity: 0; }
+.delay-5 { animation-delay: 0.5s; opacity: 0; }
+
+/* Logout btn */
+.logout-btn {
+  background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px;
+  padding: 10px 20px; cursor: pointer; color: #64748b;
+  font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px;
+  transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.logout-btn:hover { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
+
+/* Password toggle */
+.pw-toggle {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: rgba(255,255,255,0.3); cursor: pointer;
+  padding: 4px; transition: color 0.2s;
+}
+.pw-toggle:hover { color: rgba(255,255,255,0.6); }
+
+/* Date picker */
+.date-picker-popup {
+  display: none; position: absolute; top: 100%; left: 0; right: 0;
+  background: #1e293b; border: 1px solid rgba(59,130,246,0.2);
+  border-radius: 16px; margin-top: 8px; padding: 16px; z-index: 100;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.date-picker-popup.show { display: block; animation: slideDown 0.25s ease; }
+
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+.date-picker-overlay {
+  display: none; position: fixed; inset: 0; z-index: 99;
+}
+.date-picker-overlay.show { display: block; }
+
+.date-picker-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+.date-nav-btn {
+  background: rgba(255,255,255,0.08); border: none; border-radius: 10px;
+  width: 36px; height: 36px; color: #93c5fd; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.date-nav-btn:hover { background: rgba(59,130,246,0.3); color: #fff; }
+
+.date-month-year {
+  text-align: center; flex: 1;
+}
+.date-month-year h3 {
+  color: #f1f5f9; font-size: 15px; font-weight: 700; letter-spacing: 0.5px;
+}
+
+.date-picker-weekdays {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 4px; margin-bottom: 8px;
+}
+.weekday {
+  text-align: center; color: #64748b; font-size: 12px;
+  font-weight: 600; padding: 6px 0;
+}
+
+.date-picker-days {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 4px; margin-bottom: 14px;
+}
+.date-day-btn {
+  aspect-ratio: 1; border: none; border-radius: 10px;
+  background: rgba(255,255,255,0.06); color: #cbd5e1; cursor: pointer;
+  font-size: 13px; font-weight: 600; transition: all 0.15s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.date-day-btn:hover:not(:disabled) { background: rgba(59,130,246,0.2); color: #fff; }
+.date-day-btn:disabled { color: #475569; opacity: 0.3; cursor: not-allowed; }
+.date-day-btn.selected {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff;
+  box-shadow: 0 4px 15px rgba(59,130,246,0.4);
+}
+.date-day-btn.today {
+  border: 1.5px solid #3b82f6; color: #60a5fa;
+}
+
+.date-picker-footer {
+  display: flex; gap: 8px; justify-content: flex-end;
+}
+.date-clear-btn, .date-close-btn {
+  border: none; border-radius: 10px;
+  padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.date-clear-btn {
+  background: rgba(255,255,255,0.08); color: #cbd5e1;
+}
+.date-clear-btn:hover { background: rgba(239,68,68,0.2); color: #fca5a5; }
+.date-close-btn {
+  background: rgba(59,130,246,0.3); color: #93c5fd;
+}
+.date-close-btn:hover { background: rgba(59,130,246,0.5); color: #fff; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+
+/* Logo SVG */
+.logo-glow {
+  filter: drop-shadow(0 0 20px rgba(59,130,246,0.3));
+}
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full w-full"><!-- Toast -->
+  <div id="toast" class="toast"></div><!-- LOGIN PAGE -->
+  <div id="loginPage" class="page active login-bg flex-col items-center justify-center">
+   <div class="grid-pattern"></div><!-- Particles -->
+   <div class="particle" style="width:6px;height:6px;background:#3b82f6;top:15%;left:20%;animation-duration:6s;"></div>
+   <div class="particle" style="width:4px;height:4px;background:#8b5cf6;top:70%;left:75%;animation-duration:8s;"></div>
+   <div class="particle" style="width:8px;height:8px;background:#06b6d4;top:40%;left:85%;animation-duration:7s;"></div>
+   <div class="particle" style="width:5px;height:5px;background:#3b82f6;top:80%;left:15%;animation-duration:9s;"></div>
+   <div class="particle" style="width:3px;height:3px;background:#a78bfa;top:25%;left:60%;animation-duration:5s;"></div>
+   <div class="glass-card p-8 sm:p-10 w-full max-w-md mx-4 relative z-10 fade-up" style="margin:auto;">
+    
+    <!-- Logo -->
+    <div class="flex flex-col items-center mb-8">
+     <div class="flex gap-4 items-center justify-center mb-5">
+        <div class="logo-glow"><img src="https://kurikulumsmantarnala.github.io/info/smantar.png" alt="Logo SMA Negeri Taruna Nala Jawa Timur" class="w-20 h-20 object-contain" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #3b82f6, #8b5cf6)'; this.alt='Logo Sekolah';">
+        </div>
+        <div class="logo-glow"><img src="https://genzaeducation.com/img/logo-blue.png" alt="Logo Geneza Education" class="w-20 h-20 object-contain" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #3b82f6, #8b5cf6)'; this.alt='Logo Partner';">
+        </div>
+     </div>
+     
+     <h1 id="loginSchoolName" class="text-white text-lg font-700 tracking-tight text-center" style="font-family:'Playfair Display',serif;">SMA Negeri Taruna Nala Jawa Timur</h1>
+     <p id="loginExamTitle" class="text-blue-300 text-sm mt-1 font-500 tracking-wide text-center">Tes Bakat dan Minat Mapel Pilihan SN 11</p>
+    </div><!-- Name Input -->
+    <div class="mb-4 relative">
+     <div class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 z-10 pointer-events-none"><i data-lucide="user" style="width:20px;height:20px;"></i>
+     </div><input id="nameInput" type="text" class="login-input" placeholder="Ketik nama siswa..." autocomplete="off" aria-label="Nama Siswa">
+     <div id="suggestionList" class="suggestion-list" role="listbox"></div>
+    </div><!-- Password Input -->
+    <div class="mb-6 relative">
+     <div class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 z-10 pointer-events-none"><i data-lucide="calendar" style="width:20px;height:20px;"></i>
+     </div><input id="pwInput" type="text" class="login-input" placeholder="Pilih tanggal lahir" readonly aria-label="Tanggal Lahir" style="cursor:pointer;" onclick="openDatePicker()"> <button type="button" class="pw-toggle" id="pwToggle" aria-label="Buka date picker" onclick="openDatePicker()"> <i data-lucide="calendar" style="width:18px;height:18px;"></i> </button>
+     <div id="datePicker" class="date-picker-popup">
+      <div class="date-picker-header">
+       <button type="button" class="date-nav-btn" id="prevMonth"><i data-lucide="chevron-left" style="width:18px;height:18px;"></i></button>
+       <div class="date-month-year" style="display:flex;gap:8px;justify-content:center;align-items:center;">
+        <select id="monthSelect" style="background:#1e293b;border:1px solid rgba(59,130,246,0.3);color:#f1f5f9;padding:6px 8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"></select> <select id="yearSelect" style="background:#1e293b;border:1px solid rgba(59,130,246,0.3);color:#f1f5f9;padding:6px 8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"></select>
+       </div><button type="button" class="date-nav-btn" id="nextMonth"><i data-lucide="chevron-right" style="width:18px;height:18px;"></i></button>
+      </div>
+      <div class="date-picker-weekdays">
+       <div class="weekday">
+        Min
+       </div>
+       <div class="weekday">
+        Sen
+       </div>
+       <div class="weekday">
+        Sel
+       </div>
+       <div class="weekday">
+        Rab
+       </div>
+       <div class="weekday">
+        Kam
+       </div>
+       <div class="weekday">
+        Jum
+       </div>
+       <div class="weekday">
+        Sab
+       </div>
+      </div>
+      <div id="datePickerDays" class="date-picker-days"></div>
+      <div class="date-picker-footer">
+       <button type="button" class="date-clear-btn" id="clearDateBtn">Bersihkan</button> <button type="button" class="date-close-btn" id="closeDatePickerBtn">Tutup</button>
+      </div>
+     </div>
+     <div id="datePickerOverlay" class="date-picker-overlay"></div>
+    </div><!-- Login Button --> <button id="loginBtn" class="login-btn" disabled> <span id="loginBtnText">Masuk</span> </button>
+    <p class="text-center text-xs mt-5" style="color:rgba(255,255,255,0.25);">Password = Tanggal Lahir (ddmmyyyy)</p>
+   </div>
+  </div><!-- INFO PAGE -->
+  <div id="infoPage" class="page info-bg flex-col">
+   <div class="w-full max-w-2xl mx-auto px-4 py-6" style="width:100%;"><!-- Header -->
+    <div class="flex items-center justify-between mb-6 fade-up">
+     <div>
+      <h2 id="infoSchoolName" class="text-xl font-800 text-slate-800" style="font-family:'Playfair Display',serif;">SMA Negeri Taruna Nala Jawa Timur</h2>
+      <p id="infoExamTitle" class="text-sm text-blue-600 font-600">Tes Mapel Pilihan SN 11</p>
+     </div><button class="logout-btn" onclick="logout()"> <i data-lucide="log-out" style="width:16px;height:16px;"></i> Keluar </button>
+    </div><!-- Student Info Card -->
+    <div class="info-card p-6 mb-4 fade-up delay-1">
+     <div class="flex items-center gap-3 mb-5">
+      <div id="avatarCircle" class="w-12 h-12 rounded-full flex items-center justify-center text-white font-800 text-lg" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6);"></div>
+      <div>
+       <h3 id="infoNama" class="text-lg font-700 text-slate-800"></h3><span id="infoKelas" class="text-xs font-600 px-3 py-1 rounded-full bg-blue-50 text-blue-600"></span>
+      </div>
+     </div>
+     <div class="px-1">
+      <div class="data-row"><span class="text-sm text-slate-500 font-500">NISN</span> <span id="infoNISN" class="text-sm font-700 text-slate-800 font-mono"></span>
+      </div>
+      <div class="data-row"><span class="text-sm text-slate-500 font-500">NIS</span> <span id="infoNIS" class="text-sm font-700 text-slate-800 font-mono"></span>
+      </div>
+      <div class="data-row">
+       <div class="text-sm text-slate-500 font-500">
+        Username Tryout
+       </div>
+       <div class="flex items-center gap-2"><span id="infoUsername" class="text-sm font-700 text-slate-800 font-mono"></span> <button class="copy-btn" onclick="copyText('infoUsername', this)"><i data-lucide="copy" style="width:13px;height:13px;"></i> Salin</button>
+       </div>
+      </div>
+      <div class="data-row">
+       <div class="text-sm text-slate-500 font-500">
+        Password Tryout
+       </div>
+       <div class="flex items-center gap-2"><span id="infoPwTryout" class="text-sm font-700 text-slate-800 font-mono"></span> <button class="copy-btn" onclick="copyText('infoPwTryout', this)"><i data-lucide="copy" style="width:13px;height:13px;"></i> Salin</button>
+       </div>
+      </div>
+     </div>
+    </div><!-- Petunjuk Pengerjaan -->
+    <div class="info-card mb-4 overflow-hidden fade-up delay-2">
+     <div class="accordion-header" onclick="toggleAccordion(this)">
+      <div class="flex items-center gap-3">
+       <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#eff6ff;"><i data-lucide="book-open" style="width:18px;height:18px;color:#3b82f6;"></i>
+       </div><span class="font-700 text-slate-800">Petunjuk Pengerjaan</span>
+      </div><i data-lucide="chevron-down" class="accordion-chevron" style="width:20px;height:20px;color:#94a3b8;"></i>
+     </div>
+     <div class="accordion-body">
+      <div class="px-6 pb-5">
+       <ol class="text-sm text-slate-600 space-y-3 list-decimal list-inside leading-relaxed">
+        <li>Login ke portal ujian menggunakan <strong>Username</strong> dan <strong>Password Tryout</strong> yang tertera di atas.</li>
+        <li>Pastikan koneksi internet stabil selama ujian berlangsung.</li>
+        <li>Baca setiap soal dengan teliti sebelum menjawab.</li>
+        <li>Kerjakan soal yang dianggap mudah terlebih dahulu.</li>
+        <li>Periksa kembali jawaban sebelum mengklik tombol <strong>Selesai</strong>.</li>
+        <li>Waktu pengerjaan akan berjalan otomatis setelah memulai ujian.</li>
+       </ol>
+      </div>
+     </div>
+    </div><!-- Tata Tertib -->
+    <div class="info-card mb-4 overflow-hidden fade-up delay-3">
+     <div class="accordion-header" onclick="toggleAccordion(this)">
+      <div class="flex items-center gap-3">
+       <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#fef3c7;"><i data-lucide="alert-triangle" style="width:18px;height:18px;color:#f59e0b;"></i>
+       </div><span class="font-700 text-slate-800">Tata Tertib Ujian</span>
+      </div><i data-lucide="chevron-down" class="accordion-chevron" style="width:20px;height:20px;color:#94a3b8;"></i>
+     </div>
+     <div class="accordion-body">
+      <div class="px-6 pb-5">
+       <ul class="text-sm text-slate-600 space-y-3 leading-relaxed">
+        <li class="flex items-start gap-2"><span class="text-red-500 mt-0.5">⛔</span> Dilarang membuka tab atau aplikasi lain selama ujian.</li>
+        <li class="flex items-start gap-2"><span class="text-red-500 mt-0.5">⛔</span> Dilarang menggunakan alat bantu hitung kecuali diizinkan.</li>
+        <li class="flex items-start gap-2"><span class="text-red-500 mt-0.5">⛔</span> Dilarang berkomunikasi dengan peserta lain.</li>
+        <li class="flex items-start gap-2"><span class="text-red-500 mt-0.5">⛔</span> Dilarang mengambil screenshot atau foto soal ujian.</li>
+        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✅</span> Pastikan perangkat dalam kondisi terisi daya cukup.</li>
+        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✅</span> Hubungi pengawas jika terjadi kendala teknis.</li>
+       </ul>
+      </div>
+     </div>
+    </div><!-- Link Ujian -->
+    <div class="info-card p-6 text-center fade-up delay-4">
+     <p class="text-sm text-slate-500 mb-4 font-500">Klik tombol di bawah untuk memulai ujian</p><a id="examLink" href="https://gesit.genzaeducation.com/login-siswa" target="_blank" rel="noopener noreferrer" class="exam-btn"> <i data-lucide="external-link" style="width:20px;height:20px;"></i> Mulai Ujian </a>
+    </div>
+    <p class="text-center text-xs text-slate-400 mt-6 pb-4 fade-up delay-5">© 2026 Informasi Kurikulum SMANTARNALA</p>
+   </div>
+  </div>
+  <script>
+// Element SDK Config
+const defaultConfig = {
+  school_name: "SMA Negeri Taruna Nala Jawa Timur",
+  exam_title: "Tes Mapel Pilihan SN 11",
+  exam_link: "https://gesit.genzaeducation.com/login-siswa",
+  background_color: "#0f172a",
+  surface_color: "#ffffff",
+  text_color: "#1e293b",
+  primary_action_color: "#3b82f6",
+  secondary_action_color: "#8b5cf6",
+  font_family: "Plus Jakarta Sans",
+  font_size: 16
+};
+
+// Student Data
+const students = [
+{ nama: "ABRIAL GHAISAN IRSYAD RAHARJO", nisn: "0103446942", nis: "1678", kelas: "X-1", tglLahir: "04052010", userTryout: "178-25-2-10-0002", pwTryout: "genzanala" },
+{ nama: "ADHITYA BARUNA RADJASA", nisn: "0094676444", nis: "1682", kelas: "X-1", tglLahir: "14102009", userTryout: "178-25-2-10-0003", pwTryout: "genzanala" },
+{ nama: "ALMIRA SAFI PUNZANI", nisn: "0101330740", nis: "1700", kelas: "X-1", tglLahir: "08092010", userTryout: "178-25-2-10-0004", pwTryout: "genzanala" },
+{ nama: "ANDI RAHMATULLAH RAIS", nisn: "0167191739", nis: "1704", kelas: "X-1", tglLahir: "26022010", userTryout: "178-25-2-10-0005", pwTryout: "genzanala" },
+{ nama: "ARYA APTA SUWADANA", nisn: "0106751734", nis: "1709", kelas: "X-1", tglLahir: "08012010", userTryout: "178-25-2-10-0006", pwTryout: "genzanala" },
+{ nama: "AYLA KIRANA DEWI", nisn: "3109737477", nis: "1718", kelas: "X-1", tglLahir: "01042010", userTryout: "178-25-2-10-0007", pwTryout: "genzanala" },
+{ nama: "BRAMASTYA KHADAFI SINAR ARRAYAN", nisn: "0094261813", nis: "1728", kelas: "X-1", tglLahir: "22102009", userTryout: "178-25-2-10-0008", pwTryout: "genzanala" },
+{ nama: "DYLAN ATHAR GHAISAN", nisn: "0101506904", nis: "1749", kelas: "X-1", tglLahir: "09022010", userTryout: "178-25-2-10-0009", pwTryout: "genzanala" },
+{ nama: "FACHRI WIGAR YARDANSYAH", nisn: "0093173655", nis: "1753", kelas: "X-1", tglLahir: "09122009", userTryout: "178-25-2-10-0010", pwTryout: "genzanala" },
+{ nama: "FADLAN AHZAATMAJI", nisn: "0089705911", nis: "1757", kelas: "X-1", tglLahir: "30062008", userTryout: "178-25-2-10-0011", pwTryout: "genzanala" },
+{ nama: "FARHAN NUR RAHMAN", nisn: "0097271225", nis: "1762", kelas: "X-1", tglLahir: "25042009", userTryout: "178-25-2-10-0012", pwTryout: "genzanala" },
+{ nama: "FATIH MUHAMAD PUTRA SUSANTO", nisn: "0102028132", nis: "1766", kelas: "X-1", tglLahir: "24042010", userTryout: "178-25-2-10-0013", pwTryout: "genzanala" },
+{ nama: "FURSTINNA AZALEA BALQIS", nisn: "0102473315", nis: "1773", kelas: "X-1", tglLahir: "16102010", userTryout: "178-25-2-10-0014", pwTryout: "genzanala" },
+{ nama: "GAVIN RASYA MAHESWARA", nisn: "0106789159", nis: "1776", kelas: "X-1", tglLahir: "15092010", userTryout: "178-25-2-10-0015", pwTryout: "genzanala" },
+{ nama: "GIG RAFAEL JATIERLAUT SINAGA", nisn: "0099811506", nis: "1777", kelas: "X-1", tglLahir: "22032009", userTryout: "178-25-2-10-0016", pwTryout: "genzanala" },
+{ nama: "GILANG MUHAMMAD HENDRAWAN", nisn: "0092475529", nis: "1778", kelas: "X-1", tglLahir: "16112009", userTryout: "178-25-2-10-0017", pwTryout: "genzanala" },
+{ nama: "HAZIQ ALMAS ALFAREZEL", nisn: "0105390240", nis: "1786", kelas: "X-1", tglLahir: "18062010", userTryout: "178-25-2-10-0018", pwTryout: "genzanala" },
+{ nama: "KAELINZA FERENDHITA HENDRAWONO", nisn: "0099423368", nis: "1803", kelas: "X-1", tglLahir: "01102009", userTryout: "178-25-2-10-0019", pwTryout: "genzanala" },
+{ nama: "KAREL HAMIZAN PRANOTO", nisn: "0092546599", nis: "1805", kelas: "X-1", tglLahir: "09112009", userTryout: "178-25-2-10-0020", pwTryout: "genzanala" },
+{ nama: "MARCELL GERARDO", nisn: "0106265942", nis: "1817", kelas: "X-1", tglLahir: "02032010", userTryout: "178-25-2-10-0021", pwTryout: "genzanala" },
+{ nama: "MEIRA GALUH NARESWARI", nisn: "0106182036", nis: "1825", kelas: "X-1", tglLahir: "03042010", userTryout: "178-25-2-10-0022", pwTryout: "genzanala" },
+{ nama: "MOH BALYA BARLAMAN", nisn: "0099713261", nis: "1830", kelas: "X-1", tglLahir: "28052009", userTryout: "178-25-2-10-0023", pwTryout: "genzanala" },
+{ nama: "MOHAMAD BIMA SAKTI ILMANY", nisn: "0091154972", nis: "1831", kelas: "X-1", tglLahir: "14032009", userTryout: "178-25-2-10-0024", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD BRILLIANT MUZZAKI", nisn: "0092461902", nis: "1841", kelas: "X-1", tglLahir: "15102009", userTryout: "178-25-2-10-0025", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD DZAKY WALDAN FALAH", nisn: "0102003943", nis: "1843", kelas: "X-1", tglLahir: "11022010", userTryout: "178-25-2-10-0026", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD NEGARAWAN MULYA ANGKASA", nisn: "0096566119", nis: "1854", kelas: "X-1", tglLahir: "01092009", userTryout: "178-25-2-10-0027", pwTryout: "genzanala" },
+{ nama: "NABILA ABIYYAH KEI LAY", nisn: "0108640803", nis: "1859", kelas: "X-1", tglLahir: "20072010", userTryout: "178-25-2-10-0028", pwTryout: "genzanala" },
+{ nama: "RAFKY ADITYA WIGUNA", nisn: "0103868183", nis: "1888", kelas: "X-1", tglLahir: "12062010", userTryout: "178-25-2-10-0029", pwTryout: "genzanala" },
+{ nama: "REIZTYARA MIKHAILOVA", nisn: "0091172083", nis: "1894", kelas: "X-1", tglLahir: "25072009", userTryout: "178-25-2-10-0030", pwTryout: "genzanala" },
+{ nama: "SHILVIA MAHARRANI", nisn: "0095076415", nis: "1907", kelas: "X-1", tglLahir: "23102009", userTryout: "178-25-2-10-0031", pwTryout: "genzanala" },
+{ nama: "SYIFA SALSABILA", nisn: "0101976898", nis: "1913", kelas: "X-1", tglLahir: "04052010", userTryout: "178-25-2-10-0032", pwTryout: "genzanala" },
+{ nama: "VERONICA OLIVIA BERLIAN PERMADI", nisn: "0104621514", nis: "1921", kelas: "X-1", tglLahir: "12022010", userTryout: "178-25-2-10-0033", pwTryout: "genzanala" },
+{ nama: "ABIAN FAREZA RUSDIYANTO", nisn: "0094313886", nis: "1677", kelas: "X-2", tglLahir: "26122009", userTryout: "178-25-2-10-0035", pwTryout: "genzanala" },
+{ nama: "AFKARINA ZAHRA MAGHRIEBY", nisn: "0104789864", nis: "1684", kelas: "X-2", tglLahir: "17042010", userTryout: "178-25-2-10-0036", pwTryout: "genzanala" },
+{ nama: "AHMAD ARKAN BAZYLI", nisn: "0109158561", nis: "1686", kelas: "X-2", tglLahir: "08092010", userTryout: "178-25-2-10-0037", pwTryout: "genzanala" },
+{ nama: "AKRAM ALVIS ADERAPUTRA", nisn: "0093112842", nis: "1692", kelas: "X-2", tglLahir: "17122009", userTryout: "178-25-2-10-0038", pwTryout: "genzanala" },
+{ nama: "ALMIRA ANNISA ZAHRA", nisn: "0107870333", nis: "1699", kelas: "X-2", tglLahir: "19042010", userTryout: "178-25-2-10-0039", pwTryout: "genzanala" },
+{ nama: "ALVINO HERJUNO AHMAD SUKIDIN", nisn: "0101419380", nis: "1702", kelas: "X-2", tglLahir: "01052010", userTryout: "178-25-2-10-0040", pwTryout: "genzanala" },
+{ nama: "ATHAYA ARVIN MULYANA", nisn: "0108577216", nis: "1712", kelas: "X-2", tglLahir: "17042010", userTryout: "178-25-2-10-0041", pwTryout: "genzanala" },
+{ nama: "AULIYA PUTRI MADANI", nisn: "3114190998", nis: "1714", kelas: "X-2", tglLahir: "21042011", userTryout: "178-25-2-10-0042", pwTryout: "genzanala" },
+{ nama: "BYANTARA NAUFAL RIZQULLAH", nisn: "0102774057", nis: "1731", kelas: "X-2", tglLahir: "22012010", userTryout: "178-25-2-10-0043", pwTryout: "genzanala" },
+{ nama: "CALISTA JAMHUR TSAQIB NABIL RAMADHANI", nisn: "0092998789", nis: "1733", kelas: "X-2", tglLahir: "14092009", userTryout: "178-25-2-10-0044", pwTryout: "genzanala" },
+{ nama: "DANESH NARENDRA FARIZKY", nisn: "0107076635", nis: "1738", kelas: "X-2", tglLahir: "20042010", userTryout: "178-25-2-10-0045", pwTryout: "genzanala" },
+{ nama: "DANISWARA RAJENDRA HAFIZH PRAWIRA JALADHINATA", nisn: "0092684037", nis: "1741", kelas: "X-2", tglLahir: "05112009", userTryout: "178-25-2-10-0046", pwTryout: "genzanala" },
+{ nama: "DODI PUTRA WIJAYA", nisn: "0099839463", nis: "1747", kelas: "X-2", tglLahir: "24042009", userTryout: "178-25-2-10-0047", pwTryout: "genzanala" },
+{ nama: "GANENDRA WIDYA ARDHANI", nisn: "3101734849", nis: "1774", kelas: "X-2", tglLahir: "14012010", userTryout: "178-25-2-10-0048", pwTryout: "genzanala" },
+{ nama: "HAURA KHAIRUNNISA DARMAWAN", nisn: "0109738335", nis: "1785", kelas: "X-2", tglLahir: "01112010", userTryout: "178-25-2-10-0049", pwTryout: "genzanala" },
+{ nama: "INTAN NOVIANTI JANNAH", nisn: "0092866349", nis: "1795", kelas: "X-2", tglLahir: "07112009", userTryout: "178-25-2-10-0050", pwTryout: "genzanala" },
+{ nama: "JUAN ARYASATYA PUTRA", nisn: "0108917696", nis: "1801", kelas: "X-2", tglLahir: "15062010", userTryout: "178-25-2-10-0051", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD AZZAM ROKHMATULLOH", nisn: "0107394358", nis: "1838", kelas: "X-2", tglLahir: "09102010", userTryout: "178-25-2-10-0052", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD KIVAN GERONIMO YANOSA", nisn: "0099300058", nis: "1850", kelas: "X-2", tglLahir: "18052009", userTryout: "178-25-2-10-0053", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD RASYA ASFIANTO", nisn: "0096124621", nis: "1856", kelas: "X-2", tglLahir: "28062009", userTryout: "178-25-2-10-0054", pwTryout: "genzanala" },
+{ nama: "NISRINA FAZILA", nisn: "3091100106", nis: "1870", kelas: "X-2", tglLahir: "18092009", userTryout: "178-25-2-10-0055", pwTryout: "genzanala" },
+{ nama: "QUEENNA CAHYA TUNGGA DEWI", nisn: "0105950769", nis: "1875", kelas: "X-2", tglLahir: "20032010", userTryout: "178-25-2-10-0056", pwTryout: "genzanala" },
+{ nama: "QUEENSHA FATIHA SENJAYA", nisn: "0095479032", nis: "1876", kelas: "X-2", tglLahir: "05102009", userTryout: "178-25-2-10-0057", pwTryout: "genzanala" },
+{ nama: "RAFA DZAKIY AZZAM", nisn: "0099754148", nis: "1882", kelas: "X-2", tglLahir: "22092009", userTryout: "178-25-2-10-0058", pwTryout: "genzanala" },
+{ nama: "RAFI ALMER KHAWAN AL.ZHARIF", nisn: "0094815275", nis: "1887", kelas: "X-2", tglLahir: "21122009", userTryout: "178-25-2-10-0059", pwTryout: "genzanala" },
+{ nama: "RIDA AHMAD PRASETYO", nisn: "0097556927", nis: "1896", kelas: "X-2", tglLahir: "06072009", userTryout: "178-25-2-10-0060", pwTryout: "genzanala" },
+{ nama: "SAIRE AGRIPPINO PRASETYO", nisn: "0102333513", nis: "1900", kelas: "X-2", tglLahir: "27032010", userTryout: "178-25-2-10-0061", pwTryout: "genzanala" },
+{ nama: "SAMUDERA PANDU ABISANTHA", nisn: "0102536422", nis: "1901", kelas: "X-2", tglLahir: "21012010", userTryout: "178-25-2-10-0062", pwTryout: "genzanala" },
+{ nama: "SULTHAN RAFIUDDIN", nisn: "0095839944", nis: "1911", kelas: "X-2", tglLahir: "15092009", userTryout: "178-25-2-10-0063", pwTryout: "genzanala" },
+{ nama: "VALERIE ALEXIA KUSUMA", nisn: "3114278088", nis: "1919", kelas: "X-2", tglLahir: "06042011", userTryout: "178-25-2-10-0064", pwTryout: "genzanala" },
+{ nama: "WALDAN TAQIUDDIN AL HAQIQI", nisn: "0094450195", nis: "1923", kelas: "X-2", tglLahir: "23122009", userTryout: "178-25-2-10-0065", pwTryout: "genzanala" },
+{ nama: "ACHMAD FACHRI HAMZAH", nisn: "3105212909", nis: "1680", kelas: "X-3", tglLahir: "05052010", userTryout: "178-25-2-10-0067", pwTryout: "genzanala" },
+{ nama: "AHMAD HARIZ NAIMULLAH", nisn: "0107745147", nis: "1688", kelas: "X-3", tglLahir: "07012010", userTryout: "178-25-2-10-0068", pwTryout: "genzanala" },
+{ nama: "ALDINO BIVARDIKA PUTRADIARA", nisn: "0092659163", nis: "1694", kelas: "X-3", tglLahir: "09092009", userTryout: "178-25-2-10-0069", pwTryout: "genzanala" },
+{ nama: "ALDYLA RAHMA KUSUMA WARDANI", nisn: "0096373343", nis: "1695", kelas: "X-3", tglLahir: "17122009", userTryout: "178-25-2-10-0070", pwTryout: "genzanala" },
+{ nama: "ARSYAD MUBARAK WIBISONO", nisn: "0095636401", nis: "1707", kelas: "X-3", tglLahir: "30102009", userTryout: "178-25-2-10-0071", pwTryout: "genzanala" },
+{ nama: "ATHA SAFIRA RAMADHANI", nisn: "0108149349", nis: "1711", kelas: "X-3", tglLahir: "14082010", userTryout: "178-25-2-10-0072", pwTryout: "genzanala" },
+{ nama: "AZRI'EL AZKANIO ADRIAN", nisn: "0104191391", nis: "1722", kelas: "X-3", tglLahir: "01052010", userTryout: "178-25-2-10-0073", pwTryout: "genzanala" },
+{ nama: "AZZRA RADITYA MAULANA", nisn: "0105172770", nis: "1723", kelas: "X-3", tglLahir: "19012010", userTryout: "178-25-2-10-0074", pwTryout: "genzanala" },
+{ nama: "BERREN ALFARABI FARINSYAH", nisn: "0083954819", nis: "1726", kelas: "X-3", tglLahir: "14062008", userTryout: "178-25-2-10-0075", pwTryout: "genzanala" },
+{ nama: "DANINDRA SATRIA BAGASPATI", nisn: "0095339509", nis: "1740", kelas: "X-3", tglLahir: "21122009", userTryout: "178-25-2-10-0076", pwTryout: "genzanala" },
+{ nama: "DANU BAGUS PRAKOSO", nisn: "0101766606", nis: "1742", kelas: "X-3", tglLahir: "26022010", userTryout: "178-25-2-10-0077", pwTryout: "genzanala" },
+{ nama: "FARREL ALVIAN PRATAMA", nisn: "0097444021", nis: "1763", kelas: "X-3", tglLahir: "26042009", userTryout: "178-25-2-10-0078", pwTryout: "genzanala" },
+{ nama: "FRISCHA YURISTIA ANGELIE", nisn: "0105061925", nis: "1771", kelas: "X-3", tglLahir: "14062010", userTryout: "178-25-2-10-0079", pwTryout: "genzanala" },
+{ nama: "FUAD GAMEL ADMAJA", nisn: "0093484958", nis: "1772", kelas: "X-3", tglLahir: "13122009", userTryout: "178-25-2-10-0080", pwTryout: "genzanala" },
+{ nama: "IBRAHIM AKHLAQ ZAFIER", nisn: "0098103775", nis: "1790", kelas: "X-3", tglLahir: "10082009", userTryout: "178-25-2-10-0081", pwTryout: "genzanala" },
+{ nama: "ILHAM ARYA KUSUMA", nisn: "0105518799", nis: "1792", kelas: "X-3", tglLahir: "11022010", userTryout: "178-25-2-10-0082", pwTryout: "genzanala" },
+{ nama: "KAFINDA ATHILLAH PUTRA ERNAWAN", nisn: "0095469284", nis: "1804", kelas: "X-3", tglLahir: "20082009", userTryout: "178-25-2-10-0083", pwTryout: "genzanala" },
+{ nama: "MAHESA LAKSANA PANATAGAMA", nisn: "0107017792", nis: "1814", kelas: "X-3", tglLahir: "14022010", userTryout: "178-25-2-10-0084", pwTryout: "genzanala" },
+{ nama: "MARVELANDO SEADEWA KALILA", nisn: "0101791747", nis: "1821", kelas: "X-3", tglLahir: "22032010", userTryout: "178-25-2-10-0085", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD AKHTAR UMMAH", nisn: "0105516713", nis: "1835", kelas: "X-3", tglLahir: "17072010", userTryout: "178-25-2-10-0086", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD FADHLURRAHMAN MARALA", nisn: "0109699943", nis: "1846", kelas: "X-3", tglLahir: "23062010", userTryout: "178-25-2-10-0087", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD RAFA KURNIAWAN", nisn: "0108931225", nis: "1855", kelas: "X-3", tglLahir: "26012010", userTryout: "178-25-2-10-0088", pwTryout: "genzanala" },
+{ nama: "NAJVARA PINANDITA MURTI", nisn: "0099724475", nis: "1865", kelas: "X-3", tglLahir: "20092009", userTryout: "178-25-2-10-0089", pwTryout: "genzanala" },
+{ nama: "NAZZHAFA TIANG ASYURA NAYAWULAN", nisn: "0096135978", nis: "1868", kelas: "X-3", tglLahir: "07122010", userTryout: "178-25-2-10-0090", pwTryout: "genzanala" },
+{ nama: "RAIHAN SURYA PRATAMA", nisn: "0091974149", nis: "1889", kelas: "X-3", tglLahir: "13052009", userTryout: "178-25-2-10-0091", pwTryout: "genzanala" },
+{ nama: "RIANTI SEKAR AULIA", nisn: "0101229934", nis: "1895", kelas: "X-3", tglLahir: "05052010", userTryout: "178-25-2-10-0092", pwTryout: "genzanala" },
+{ nama: "SATRIA PUTRA SAMUDRA", nisn: "0094975884", nis: "1903", kelas: "X-3", tglLahir: "06092009", userTryout: "178-25-2-10-0093", pwTryout: "genzanala" },
+{ nama: "SHINTA AQILLA PUTRI ANJANI", nisn: "0112428589", nis: "1908", kelas: "X-3", tglLahir: "17042011", userTryout: "178-25-2-10-0094", pwTryout: "genzanala" },
+{ nama: "STEFANI ADELIA", nisn: "0109232067", nis: "1909", kelas: "X-3", tglLahir: "20072010", userTryout: "178-25-2-10-0095", pwTryout: "genzanala" },
+{ nama: "TENGGARA ALGHANI ALMARFADI", nisn: "0105532869", nis: "1915", kelas: "X-3", tglLahir: "07032010", userTryout: "178-25-2-10-0096", pwTryout: "genzanala" },
+{ nama: "VIDIA RESAFA BRINA", nisn: "0105803606", nis: "1922", kelas: "X-3", tglLahir: "01022010", userTryout: "178-25-2-10-0097", pwTryout: "genzanala" },
+{ nama: "YAQDHAN SATRIO SINATRYA", nisn: "0101687541", nis: "1924", kelas: "X-3", tglLahir: "06022010", userTryout: "178-25-2-10-0098", pwTryout: "genzanala" },
+{ nama: "A. ARSYA ARDHANY RENATA", nisn: "0103064361", nis: "1674", kelas: "X-4", tglLahir: "31012010", userTryout: "178-25-2-10-0100", pwTryout: "genzanala" },
+{ nama: "AHMAD AZZAM DZAKY ADI WIBOWO", nisn: "0101642321", nis: "1687", kelas: "X-4", tglLahir: "10022010", userTryout: "178-25-2-10-0101", pwTryout: "genzanala" },
+{ nama: "AXCELLE OZORA", nisn: "0099423186", nis: "1717", kelas: "X-4", tglLahir: "14092009", userTryout: "178-25-2-10-0102", pwTryout: "genzanala" },
+{ nama: "AZORA DESISHA LINTANG KHAYYATA", nisn: "0099762433", nis: "1720", kelas: "X-4", tglLahir: "07122009", userTryout: "178-25-2-10-0103", pwTryout: "genzanala" },
+{ nama: "BADAR DWI PRAMADHAN", nisn: "0107288455", nis: "1724", kelas: "X-4", tglLahir: "06082010", userTryout: "178-25-2-10-0104", pwTryout: "genzanala" },
+{ nama: "CLARISSA ANNABELLE PUTRI TAMBUNAN", nisn: "0104660020", nis: "1734", kelas: "X-4", tglLahir: "29112010", userTryout: "178-25-2-10-0105", pwTryout: "genzanala" },
+{ nama: "CLEA ANINDYA ARUNDATI", nisn: "0106389916", nis: "1736", kelas: "X-4", tglLahir: "13102010", userTryout: "178-25-2-10-0106", pwTryout: "genzanala" },
+{ nama: "FADHILAN ARKAN AL HAFIZH", nisn: "0103357641", nis: "1754", kelas: "X-4", tglLahir: "03052010", userTryout: "178-25-2-10-0107", pwTryout: "genzanala" },
+{ nama: "FADHILLAH AHMAD HARYANTO", nisn: "0097015631", nis: "1755", kelas: "X-4", tglLahir: "15092009", userTryout: "178-25-2-10-0108", pwTryout: "genzanala" },
+{ nama: "FARDAN AMIR", nisn: "0087117315", nis: "1760", kelas: "X-4", tglLahir: "06092008", userTryout: "178-25-2-10-0109", pwTryout: "genzanala" },
+{ nama: "HASNA QUANEISHA NAIYIRA SAKHI", nisn: "0091592890", nis: "1784", kelas: "X-4", tglLahir: "02102009", userTryout: "178-25-2-10-0110", pwTryout: "genzanala" },
+{ nama: "ILHAM ESTIAWAN", nisn: "0109825717", nis: "1793", kelas: "X-4", tglLahir: "10052010", userTryout: "178-25-2-10-0111", pwTryout: "genzanala" },
+{ nama: "IRFAN ADITYA ARDHANI", nisn: "0108729940", nis: "1797", kelas: "X-4", tglLahir: "25062010", userTryout: "178-25-2-10-0112", pwTryout: "genzanala" },
+{ nama: "JEZABEL KAMIL SETYA BHAGASKARA", nisn: "0102997268", nis: "1800", kelas: "X-4", tglLahir: "07012010", userTryout: "178-25-2-10-0113", pwTryout: "genzanala" },
+{ nama: "KHAIRA ISYAANA PUTRI", nisn: "0097324943", nis: "1810", kelas: "X-4", tglLahir: "17102009", userTryout: "178-25-2-10-0114", pwTryout: "genzanala" },
+{ nama: "LESMANA AHMAD DOROTIN", nisn: "0108501835", nis: "1812", kelas: "X-4", tglLahir: "20052010", userTryout: "178-25-2-10-0115", pwTryout: "genzanala" },
+{ nama: "MARCHIANO ABRAR AGARISTA", nisn: "0106096879", nis: "1818", kelas: "X-4", tglLahir: "04032010", userTryout: "178-25-2-10-0116", pwTryout: "genzanala" },
+{ nama: "MAYESA ALIFIA AGNIE", nisn: "0106989221", nis: "1824", kelas: "X-4", tglLahir: "23032010", userTryout: "178-25-2-10-0117", pwTryout: "genzanala" },
+{ nama: "MEITA ANINDYA WIDORINI", nisn: "0107601481", nis: "1826", kelas: "X-4", tglLahir: "24052010", userTryout: "178-25-2-10-0118", pwTryout: "genzanala" },
+{ nama: "MOCHAMAD IZZA AR-RAYHAN", nisn: "0104643640", nis: "1829", kelas: "X-4", tglLahir: "03032010", userTryout: "178-25-2-10-0119", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD FABIAN ALVARO", nisn: "0104343974", nis: "1845", kelas: "X-4", tglLahir: "28022010", userTryout: "178-25-2-10-0120", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD FATHAN AFANDA NAHDLY", nisn: "3092209966", nis: "1847", kelas: "X-4", tglLahir: "09112009", userTryout: "178-25-2-10-0121", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD RIDHO BASTIAN FIRDAUS", nisn: "0101346973", nis: "1857", kelas: "X-4", tglLahir: "28102010", userTryout: "178-25-2-10-0122", pwTryout: "genzanala" },
+{ nama: "NADHIFA SALSABILA SIRAJ", nisn: "0102895021", nis: "1861", kelas: "X-4", tglLahir: "23042010", userTryout: "178-25-2-10-0123", pwTryout: "genzanala" },
+{ nama: "NANDA RIZQI SUBAGYA", nisn: "0085761799", nis: "1866", kelas: "X-4", tglLahir: "11122008", userTryout: "178-25-2-10-0124", pwTryout: "genzanala" },
+{ nama: "NEYSA VANIA BRILLIANT", nisn: "0101195590", nis: "1869", kelas: "X-4", tglLahir: "01032010", userTryout: "178-25-2-10-0125", pwTryout: "genzanala" },
+{ nama: "PRADANA BINTANG NARARYA", nisn: "0097103122", nis: "1872", kelas: "X-4", tglLahir: "24072009", userTryout: "178-25-2-10-0126", pwTryout: "genzanala" },
+{ nama: "RADHITYA FAISAL HAKIM", nisn: "0098181754", nis: "1878", kelas: "X-4", tglLahir: "24112009", userTryout: "178-25-2-10-0127", pwTryout: "genzanala" },
+{ nama: "RADITHYA RAMADHANI RAHMAN", nisn: "0091569940", nis: "1880", kelas: "X-4", tglLahir: "01052009", userTryout: "178-25-2-10-0128", pwTryout: "genzanala" },
+{ nama: "RIGEL HAIDAR ISWAHYUDI", nisn: "0091265085", nis: "1897", kelas: "X-4", tglLahir: "06112009", userTryout: "178-25-2-10-0129", pwTryout: "genzanala" },
+{ nama: "SANDY ALMIRA GHINA SAFFANAH ZAHIRAH", nisn: "0095618677", nis: "1902", kelas: "X-4", tglLahir: "15112009", userTryout: "178-25-2-10-0130", pwTryout: "genzanala" },
+{ nama: "ZANEETA NISA'UL HUSNA", nisn: "0105333118", nis: "1925", kelas: "X-4", tglLahir: "24082010", userTryout: "178-25-2-10-0131", pwTryout: "genzanala" },
+{ nama: "ABDUL JABBAR AL FARUQ PUTRA WAHYUDIN", nisn: "0107060536", nis: "1675", kelas: "X-5", tglLahir: "07072010", userTryout: "178-25-2-10-0133", pwTryout: "genzanala" },
+{ nama: "ABDULLAH ZAKY KANNY", nisn: "3101765944", nis: "1676", kelas: "X-5", tglLahir: "09012010", userTryout: "178-25-2-10-0134", pwTryout: "genzanala" },
+{ nama: "ABRYAN MAHARDIKA SANDHI PRATAMA", nisn: "0099545694", nis: "1679", kelas: "X-5", tglLahir: "17082009", userTryout: "178-25-2-10-0135", pwTryout: "genzanala" },
+{ nama: "AGUNG BRAMANA PUTRA PENATIH", nisn: "0091618095", nis: "1685", kelas: "X-5", tglLahir: "21012009", userTryout: "178-25-2-10-0136", pwTryout: "genzanala" },
+{ nama: "AHMAD REZA ZAKARIYA", nisn: "0108346736", nis: "1690", kelas: "X-5", tglLahir: "09012010", userTryout: "178-25-2-10-0137", pwTryout: "genzanala" },
+{ nama: "ALMAIRA ZIVANNA ROMADHONA", nisn: "3095890092", nis: "1698", kelas: "X-5", tglLahir: "15092009", userTryout: "178-25-2-10-0138", pwTryout: "genzanala" },
+{ nama: "ALMIRA WAHYU CORDELIA PUTRI", nisn: "0106094133", nis: "1701", kelas: "X-5", tglLahir: "12012010", userTryout: "178-25-2-10-0139", pwTryout: "genzanala" },
+{ nama: "ANANDA CLARA APRILLIA", nisn: "0093992967", nis: "1703", kelas: "X-5", tglLahir: "11042009", userTryout: "178-25-2-10-0140", pwTryout: "genzanala" },
+{ nama: "DAVIN NADIKA ADIYASA", nisn: "0105532345", nis: "1743", kelas: "X-5", tglLahir: "14082010", userTryout: "178-25-2-10-0141", pwTryout: "genzanala" },
+{ nama: "DHIFTA MAULANA DARMAWAN", nisn: "0093618171", nis: "1744", kelas: "X-5", tglLahir: "24092009", userTryout: "178-25-2-10-0142", pwTryout: "genzanala" },
+{ nama: "DINDA AYU NUR AHSANAH WIYANSAH PASORONG", nisn: "0107597866", nis: "1746", kelas: "X-5", tglLahir: "09082010", userTryout: "178-25-2-10-0143", pwTryout: "genzanala" },
+{ nama: "DYAH AYU WINASTITI ERA RIZALIA", nisn: "0096401312", nis: "1748", kelas: "X-5", tglLahir: "24122009", userTryout: "178-25-2-10-0144", pwTryout: "genzanala" },
+{ nama: "FATHAN IRIANTO", nisn: "3100198490", nis: "1764", kelas: "X-5", tglLahir: "21022011", userTryout: "178-25-2-10-0145", pwTryout: "genzanala" },
+{ nama: "FERONICA ANGGUN IVANA", nisn: "0094550621", nis: "1768", kelas: "X-5", tglLahir: "25082009", userTryout: "178-25-2-10-0146", pwTryout: "genzanala" },
+{ nama: "GUNTUR SULTHON IBRAHIM", nisn: "0101226688", nis: "1781", kelas: "X-5", tglLahir: "11112010", userTryout: "178-25-2-10-0147", pwTryout: "genzanala" },
+{ nama: "HAIDAR FAHMI MAULIDI CHOSIM", nisn: "0107534824", nis: "1782", kelas: "X-5", tglLahir: "04032010", userTryout: "178-25-2-10-0148", pwTryout: "genzanala" },
+{ nama: "HANIF RIZQULLAH", nisn: "0098611709", nis: "1783", kelas: "X-5", tglLahir: "21092009", userTryout: "178-25-2-10-0149", pwTryout: "genzanala" },
+{ nama: "IMAM MUSSADID ASSAID", nisn: "0109376450", nis: "1794", kelas: "X-5", tglLahir: "03062010", userTryout: "178-25-2-10-0150", pwTryout: "genzanala" },
+{ nama: "JALASENA RAJENDRA CHANDRA SUKMANA", nisn: "0102277316", nis: "1799", kelas: "X-5", tglLahir: "14042010", userTryout: "178-25-2-10-0151", pwTryout: "genzanala" },
+{ nama: "KADEK BAGUS NAUFAL ANANDETA", nisn: "0097406213", nis: "1802", kelas: "X-5", tglLahir: "28122009", userTryout: "178-25-2-10-0152", pwTryout: "genzanala" },
+{ nama: "KEIFFA ZAHRA ANSARI", nisn: "0104363596", nis: "1807", kelas: "X-5", tglLahir: "22032010", userTryout: "178-25-2-10-0153", pwTryout: "genzanala" },
+{ nama: "KENZIE BAYUSUTA FATAH", nisn: "0106796987", nis: "1809", kelas: "X-5", tglLahir: "12072010", userTryout: "178-25-2-10-0154", pwTryout: "genzanala" },
+{ nama: "MAHIRA ABRILLA AINTZANE", nisn: "0109603271", nis: "1816", kelas: "X-5", tglLahir: "17042010", userTryout: "178-25-2-10-0155", pwTryout: "genzanala" },
+{ nama: "MARITZA RAFA AKILAH ARIFIANTI", nisn: "0097876817", nis: "1819", kelas: "X-5", tglLahir: "24082009", userTryout: "178-25-2-10-0156", pwTryout: "genzanala" },
+{ nama: "MILA DURROTUL HUSNA", nisn: "3096034930", nis: "1827", kelas: "X-5", tglLahir: "23122009", userTryout: "178-25-2-10-0157", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD AFRAND DHARMA WIJAYA", nisn: "0103891748", nis: "1834", kelas: "X-5", tglLahir: "11052010", userTryout: "178-25-2-10-0158", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD BINTANG ADITYA RAHARDJO", nisn: "0102241542", nis: "1840", kelas: "X-5", tglLahir: "17072010", userTryout: "178-25-2-10-0159", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD HAFIDZ ADZ DZIKRI", nisn: "0097588419", nis: "1849", kelas: "X-5", tglLahir: "26112009", userTryout: "178-25-2-10-0160", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD ZAIDAN BATUBARA", nisn: "0093067641", nis: "1858", kelas: "X-5", tglLahir: "14122009", userTryout: "178-25-2-10-0161", pwTryout: "genzanala" },
+{ nama: "RADITYA BIMA WISTARA", nisn: "0102908059", nis: "1881", kelas: "X-5", tglLahir: "03072010", userTryout: "178-25-2-10-0162", pwTryout: "genzanala" },
+{ nama: "SETIA PRATAMA AKBARRI", nisn: "0097564735", nis: "1905", kelas: "X-5", tglLahir: "20102009", userTryout: "178-25-2-10-0163", pwTryout: "genzanala" },
+{ nama: "ZEVANYA JULIANES TUNJUNG", nisn: "0099046183", nis: "1926", kelas: "X-5", tglLahir: "02072009", userTryout: "178-25-2-10-0164", pwTryout: "genzanala" },
+{ nama: "ADARA CHARENT NARARYA", nisn: "3100267496", nis: "1681", kelas: "X-6", tglLahir: "05042010", userTryout: "178-25-2-10-0166", pwTryout: "genzanala" },
+{ nama: "AILSA MAHESWARI SUPRIYADI", nisn: "0104182426", nis: "1691", kelas: "X-6", tglLahir: "07022010", userTryout: "178-25-2-10-0167", pwTryout: "genzanala" },
+{ nama: "ALEXY BOY AMPERE WICAKSANA", nisn: "0102995417", nis: "1696", kelas: "X-6", tglLahir: "05052010", userTryout: "178-25-2-10-0168", pwTryout: "genzanala" },
+{ nama: "ALFITO RADITYA HARUN", nisn: "0095506023", nis: "1697", kelas: "X-6", tglLahir: "15072009", userTryout: "178-25-2-10-0169", pwTryout: "genzanala" },
+{ nama: "AURELIA PUTRI DINDA MEYGISTA ASHAFIRA", nisn: "0104876298", nis: "1715", kelas: "X-6", tglLahir: "17052010", userTryout: "178-25-2-10-0170", pwTryout: "genzanala" },
+{ nama: "BIMA", nisn: "0103851332", nis: "1727", kelas: "X-6", tglLahir: "05042010", userTryout: "178-25-2-10-0171", pwTryout: "genzanala" },
+{ nama: "BRIANNA KALIFA HAMEL", nisn: "0095108761", nis: "1729", kelas: "X-6", tglLahir: "28122009", userTryout: "178-25-2-10-0172", pwTryout: "genzanala" },
+{ nama: "FABRIANNE SHAREEFA ADIYANT", nisn: "0108603550", nis: "1752", kelas: "X-6", tglLahir: "23032010", userTryout: "178-25-2-10-0173", pwTryout: "genzanala" },
+{ nama: "FAUZIAH HASNA NABILA", nisn: "0091029876", nis: "1767", kelas: "X-6", tglLahir: "15082009", userTryout: "178-25-2-10-0174", pwTryout: "genzanala" },
+{ nama: "FIRDIAN MUKTI ADHISTIRA", nisn: "0097138457", nis: "1769", kelas: "X-6", tglLahir: "24062009", userTryout: "178-25-2-10-0175", pwTryout: "genzanala" },
+{ nama: "GREEN AYDIN NARAPATI", nisn: "0107951123", nis: "1780", kelas: "X-6", tglLahir: "29112010", userTryout: "178-25-2-10-0176", pwTryout: "genzanala" },
+{ nama: "I WAYAN BASKARA PUTRA", nisn: "0115611729", nis: "1789", kelas: "X-6", tglLahir: "02012011", userTryout: "178-25-2-10-0177", pwTryout: "genzanala" },
+{ nama: "INTAN TRISYA ALAYYA", nisn: "0102329303", nis: "1796", kelas: "X-6", tglLahir: "31012010", userTryout: "178-25-2-10-0178", pwTryout: "genzanala" },
+{ nama: "IRHAM ARSY HABIBURRAHMAN", nisn: "0097191825", nis: "1798", kelas: "X-6", tglLahir: "11092009", userTryout: "178-25-2-10-0179", pwTryout: "genzanala" },
+{ nama: "KARIEL EMIR ROSSI ASYAM", nisn: "0108967444", nis: "1806", kelas: "X-6", tglLahir: "27012010", userTryout: "178-25-2-10-0180", pwTryout: "genzanala" },
+{ nama: "KENNARD AULIA ANWAR", nisn: "0109263799", nis: "1808", kelas: "X-6", tglLahir: "06022010", userTryout: "178-25-2-10-0181", pwTryout: "genzanala" },
+{ nama: "LABIB ABDULLAH AL HUSAIN", nisn: "0118802708", nis: "1811", kelas: "X-6", tglLahir: "11022011", userTryout: "178-25-2-10-0182", pwTryout: "genzanala" },
+{ nama: "MARVEL GERARDO", nisn: "0108982500", nis: "1820", kelas: "X-6", tglLahir: "02032010", userTryout: "178-25-2-10-0183", pwTryout: "genzanala" },
+{ nama: "MAULANA IBRAHIM ALFARIZI", nisn: "0091560320", nis: "1823", kelas: "X-6", tglLahir: "01122009", userTryout: "178-25-2-10-0184", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD ARSHAL GHAFIQI", nisn: "3104443864", nis: "1836", kelas: "X-6", tglLahir: "16012010", userTryout: "178-25-2-10-0185", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD FAWWAZ RAIS RAMADHAN", nisn: "0098410117", nis: "1848", kelas: "X-6", tglLahir: "31082010", userTryout: "178-25-2-10-0186", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD NAUFAL ABYAN NABIL", nisn: "0096710721", nis: "1853", kelas: "X-6", tglLahir: "26102009", userTryout: "178-25-2-10-0187", pwTryout: "genzanala" },
+{ nama: "NAJLA ADELYA DZAKIANIANTO", nisn: "0105106644", nis: "1864", kelas: "X-6", tglLahir: "11072010", userTryout: "178-25-2-10-0188", pwTryout: "genzanala" },
+{ nama: "NATHANIA NABILA", nisn: "0093999097", nis: "1867", kelas: "X-6", tglLahir: "09042009", userTryout: "178-25-2-10-0189", pwTryout: "genzanala" },
+{ nama: "NOUVAL NAJMA ZUHDHI AL-HADAR", nisn: "0094982490", nis: "1871", kelas: "X-6", tglLahir: "03072009", userTryout: "178-25-2-10-0190", pwTryout: "genzanala" },
+{ nama: "QONITA BUNGA AZZILMI", nisn: "0109724245", nis: "1874", kelas: "X-6", tglLahir: "22042010", userTryout: "178-25-2-10-0191", pwTryout: "genzanala" },
+{ nama: "RAFAEL CANDRA SETIAWAN", nisn: "0097442651", nis: "1883", kelas: "X-6", tglLahir: "31102009", userTryout: "178-25-2-10-0192", pwTryout: "genzanala" },
+{ nama: "RAFAEL DASHA AGUNG RAMADHAN", nisn: "0093934931", nis: "1884", kelas: "X-6", tglLahir: "04092009", userTryout: "178-25-2-10-0193", pwTryout: "genzanala" },
+{ nama: "RAFI AL-GHAZALI RIZKI", nisn: "3106861156", nis: "1886", kelas: "X-6", tglLahir: "05122010", userTryout: "178-25-2-10-0194", pwTryout: "genzanala" },
+{ nama: "RALPHAEL TSAQIF VEFBRYAN KURNIAWAN", nisn: "0091075290", nis: "1890", kelas: "X-6", tglLahir: "01022010", userTryout: "178-25-2-10-0195", pwTryout: "genzanala" },
+{ nama: "RAVINDRA RAMADHAN", nisn: "0103185751", nis: "1893", kelas: "X-6", tglLahir: "04062010", userTryout: "178-25-2-10-0196", pwTryout: "genzanala" },
+{ nama: "ADIS ZAHRAN GHITA PRAMONO", nisn: "0107047511", nis: "1683", kelas: "X-7", tglLahir: "03032010", userTryout: "178-25-2-10-0198", pwTryout: "genzanala" },
+{ nama: "ARRASYA BISMA FA'AL AMIN", nisn: "0084466868", nis: "1706", kelas: "X-7", tglLahir: "18122009", userTryout: "178-25-2-10-0199", pwTryout: "genzanala" },
+{ nama: "ARYA SATYA HERNAWAN", nisn: "0105065202", nis: "1710", kelas: "X-7", tglLahir: "17062010", userTryout: "178-25-2-10-0200", pwTryout: "genzanala" },
+{ nama: "ATHAYA BELVA ABQARI", nisn: "0103302188", nis: "1713", kelas: "X-7", tglLahir: "04012010", userTryout: "178-25-2-10-0201", pwTryout: "genzanala" },
+{ nama: "AZKADIAN ANSHORI", nisn: "0094861542", nis: "1719", kelas: "X-7", tglLahir: "31072009", userTryout: "178-25-2-10-0202", pwTryout: "genzanala" },
+{ nama: "AZRIEL ABIYYU ANANTO", nisn: "3097596921", nis: "1721", kelas: "X-7", tglLahir: "05112009", userTryout: "178-25-2-10-0203", pwTryout: "genzanala" },
+{ nama: "BADHRA PUTRA NABABAN", nisn: "0092458572", nis: "1725", kelas: "X-7", tglLahir: "23092009", userTryout: "178-25-2-10-0204", pwTryout: "genzanala" },
+{ nama: "DAMAR SEPTHIAN", nisn: "0098579095", nis: "1737", kelas: "X-7", tglLahir: "30092009", userTryout: "178-25-2-10-0205", pwTryout: "genzanala" },
+{ nama: "FATIH ARRASYID FADILA", nisn: "0104088301", nis: "1765", kelas: "X-7", tglLahir: "01012010", userTryout: "178-25-2-10-0206", pwTryout: "genzanala" },
+{ nama: "FIRZATULLAH MUSTOFA AFFANDI", nisn: "0109456584", nis: "1770", kelas: "X-7", tglLahir: "19042010", userTryout: "178-25-2-10-0207", pwTryout: "genzanala" },
+{ nama: "MAGISTRA ALI AHZA PAMBUDI", nisn: "0105069859", nis: "1813", kelas: "X-7", tglLahir: "02072010", userTryout: "178-25-2-10-0208", pwTryout: "genzanala" },
+{ nama: "MAHESWARA AJISKA ANTON", nisn: "0108585058", nis: "1815", kelas: "X-7", tglLahir: "15022010", userTryout: "178-25-2-10-0209", pwTryout: "genzanala" },
+{ nama: "MOHAMMAD FIRDAUZ AL FARITZI", nisn: "3098665878", nis: "1832", kelas: "X-7", tglLahir: "28062009", userTryout: "178-25-2-10-0210", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD ARYASATYA WIJAYA", nisn: "0097482213", nis: "1837", kelas: "X-7", tglLahir: "06112009", userTryout: "178-25-2-10-0211", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD BIMA AL AKBAR PUTRA", nisn: "0093772274", nis: "1839", kelas: "X-7", tglLahir: "28112009", userTryout: "178-25-2-10-0212", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD DAFFA IZZAN MULYADI", nisn: "0095097883", nis: "1842", kelas: "X-7", tglLahir: "11012009", userTryout: "178-25-2-10-0213", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD EVAN DWI HARYONO", nisn: "0092835109", nis: "1844", kelas: "X-7", tglLahir: "03042009", userTryout: "178-25-2-10-0214", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD NABIL PURBANDORO", nisn: "0097622910", nis: "1852", kelas: "X-7", tglLahir: "27112009", userTryout: "178-25-2-10-0215", pwTryout: "genzanala" },
+{ nama: "NABILA PUTRI CAHYANI", nisn: "0091680236", nis: "1860", kelas: "X-7", tglLahir: "13112009", userTryout: "178-25-2-10-0216", pwTryout: "genzanala" },
+{ nama: "NADIA PUTRI SANTOSO", nisn: "0103005208", nis: "1862", kelas: "X-7", tglLahir: "16072010", userTryout: "178-25-2-10-0217", pwTryout: "genzanala" },
+{ nama: "NADYA SHAFWA FAKHRUNNISA PRAWIRA", nisn: "0092192574", nis: "1863", kelas: "X-7", tglLahir: "24112009", userTryout: "178-25-2-10-0218", pwTryout: "genzanala" },
+{ nama: "QUEENZA KANAYA EDI", nisn: "0105455214", nis: "1877", kelas: "X-7", tglLahir: "28082010", userTryout: "178-25-2-10-0219", pwTryout: "genzanala" },
+{ nama: "RAMADHAN BAGAS PRATAMA", nisn: "0105699129", nis: "1891", kelas: "X-7", tglLahir: "08092010", userTryout: "178-25-2-10-0220", pwTryout: "genzanala" },
+{ nama: "RAVA ADRIEL NATAMA PUTRA PRASETYO", nisn: "0094995997", nis: "1892", kelas: "X-7", tglLahir: "25122009", userTryout: "178-25-2-10-0221", pwTryout: "genzanala" },
+{ nama: "RODOMORA PUTRA ARITONANG", nisn: "0101825600", nis: "1898", kelas: "X-7", tglLahir: "27042010", userTryout: "178-25-2-10-0222", pwTryout: "genzanala" },
+{ nama: "SABIAN NAECHELLELO", nisn: "0102724204", nis: "1899", kelas: "X-7", tglLahir: "22082010", userTryout: "178-25-2-10-0223", pwTryout: "genzanala" },
+{ nama: "SHAHRIL SABIRIN", nisn: "3097028393", nis: "1906", kelas: "X-7", tglLahir: "19022009", userTryout: "178-25-2-10-0224", pwTryout: "genzanala" },
+{ nama: "STEVIE MICHAELLA BOLUNG", nisn: "0107751657", nis: "1910", kelas: "X-7", tglLahir: "20092010", userTryout: "178-25-2-10-0225", pwTryout: "genzanala" },
+{ nama: "SYARAH NAHJUL BALAQOH SULAIMAN", nisn: "0093916102", nis: "1912", kelas: "X-7", tglLahir: "12112009", userTryout: "178-25-2-10-0226", pwTryout: "genzanala" },
+{ nama: "TABITA PRICILIA ANGELITA SIAHAAN", nisn: "0101874270", nis: "1914", kelas: "X-7", tglLahir: "28062010", userTryout: "178-25-2-10-0227", pwTryout: "genzanala" },
+{ nama: "THARIQ HUSAIN ABDURROZZAQ", nisn: "3103335351", nis: "1916", kelas: "X-7", tglLahir: "27032010", userTryout: "178-25-2-10-0228", pwTryout: "genzanala" },
+{ nama: "TIMOTHY GEMILANG BUTAR BUTAR", nisn: "0109112613", nis: "1917", kelas: "X-7", tglLahir: "09112010", userTryout: "178-25-2-10-0229", pwTryout: "genzanala" },
+{ nama: "AHMAD KUN MISBAHUZZAMAN", nisn: "0109893498", nis: "1689", kelas: "X-8", tglLahir: "25022010", userTryout: "178-25-2-10-0231", pwTryout: "genzanala" },
+{ nama: "ALBERTIAN GUNADARMA AFIAT", nisn: "0092127538", nis: "1693", kelas: "X-8", tglLahir: "19072009", userTryout: "178-25-2-10-0232", pwTryout: "genzanala" },
+{ nama: "ANNABELLA BERNADETH KEZYA SILITONGA", nisn: "0107774736", nis: "1705", kelas: "X-8", tglLahir: "18032010", userTryout: "178-25-2-10-0233", pwTryout: "genzanala" },
+{ nama: "AURELLINE ANINDYA PUTRI", nisn: "0107869474", nis: "1716", kelas: "X-8", tglLahir: "30042010", userTryout: "178-25-2-10-0235", pwTryout: "genzanala" },
+{ nama: "BRIGITA NASYA DHAMARIS SUPRAYOGI", nisn: "0094628700", nis: "1730", kelas: "X-8", tglLahir: "28072009", userTryout: "178-25-2-10-0236", pwTryout: "genzanala" },
+{ nama: "CAHYA ANUGERAH PUTRI", nisn: "0094546123", nis: "1732", kelas: "X-8", tglLahir: "27072009", userTryout: "178-25-2-10-0237", pwTryout: "genzanala" },
+{ nama: "CLARISSA YOVANKA SARAGIH", nisn: "0105104551", nis: "1735", kelas: "X-8", tglLahir: "14062010", userTryout: "178-25-2-10-0238", pwTryout: "genzanala" },
+{ nama: "DANIEL ALEXANDER MANTIRI", nisn: "0105757626", nis: "1739", kelas: "X-8", tglLahir: "01052010", userTryout: "178-25-2-10-0239", pwTryout: "genzanala" },
+{ nama: "DIFA AMIRA PUTRI", nisn: "0091070238", nis: "1745", kelas: "X-8", tglLahir: "29052009", userTryout: "178-25-2-10-0240", pwTryout: "genzanala" },
+{ nama: "DZAKWAN NAJIBUZ ZUHAL", nisn: "0094366321", nis: "1750", kelas: "X-8", tglLahir: "13122009", userTryout: "178-25-2-10-0241", pwTryout: "genzanala" },
+{ nama: "EL WARDHA ARUM SAFITRI", nisn: "0099339966", nis: "1751", kelas: "X-8", tglLahir: "17112009", userTryout: "178-25-2-10-0242", pwTryout: "genzanala" },
+{ nama: "FADIL GEO ARDANA", nisn: "0101270902", nis: "1756", kelas: "X-8", tglLahir: "02012010", userTryout: "178-25-2-10-0243", pwTryout: "genzanala" },
+{ nama: "FAHMI ZIDAN ASMARA", nisn: "0099491997", nis: "1758", kelas: "X-8", tglLahir: "02022009", userTryout: "178-25-2-10-0244", pwTryout: "genzanala" },
+{ nama: "FAHRI SIDIQ", nisn: "3091095125", nis: "1759", kelas: "X-8", tglLahir: "23032009", userTryout: "178-25-2-10-0245", pwTryout: "genzanala" },
+{ nama: "FARHAN AMIRUDIN ILYAS", nisn: "0093521483", nis: "1761", kelas: "X-8", tglLahir: "22062009", userTryout: "178-25-2-10-0246", pwTryout: "genzanala" },
+{ nama: "GAVIN PRANATA PUTRA", nisn: "0108374083", nis: "1775", kelas: "X-8", tglLahir: "12062010", userTryout: "178-25-2-10-0247", pwTryout: "genzanala" },
+{ nama: "GIOVANNI KENZIE AZARIA ANANTA PINEM", nisn: "0109825631", nis: "1779", kelas: "X-8", tglLahir: "30062010", userTryout: "178-25-2-10-0248", pwTryout: "genzanala" },
+{ nama: "HUGO NATHANAEL PALLASTA SINUHAJI", nisn: "0105471333", nis: "1787", kelas: "X-8", tglLahir: "06082010", userTryout: "178-25-2-10-0249", pwTryout: "genzanala" },
+{ nama: "I DEWA GEDE ARUNA ARKA ARDHYANA", nisn: "0103489125", nis: "1788", kelas: "X-8", tglLahir: "12032010", userTryout: "178-25-2-10-0250", pwTryout: "genzanala" },
+{ nama: "IBRAHIM HIDAYATULLAH", nisn: "0106557270", nis: "1791", kelas: "X-8", tglLahir: "24012010", userTryout: "178-25-2-10-0251", pwTryout: "genzanala" },
+{ nama: "MAULANA FAHRI PRIYANTO", nisn: "0109732025", nis: "1822", kelas: "X-8", tglLahir: "09032010", userTryout: "178-25-2-10-0252", pwTryout: "genzanala" },
+{ nama: "MIRACLE VAN CAREL MANURUNG", nisn: "0104898148", nis: "1828", kelas: "X-8", tglLahir: "06042010", userTryout: "178-25-2-10-0253", pwTryout: "genzanala" },
+{ nama: "MORDEKHAI PUTRA NABABAN", nisn: "0104986233", nis: "1833", kelas: "X-8", tglLahir: "13042010", userTryout: "178-25-2-10-0254", pwTryout: "genzanala" },
+{ nama: "MUHAMMAD MELVIN FAZLE AL MUQEET", nisn: "0093154400", nis: "1851", kelas: "X-8", tglLahir: "18112009", userTryout: "178-25-2-10-0255", pwTryout: "genzanala" },
+{ nama: "RADITHYA RAFIE PUTRA AFRIANDI", nisn: "0093379962", nis: "1879", kelas: "X-8", tglLahir: "12092009", userTryout: "178-25-2-10-0256", pwTryout: "genzanala" },
+{ nama: "PRAFASTA KINASIH DANUR ALAM", nisn: "0103789902", nis: "1873", kelas: "X-8", tglLahir: "11082010", userTryout: "178-25-2-10-0257", pwTryout: "genzanala" },
+{ nama: "RAFAELIN CALISTA", nisn: "0103625239", nis: "1885", kelas: "X-8", tglLahir: "02032010", userTryout: "178-25-2-10-0258", pwTryout: "genzanala" },
+{ nama: "SAUR GIDEON SIMBOLON", nisn: "0108307463", nis: "1904", kelas: "X-8", tglLahir: "01012010", userTryout: "178-25-2-10-0259", pwTryout: "genzanala" },
+{ nama: "TIMOTHY SONSYRO BINSAR MARPAUNG", nisn: "0105667926", nis: "1918", kelas: "X-8", tglLahir: "30062010", userTryout: "178-25-2-10-0260", pwTryout: "genzanala" },
+{ nama: "VALESKA LUTHFI FIDIANSYAH", nisn: "0102410655", nis: "1920", kelas: "X-8", tglLahir: "31082010", userTryout: "178-25-2-10-0261", pwTryout: "genzanala" },
+
+];
+
+// DOM Elements
+const nameInput = document.getElementById('nameInput');
+const pwInput = document.getElementById('pwInput');
+const suggestionList = document.getElementById('suggestionList');
+const loginBtn = document.getElementById('loginBtn');
+const pwToggle = document.getElementById('pwToggle');
+const datePicker = document.getElementById('datePicker');
+const datePickerOverlay = document.getElementById('datePickerOverlay');
+const datePickerDays = document.getElementById('datePickerDays');
+const monthSelect = document.getElementById('monthSelect');
+const yearSelect = document.getElementById('yearSelect');
+const prevMonth = document.getElementById('prevMonth');
+const nextMonth = document.getElementById('nextMonth');
+const clearDateBtn = document.getElementById('clearDateBtn');
+const closeDatePickerBtn = document.getElementById('closeDatePickerBtn');
+
+let selectedStudent = null;
+let selectedDate = null;
+let highlightedIdx = -1;
+let currentDisplayMonth = new Date();
+
+// Date picker functions
+function formatDateDisplay(date) {
+  const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  return `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+function formatDatePassword(date) {
+  const d = String(date.getDate()).padStart(2, '0');
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const y = date.getFullYear();
+  return d + m + y;
+}
+
+function renderCalendar() {
+  const year = currentDisplayMonth.getFullYear();
+  const month = currentDisplayMonth.getMonth();
+  
+  monthSelect.innerHTML = '';
+  for (let i = 0; i < 12; i++) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = new Intl.DateTimeFormat('id-ID', { month: 'long' }).format(new Date(year, i));
+    if (i === month) opt.selected = true;
+    monthSelect.appendChild(opt);
+  }
+  
+  yearSelect.innerHTML = '';
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear - 40; y <= currentYear; y++) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    if (y === year) opt.selected = true;
+    yearSelect.appendChild(opt);
+  }
+  
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const daysInPrevMonth = new Date(year, month, 0).getDate();
+  
+  datePickerDays.innerHTML = '';
+  
+  for (let i = firstDay - 1; i >= 0; i--) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'date-day-btn';
+    btn.textContent = daysInPrevMonth - i;
+    btn.disabled = true;
+    datePickerDays.appendChild(btn);
+  }
+  
+  const today = new Date();
+  for (let day = 1; day <= daysInMonth; day++) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'date-day-btn';
+    btn.textContent = day;
+    
+    const dateObj = new Date(year, month, day);
+    if (today.toDateString() === dateObj.toDateString()) {
+      btn.classList.add('today');
+    }
+    if (selectedDate && selectedDate.toDateString() === dateObj.toDateString()) {
+      btn.classList.add('selected');
+    }
+    
+    btn.addEventListener('click', () => {
+      selectedDate = new Date(year, month, day);
+      pwInput.value = formatDateDisplay(selectedDate);
+      renderCalendar();
+      updateLoginBtn();
+    });
+    
+    datePickerDays.appendChild(btn);
+  }
+  
+  const totalCells = datePickerDays.children.length;
+  const remainingCells = 42 - totalCells;
+  for (let day = 1; day <= remainingCells; day++) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'date-day-btn';
+    btn.textContent = day;
+    btn.disabled = true;
+    datePickerDays.appendChild(btn);
+  }
+}
+
+function openDatePicker() {
+  datePicker.classList.add('show');
+  datePickerOverlay.classList.add('show');
+  renderCalendar();
+}
+
+function closeeDatePicker() {
+  datePicker.classList.remove('show');
+  datePickerOverlay.classList.remove('show');
+}
+
+// Event Listeners
+pwToggle.addEventListener('click', () => {
+  if (datePicker.classList.contains('show')) {
+    closeeDatePicker();
+  } else {
+    openDatePicker();
+  }
+});
+
+prevMonth.addEventListener('click', () => {
+  currentDisplayMonth = new Date(currentDisplayMonth.getFullYear(), currentDisplayMonth.getMonth() - 1);
+  renderCalendar();
+});
+
+nextMonth.addEventListener('click', () => {
+  currentDisplayMonth = new Date(currentDisplayMonth.getFullYear(), currentDisplayMonth.getMonth() + 1);
+  renderCalendar();
+});
+
+monthSelect.addEventListener('change', () => {
+  currentDisplayMonth = new Date(currentDisplayMonth.getFullYear(), parseInt(monthSelect.value));
+  renderCalendar();
+});
+
+yearSelect.addEventListener('change', () => {
+  currentDisplayMonth = new Date(parseInt(yearSelect.value), currentDisplayMonth.getMonth());
+  renderCalendar();
+});
+
+clearDateBtn.addEventListener('click', () => {
+  selectedDate = null;
+  pwInput.value = '';
+  currentDisplayMonth = new Date();
+  renderCalendar();
+  updateLoginBtn();
+});
+
+closeDatePickerBtn.addEventListener('click', closeeDatePicker);
+datePickerOverlay.addEventListener('click', closeeDatePicker);
+datePicker.addEventListener('click', (e) => e.stopPropagation());
+
+// Name input - Suggestion logic
+nameInput.addEventListener('input', () => {
+  const val = nameInput.value.trim().toLowerCase();
+  selectedStudent = null;
+  highlightedIdx = -1;
+  updateLoginBtn();
+  if (val.length < 1) { suggestionList.classList.remove('show'); return; }
+  const matches = students.filter(s => s.nama.toLowerCase().includes(val));
+  if (matches.length === 0) { suggestionList.classList.remove('show'); return; }
+  suggestionList.innerHTML = matches.map((s, i) => {
+    const idx = s.nama.toLowerCase().indexOf(val);
+    const before = s.nama.slice(0, idx);
+    const match = s.nama.slice(idx, idx + val.length);
+    const after = s.nama.slice(idx + val.length);
+    return `<div class="suggestion-item" data-index="${i}" role="option" onclick="selectStudent('${s.nama}')">${before}<span class="match">${match}</span>${after} <span style="color:#64748b;font-size:12px;">— ${s.kelas}</span></div>`;
+  }).join('');
+  suggestionList.classList.add('show');
+});
+
+nameInput.addEventListener('keydown', (e) => {
+  const items = suggestionList.querySelectorAll('.suggestion-item');
+  if (!items.length || !suggestionList.classList.contains('show')) return;
+  if (e.key === 'ArrowDown') { e.preventDefault(); highlightedIdx = Math.min(highlightedIdx + 1, items.length - 1); updateHighlight(items); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); highlightedIdx = Math.max(highlightedIdx - 1, 0); updateHighlight(items); }
+  else if (e.key === 'Enter' && highlightedIdx >= 0) { e.preventDefault(); items[highlightedIdx].click(); }
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#nameInput') && !e.target.closest('#suggestionList')) {
+    suggestionList.classList.remove('show');
+  }
+});
+
+function updateHighlight(items) {
+  items.forEach((el, i) => el.classList.toggle('highlighted', i === highlightedIdx));
+}
+
+function selectStudent(name) {
+  nameInput.value = name;
+  selectedStudent = students.find(s => s.nama === name);
+  suggestionList.classList.remove('show');
+  pwToggle.focus();
+  updateLoginBtn();
+}
+
+function updateLoginBtn() {
+  loginBtn.disabled = !(selectedStudent && selectedDate);
+}
+
+// Login handler
+loginBtn.addEventListener('click', () => {
+  if (!selectedStudent || !selectedDate) return;
+  const selectedPassword = formatDatePassword(selectedDate);
+  if (selectedPassword !== selectedStudent.tglLahir) {
+    showToast('Tanggal lahir tidak sesuai! Silakan coba lagi', 'error');
+    return;
+  }
+  showToast('Login berhasil! Selamat datang, ' + selectedStudent.nama.split(' ')[0], 'success');
+  setTimeout(() => showInfoPage(selectedStudent), 600);
+});
+
+function showInfoPage(s) {
+  document.getElementById('infoNama').textContent = s.nama;
+  document.getElementById('infoKelas').textContent = s.kelas;
+  document.getElementById('infoNISN').textContent = s.nisn;
+  document.getElementById('infoNIS').textContent = s.nis;
+  document.getElementById('infoUsername').textContent = s.userTryout;
+  document.getElementById('infoPwTryout').textContent = s.pwTryout;
+  document.getElementById('avatarCircle').textContent = s.nama.split(' ').map(w => w[0]).slice(0, 2).join('');
+
+  document.getElementById('loginPage').classList.remove('active');
+  document.getElementById('infoPage').classList.add('active');
+  lucide.createIcons();
+}
+
+function logout() {
+  document.getElementById('infoPage').classList.remove('active');
+  document.getElementById('loginPage').classList.add('active');
+  nameInput.value = '';
+  pwInput.value = '';
+  selectedStudent = null;
+  selectedDate = null;
+  currentDisplayMonth = new Date();
+  updateLoginBtn();
+}
+
+// Toast notification
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type;
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Accordion toggle
+function toggleAccordion(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.accordion-chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('rotated');
+}
+
+// Copy text to clipboard
+function copyText(elId, btn) {
+  const text = document.getElementById(elId).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;"></i> Tersalin!';
+    lucide.createIcons();
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<i data-lucide="copy" style="width:13px;height:13px;"></i> Salin';
+      lucide.createIcons();
+    }, 2000);
+  });
+}
+
+// Apply config changes
+function applyConfig(config) {
+  const c = { ...defaultConfig, ...config };
+  document.getElementById('loginSchoolName').textContent = c.school_name;
+  document.getElementById('infoSchoolName').textContent = c.school_name;
+  document.getElementById('loginExamTitle').textContent = c.exam_title;
+  document.getElementById('infoExamTitle').textContent = c.exam_title;
+  document.getElementById('examLink').href = c.exam_link;
+
+  document.body.style.fontFamily = `${c.font_family}, Plus Jakarta Sans, sans-serif`;
+
+  const base = c.font_size || 16;
+  document.querySelectorAll('.text-sm').forEach(el => el.style.fontSize = `${base * 0.875}px`);
+  document.querySelectorAll('.text-xs').forEach(el => el.style.fontSize = `${base * 0.75}px`);
+  document.querySelectorAll('.text-lg').forEach(el => el.style.fontSize = `${base * 1.125}px`);
+  document.querySelectorAll('.text-xl').forEach(el => el.style.fontSize = `${base * 1.25}px`);
+}
+
+// Initialize Element SDK
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => applyConfig(config),
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+      { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+      { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+      { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } },
+      { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } },
+    ],
+    borderables: [],
+    fontEditable: {
+      get: () => config.font_family || defaultConfig.font_family,
+      set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+    },
+    fontSizeable: {
+      get: () => config.font_size || defaultConfig.font_size,
+      set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+    }
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ["school_name", config.school_name || defaultConfig.school_name],
+    ["exam_title", config.exam_title || defaultConfig.exam_title],
+    ["exam_link", config.exam_link || defaultConfig.exam_link],
+  ])
+});
+
+lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ec392b6f3580548',t:'MTc3NjE3ODc1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

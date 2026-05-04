@@ -173,6 +173,21 @@
      </p>
      </div>
     
+    <!-- Checklist Cards -->
+   <section class="max-w-3xl mx-auto px-6 py-10">
+    <div id="checklistContainer" class="space-y-3"></div>
+   </section><!-- Himbauan Accordion -->
+   <section class="max-w-3xl mx-auto px-6 pb-10">
+    <h2 class="font-heading text-2xl font-700 mb-6" style="color: #e2e8f0;">📋 Himbauan Penting</h2>
+    <div id="accordionContainer" class="space-y-3"></div>
+   </section><!-- Tips Cards -->
+   <section class="max-w-3xl mx-auto px-6 pb-10">
+    <h2 class="font-heading text-2xl font-700 mb-6" style="color: #e2e8f0;">💡 Tips Setelah Lulus</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="tipsContainer"></div>
+   </section>
+
+
+    
     <!-- Footer Message -->
         
     <!--Completed State Hidden by default -->
@@ -192,6 +207,36 @@
    </div>
   </div>
   <script>
+const defaultConfig = {
+      main_title: "Himbauan Pasca Kelulusan",
+      school_name: "SMA Negeri 1",
+      closing_message: "Selamat & Sukses! 🌟",
+      background_color: "#0f172a",
+      surface_color: "#1e293b",
+      text_color: "#e2e8f0",
+      accent_color: "#f59e0b",
+      muted_color: "#64748b",
+      font_family: "Playfair Display",
+      font_size: 16
+    };
+
+    const checklistData = [
+      { id: "c1", icon: "📄", text: "Ambil ijazah dan SKHUN di sekolah" },
+      { id: "c2", icon: "📸", text: "Foto bersama teman & guru sebagai kenang-kenangan" },
+      { id: "c3", icon: "🧹", text: "Kembalikan buku perpustakaan & seragam pinjaman" },
+      { id: "c4", icon: "🎓", text: "Daftar ke perguruan tinggi / pelatihan / kerja" },
+      { id: "c5", icon: "🙏", text: "Ucapkan terima kasih kepada guru dan orang tua" },
+      { id: "c6", icon: "🚫", text: "Hindari konvoi & perayaan berlebihan di jalan" }
+    ];
+
+    const accordionData = [
+      { title: "🎉 Rayakan dengan Bijak", content: "Rayakan kelulusan dengan cara yang positif. Hindari konvoi motor, coret-coret seragam di jalan, atau aksi berbahaya lainnya. Kelulusan adalah pencapaian — hargai dengan tindakan yang membanggakan." },
+      { title: "📚 Segera Urus Administrasi", content: "Jangan menunda pengambilan ijazah, transkrip nilai, dan dokumen penting lainnya. Pastikan semua administrasi sekolah sudah selesai termasuk pengembalian buku dan pembayaran yang tertunggak." },
+      { title: "🛡️ Jaga Nama Baik Almamater", content: "Kamu tetap membawa nama sekolah ke manapun kamu pergi. Bersikaplah sopan dan bertanggung jawab. Jangan melakukan tindakan yang bisa merusak reputasi dirimu dan sekolah." },
+      { title: "🎯 Rencanakan Masa Depan", content: "Gunakan waktu setelah lulus untuk mempersiapkan langkah selanjutnya: mendaftar kuliah, mencari beasiswa, mengikuti pelatihan, atau memulai karir. Jangan biarkan waktu berlalu tanpa rencana." },
+      { title: "❤️ Tetap Jaga Silaturahmi", content: "Hubungan dengan guru dan teman adalah aset berharga. Tetap jalin komunikasi, saling mendukung, dan jangan ragu untuk meminta bimbingan ketika membutuhkan." }
+    ];
+   
     const defaultConfig = {
       main_title: 'SMA Negeri Taruna Nala',
       school_name: 'Jawa Timur',

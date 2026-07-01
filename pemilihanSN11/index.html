@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMA Negeri Taruna Nala Jawa Timur - Formulir Pemilihan Mapel</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .suggestion-item {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: #334155;
+      border-bottom: 1px solid #e2e8f0;
+      transition: all 0.2s ease;
+    }
+    
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+    
+    .suggestion-item:hover {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding-left: 1.25rem;
+    }
+    
+    #suggestions {
+      position: absolute !important;
+      top: 100% !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 50 !important;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      margin-top: 0.5rem;
+      max-height: 12rem;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 #f1f5f9;
+    }
+    
+    #suggestions::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    #suggestions::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 3px;
+    }
+    
+    #suggestions::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    
+    #suggestions::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    #mainForm > div {
+      animation: slideInUp 0.5s ease-out forwards;
+    }
+    
+    #mainForm > div:nth-child(1) { animation-delay: 0.1s; }
+    #mainForm > div:nth-child(2) { animation-delay: 0.15s; }
+    #mainForm > div:nth-child(3) { animation-delay: 0.2s; }
+    #mainForm > div:nth-child(4) { animation-delay: 0.25s; }
+    #mainForm > div:nth-child(5) { animation-delay: 0.3s; }
+    #mainForm > div:nth-child(6) { animation-delay: 0.35s; }
+    #mainForm > div:nth-child(7) { animation-delay: 0.4s; }
+    #mainForm > button { animation: slideInUp 0.5s ease-out 0.45s forwards; opacity: 0; }
+    
+    input, select, textarea {
+      transition: all 0.3s ease;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.2);
+    }
+    
+    textarea {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    
+    @keyframes checkmark {
+      0% { transform: scale(0) rotate(-45deg); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1) rotate(0); }
+    }
+    
+    .checkmark-icon {
+      animation: checkmark 0.6s ease-out;
+    }
+  </style>
+
+
+<style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
+    body { margin: 0; background: #f8fafc; }
+
+    .wrap {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 1rem;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px -4px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: linear-gradient(to right, #0d9488, #059669);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .card-header h2 {
+      color: #fff;
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .card-header p {
+      color: #ccfbf1;
+      font-size: 0.8rem;
+      margin: 0.25rem 0 0;
+      line-height: 1.4;
+    }
+
+    .items {
+      padding: 0.75rem;
+    }
+
+    .item {
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      margin-bottom: 0.6rem;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      background: #fff;
+    }
+
+    .item:last-child { margin-bottom: 0; }
+
+    .item.active {
+      border-color: #0d9488;
+      box-shadow: 0 6px 16px -8px rgba(13, 148, 136, 0.35);
+    }
+
+    .item-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.9rem 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+    }
+
+    .item-num {
+      flex-shrink: 0;
+      width: 2.1rem;
+      height: 2.1rem;
+      border-radius: 9999px;
+      background: #f0fdfa;
+      color: #0d9488;
+      border: 1.5px solid #99f6e4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+    }
+
+    .item.active .item-num {
+      background: #0d9488;
+      color: #fff;
+      border-color: #0d9488;
+    }
+
+    .item-title-wrap { flex: 1; min-width: 0; }
+
+    .item-title {
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0;
+    }
+
+    .item-icon {
+      flex-shrink: 0;
+      width: 1.9rem;
+      height: 1.9rem;
+      border-radius: 0.5rem;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      transition: all 0.25s ease;
+    }
+
+    .item.active .item-icon {
+      background: #ccfbf1;
+      color: #0d9488;
+    }
+
+    .chevron {
+      flex-shrink: 0;
+      color: #94a3b8;
+      transition: transform 0.25s ease;
+    }
+
+    .item.active .chevron { transform: rotate(180deg); color: #0d9488; }
+
+    .item-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .item.active .item-body {
+      max-height: 12rem;
+    }
+
+    .item-body-inner {
+      padding: 0 1rem 1rem 3.55rem;
+      font-size: 0.85rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    .footer-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin: 0.9rem 0.75rem 1rem;
+      padding: 0.85rem 1rem;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 0.65rem;
+      font-size: 0.8rem;
+      color: #92400e;
+      line-height: 1.5;
+    }
+
+    .footer-note i { flex-shrink: 0; margin-top: 0.1rem; }
+  </style>
+
+
+
+
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full bg-slate-50">
+  <div id="app" class="h-full w-full overflow-auto p-4 md:p-8">
+   <div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+     <div class="bg-gradient-to-r from-teal-600 to-emerald-600 p-6 md:p-8">
+      <div class="flex items-start gap-3">
+       <div class="flex-shrink-0 mt-1">
+        <img src="https://kurikulumsmantarnala.github.io/info/smantar.png" alt="Logo SMA Negeri Taruna Nala Jawa Timur" class="w-12 h-12 object-contain rounded-full bg-white p-1 shadow-md">
+       </div>
+       <div class="flex-1">
+        <p id="schoolName" class="text-teal-100 text-xs md:text-sm font-semibold uppercase tracking-wide">SMA Negeri Taruna Nala Jawa Timur</p>
+        <h1 id="formTitle" class="text-2xl md:text-3xl font-bold text-white mt-1">Formulir Pemilihan Mapel Pilihan Kelas XI- SN 11</h1>
+        <p id="formDescription" class="text-teal-100 mt-2 text-sm leading-relaxed">Formulir ini digunakan untuk menjaring data mapel pilihan yang akan digunakan acuan sekolah dalam memfasilitasi mapel pilihan masing-masing siswa. </p>
+<div class="wrap">
+   <div class="card">
+    <div class="card-header">
+     <i data-lucide="clipboard-check" class="w-5 h-5 text-teal-100" style="flex-shrink:0; margin-top:2px;"></i>
+     <div>
+      <h2>Dasar Penentuan Mapel Pilihan</h2>
+      <p>Ketuk setiap poin untuk melihat penjelasannya</p>
+     </div>
+    </div>
+
+    <div class="items" id="itemsContainer"></div>
+
+    <div class="footer-note">
+     <i data-lucide="info" class="w-4 h-4"></i>
+     <span>Keempat faktor di atas dipertimbangkan secara bersamaan oleh sekolah. Mengisi formulir dengan data yang akurat dan alasan yang jelas akan membantu proses penempatan mapel pilihan Anda.</span>
+    </div>
+   </div>
+  </div>
+
+  <script>
+    const criteria = [
+      {
+        icon: 'graduation-cap',
+        title: 'Data Studi Lanjut Siswa',
+        desc: 'Rencana studi lanjut (jurusan kuliah, jalur seleksi, atau bidang karier yang dituju) menjadi acuan utama agar mapel pilihan yang difasilitasi relevan dengan tujuan siswa setelah lulus.'
+      },
+      {
+        icon: 'heart',
+        title: 'Minat pada Mapel yang Dipilih',
+        desc: 'Ketertarikan dan motivasi pribadi siswa terhadap suatu mata pelajaran turut dipertimbangkan, karena minat yang kuat berkorelasi dengan hasil belajar yang lebih optimal.'
+      },
+      {
+        icon: 'users',
+        title: 'Ketersediaan Tenaga Pengajar & Kapasitas Kelas',
+        desc: 'Penempatan mapel pilihan juga bergantung pada jumlah guru pengampu yang tersedia serta daya tampung kelas, agar proses belajar mengajar tetap efektif dan merata.'
+      },
+      {
+        icon: 'file-text',
+        title: 'Nilai Rapor Semester 1 dan 2',
+        desc: 'Capaian akademik pada rapor semester 1 dan 2 digunakan sebagai indikator kesiapan siswa dalam mengikuti mapel pilihan tertentu.'
+      }
+    ];
+
+    const container = document.getElementById('itemsContainer');
+
+    criteria.forEach((c, i) => {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.innerHTML = `
+        <button type="button" class="item-btn" data-index="${i}">
+          <span class="item-num">${i + 1}</span>
+          <span class="item-icon"><i data-lucide="${c.icon}" class="w-4 h-4"></i></span>
+          <span class="item-title-wrap">
+            <p class="item-title">${c.title}</p>
+          </span>
+          <i data-lucide="chevron-down" class="w-4 h-4 chevron"></i>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">${c.desc}</div>
+        </div>
+      `;
+      container.appendChild(item);
+    });
+
+    container.addEventListener('click', (e) => {
+      const btn = e.target.closest('.item-btn');
+      if (!btn) return;
+      const item = btn.closest('.item');
+      const wasActive = item.classList.contains('active');
+      container.querySelectorAll('.item.active').forEach(el => el.classList.remove('active'));
+      if (!wasActive) item.classList.add('active');
+    });
+
+    lucide.createIcons();
+  </script>
+
+       </div>
+      </div>
+     </div>
+     <div id="loadingState" class="p-8 text-center">
+      <div class="animate-spin inline-block w-8 h-8 border-4 border-teal-500 border-t-transparent rounded-full"></div>
+      <p class="mt-3 text-slate-500">Memuat data dari server...</p>
+     </div>
+     <form id="mainForm" class="p-6 space-y-5 hidden">
+      <!-- HALAMAN 1 -->
+      <div id="page1" class="space-y-5">
+       <div class="mb-6">
+        <div class="flex justify-between items-center mb-2">
+         <span class="text-xs font-semibold text-slate-600">Progres Pengisian (Halaman 1 dari 2)</span> <span id="progressPercent" class="text-xs font-bold text-teal-600">0%</span>
+        </div>
+        <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+         <div id="progressBar" class="bg-gradient-to-r from-teal-500 to-emerald-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+       </div>
+       <div>
+        <div class="flex items-center gap-2">
+         <i data-lucide="layers" class="w-4 h-4 text-teal-600"></i> <label for="kelas" class="block text-sm font-semibold text-slate-700">Kelas</label>
+        </div><select id="kelas" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" onchange="onKelasChange(); updateProgress()"> <option value="">-- Pilih Kelas --</option> </select>
+       </div>
+       <div class="relative z-40">
+        <div class="flex items-center gap-2">
+         <i data-lucide="user" class="w-4 h-4 text-teal-600"></i> <label for="nama" class="block text-sm font-semibold text-slate-700">Nama Siswa</label>
+        </div><input id="nama" type="text" autocomplete="off" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" placeholder="Ketik nama siswa..." oninput="showSuggestions(); updateProgress()" onfocus="showSuggestions()">
+        <div id="suggestions" class="hidden"></div>
+       </div>
+       <div>
+        <label for="jurusan1" class="block text-sm font-semibold text-slate-700 mb-1">Jurusan 1 (Pilihan Utama)</label> <select id="jurusan1" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" onchange="onJurusan1Change()"> <option value="">-- Pilih Jurusan --</option> </select>
+        <div id="rekomendasiJ1" class="mt-2 hidden">
+         <p class="text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2"><i data-lucide="info" class="inline w-3 h-3 mr-1"></i><span id="rekomendasiJ1Text"></span></p>
+        </div>
+       </div>
+       <div>
+        <label for="jurusan2" class="block text-sm font-semibold text-slate-700 mb-1">Jurusan 2 (Pilihan Cadangan)</label> <select id="jurusan2" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" onchange="onJurusan2Change()"> <option value="">-- Pilih Jurusan --</option> </select>
+        <div id="rekomendasiJ2" class="mt-2 hidden">
+         <p class="text-xs font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2"><i data-lucide="info" class="inline w-3 h-3 mr-1"></i><span id="rekomendasiJ2Text"></span></p>
+        </div>
+       </div>
+       <div id="alasanSection" class="hidden bg-amber-50 border border-amber-200 rounded-lg p-4">
+        <div class="flex items-start gap-2 mb-3">
+         <i data-lucide="message-square" class="w-4 h-4 text-amber-600 mt-1 flex-shrink-0"></i>
+         <div>
+          <label for="alasan" class="block text-sm font-semibold text-amber-900">Alasan Memilih Jurusan</label>
+          <p class="text-xs text-amber-700 mt-0.5">Jelaskan mengapa Anda memilih kedua jurusan tersebut</p>
+         </div>
+        </div><textarea id="alasan" class="w-full border border-amber-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none resize-none bg-white" rows="4" placeholder="Tuliskan alasan Anda di sini..." oninput="updateProgress()"></textarea>
+        <p class="text-xs text-amber-700 mt-2">Minimal 10 karakter (saat ini: <span id="charCount">0</span>)</p>
+       </div>
+       <div class="border-t border-slate-200 pt-5">
+        <h2 class="text-lg font-bold text-slate-800 mb-3">Mata Pelajaran Pilihan</h2>
+        <div class="space-y-4">
+         <div>
+          <label for="mapel1" class="block text-sm font-semibold text-slate-700 mb-1">Mapel Pilihan 1</label> <select id="mapel1" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" onchange="updateProgress(); validateMapelDuplicates()"> <option value="">-- Pilih Mapel --</option> </select>
+         </div>
+         <div>
+          <label for="mapel2" class="block text-sm font-semibold text-slate-700 mb-1">Mapel Pilihan 2</label> <select id="mapel2" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" onchange="updateProgress(); validateMapelDuplicates()"> <option value="">-- Pilih Mapel --</option> </select>
+         </div>
+         <div>
+          <label for="mapel3" class="block text-sm font-semibold text-slate-700 mb-1">Mapel Pilihan 3</label> <select id="mapel3" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" onchange="updateProgress(); validateMapelDuplicates()"> <option value="">-- Pilih Mapel --</option> </select>
+         </div>
+         <div>
+          <label for="mapel4" class="block text-sm font-semibold text-slate-700 mb-1">Mapel Pilihan 4</label> <select id="mapel4" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" onchange="updateProgress(); validateMapelDuplicates()"> <option value="">-- Pilih Mapel --</option> </select>
+         </div>
+         <div>
+          <label for="mapel5" class="block text-sm font-semibold text-slate-700 mb-1">Mapel Pilihan 5 <span class="text-xs text-amber-600 font-normal">(Opsional)</span></label> <select id="mapel5" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" onchange="validateMapelDuplicates()"> <option value="">-- Pilih Mapel (Opsional) --</option> </select>
+         </div>
+         <div id="mapelWarning" class="hidden bg-red-50 border border-red-300 rounded-lg p-3 text-sm text-red-700 font-medium flex items-start gap-2"><i data-lucide="alert-circle" class="w-4 h-4 mt-0.5 flex-shrink-0"></i> <span id="mapelWarningText"></span>
+         </div>
+        </div>
+       </div>
+      </div><!-- END HALAMAN 1 --> <!-- HALAMAN 2 -->
+      <div id="page2" class="space-y-5 hidden">
+       <div class="mb-6">
+        <div class="flex justify-between items-center mb-2">
+         <span class="text-xs font-semibold text-slate-600">Progres Pengisian (Halaman 2 dari 2)</span> <span class="text-xs font-bold text-teal-600">100%</span>
+        </div>
+        <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+         <div class="bg-gradient-to-r from-teal-500 to-emerald-500 h-2 rounded-full transition-all duration-300" style="width: 100%"></div>
+        </div>
+       </div><!-- Pengantar Mapel Bahasa -->
+       <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div class="flex items-start gap-3">
+         <i data-lucide="book-open" class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0"></i>
+         <div>
+          <p class="text-sm text-blue-900 leading-relaxed">Apabila sekolah mewajibkan Anda untuk memilih mapel bahasa asing, mapel bahasa apa yang akan Anda pilih?</p>
+         </div>
+        </div>
+       </div><!-- Pilihan Mapel Bahasa -->
+       <div>
+        <label for="mapelBahasa" class="block text-sm font-semibold text-slate-700 mb-1">Mapel Bahasa</label> <select id="mapelBahasa" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" onchange="updateProgress(); updateSummary()"> <option value="">-- Pilih Bahasa --</option> </select>
+       </div><!-- Rangkuman Data -->
+       <div class="border-t border-slate-200 pt-5">
+        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="check-square" class="w-5 h-5 text-teal-600"></i>Rangkuman Data Anda</h3>
+        <div class="space-y-3">
+         <div class="bg-slate-50 rounded-lg p-3 border border-slate-200">
+          <p class="text-xs font-semibold text-slate-500 uppercase">Kelas</p>
+          <p id="summaryKelas" class="text-sm text-slate-700 mt-1 font-medium">-</p>
+         </div>
+         <div class="bg-slate-50 rounded-lg p-3 border border-slate-200">
+          <p class="text-xs font-semibold text-slate-500 uppercase">Nama Siswa</p>
+          <p id="summaryNama" class="text-sm text-slate-700 mt-1 font-medium">-</p>
+         </div>
+         <div class="grid grid-cols-2 gap-3">
+          <div class="bg-emerald-50 rounded-lg p-3 border border-emerald-200">
+           <p class="text-xs font-semibold text-emerald-600 uppercase">Jurusan 1</p>
+           <p id="summaryJurusan1" class="text-sm text-emerald-700 mt-1 font-medium">-</p>
+          </div>
+          <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+           <p class="text-xs font-semibold text-blue-600 uppercase">Jurusan 2</p>
+           <p id="summaryJurusan2" class="text-sm text-blue-700 mt-1 font-medium">-</p>
+          </div>
+         </div>
+         <div class="bg-amber-50 rounded-lg p-3 border border-amber-200">
+          <p class="text-xs font-semibold text-amber-600 uppercase">Alasan Memilih</p>
+          <p id="summaryAlasan" class="text-sm text-amber-700 mt-1 font-medium line-clamp-2">-</p>
+         </div>
+         <div>
+          <p class="text-xs font-semibold text-slate-500 uppercase mb-2">Mapel Pilihan (1-5)</p>
+          <div class="grid grid-cols-2 gap-2">
+           <div class="bg-purple-50 rounded p-2 border border-purple-200">
+            <p class="text-xs text-purple-600 font-medium">Mapel 1</p>
+            <p id="summaryMapel1" class="text-xs text-purple-700 mt-0.5">-</p>
+           </div>
+           <div class="bg-purple-50 rounded p-2 border border-purple-200">
+            <p class="text-xs text-purple-600 font-medium">Mapel 2</p>
+            <p id="summaryMapel2" class="text-xs text-purple-700 mt-0.5">-</p>
+           </div>
+           <div class="bg-purple-50 rounded p-2 border border-purple-200">
+            <p class="text-xs text-purple-600 font-medium">Mapel 3</p>
+            <p id="summaryMapel3" class="text-xs text-purple-700 mt-0.5">-</p>
+           </div>
+           <div class="bg-purple-50 rounded p-2 border border-purple-200">
+            <p class="text-xs text-purple-600 font-medium">Mapel 4</p>
+            <p id="summaryMapel4" class="text-xs text-purple-700 mt-0.5">-</p>
+           </div>
+           <div class="bg-purple-50 rounded p-2 border border-purple-200">
+            <p class="text-xs text-purple-600 font-medium">Mapel 5 (Opsional)</p>
+            <p id="summaryMapel5" class="text-xs text-purple-700 mt-0.5">-</p>
+           </div>
+           <div class="bg-cyan-50 rounded p-2 border border-cyan-200">
+            <p class="text-xs text-cyan-600 font-medium">Bahasa</p>
+            <p id="summaryMapelBahasa" class="text-xs text-cyan-700 mt-0.5">-</p>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- END HALAMAN 2 --> <!-- TOMBOL AKSI -->
+      <div id="page1Actions" class="flex gap-3">
+       <button type="button" id="lanjutBtn" class="flex-1 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold py-3 rounded-lg hover:from-teal-700 hover:to-emerald-700 transition-all shadow-md"> <i data-lucide="arrow-right" class="inline w-4 h-4 mr-2"></i>Lanjutkan </button>
+      </div>
+      <div id="page2Actions" class="flex gap-3 hidden">
+       <button type="button" id="kembaliBtn" class="flex-1 bg-slate-300 text-slate-700 font-semibold py-3 rounded-lg hover:bg-slate-400 transition-all shadow-md"> <i data-lucide="arrow-left" class="inline w-4 h-4 mr-2"></i>Kembali </button> <button type="submit" id="submitBtn" class="flex-1 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold py-3 rounded-lg hover:from-teal-700 hover:to-emerald-700 transition-all shadow-md"> <i data-lucide="send" class="inline w-4 h-4 mr-2"></i>Kirim Formulir </button>
+      </div>
+      <div id="successMsg" class="hidden bg-emerald-50 border border-emerald-300 rounded-lg p-4 text-center">
+       <i data-lucide="check-circle" class="inline w-6 h-6 text-emerald-600 checkmark-icon"></i>
+       <p class="text-emerald-700 font-semibold mt-2">Data berhasil dikirim! Terima kasih atas partisipasimu.</p>
+      </div>
+      <div id="errorMsg" class="hidden bg-red-50 border border-red-300 rounded-lg p-4 text-center">
+       <p class="text-red-700 font-semibold">Gagal mengirim data. Silakan coba lagi.</p>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div>
+  <script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbxUVKmPax37j0OxHeFRrxKh86u28pjsX142TXTmbgFruvoUjmho6ZiMVGkd0FKR22IeRA/exec';
+
+let sheetData = null;
+let siswaByKelas = {};
+
+async function loadData() {
+  try {
+    const res = await fetch(API_URL + '?action=getData');
+    const rawText = await res.text();
+
+    let json;
+    try {
+      json = JSON.parse(rawText);
+    } catch (parseErr) {
+      throw new Error('Server tidak mengembalikan JSON. Kemungkinan deployment Apps Script belum diakses Anyone atau URL sudah kedaluwarsa. Cuplikan respons: ' + rawText.slice(0, 200));
+    }
+
+    if (!res.ok || json.error) {
+      throw new Error(json.error || ('HTTP ' + res.status));
+    }
+
+    sheetData = json;
+
+    if (json.kelas) {
+      const sel = document.getElementById('kelas');
+      json.kelas.forEach(k => {
+        const opt = document.createElement('option');
+        opt.value = k;
+        opt.textContent = k;
+        sel.appendChild(opt);
+      });
+    }
+
+    if (json.siswa) {
+      json.siswa.forEach(s => {
+        if (!siswaByKelas[s.kelas]) siswaByKelas[s.kelas] = [];
+        siswaByKelas[s.kelas].push(s.nama);
+      });
+    }
+
+    if (json.jurusan) {
+      ['jurusan1', 'jurusan2'].forEach(id => {
+        const sel = document.getElementById(id);
+        json.jurusan.forEach(j => {
+          const opt = document.createElement('option');
+          opt.value = j.nama;
+          opt.textContent = j.nama;
+          sel.appendChild(opt);
+        });
+      });
+    }
+
+    if (json.mapel) {
+      ['mapel1','mapel2','mapel3','mapel4','mapel5'].forEach(id => {
+        const sel = document.getElementById(id);
+        (json.mapel.pilihan || []).forEach(m => {
+          const opt = document.createElement('option');
+          opt.value = m;
+          opt.textContent = m;
+          sel.appendChild(opt);
+        });
+      });
+      const bahasaSel = document.getElementById('mapelBahasa');
+      (json.mapel.bahasa || []).forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m;
+        opt.textContent = m;
+        bahasaSel.appendChild(opt);
+      });
+    }
+
+    document.getElementById('loadingState').classList.add('hidden');
+    document.getElementById('mainForm').classList.remove('hidden');
+    lucide.createIcons();
+  } catch (e) {
+    console.error('loadData error:', e);
+    document.getElementById('loadingState').innerHTML =
+      '<p class="text-red-500 font-semibold">Gagal memuat data.</p>' +
+      '<p class="text-red-400 text-xs mt-2 break-words px-4">' + (e && e.message ? e.message : String(e)) + '</p>' +
+      '<button onclick="location.reload()" class="mt-4 px-4 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700">Coba Lagi</button>';
+  }
+}
+
+function onKelasChange() {
+  document.getElementById('nama').value = '';
+  document.getElementById('suggestions').classList.add('hidden');
+  updateProgress();
+}
+
+function updateProgress() {
+  const kelas = document.getElementById('kelas').value ? 1 : 0;
+  const nama = document.getElementById('nama').value ? 1 : 0;
+  const jurusan1 = document.getElementById('jurusan1').value ? 1 : 0;
+  const jurusan2 = document.getElementById('jurusan2').value ? 1 : 0;
+  const alasan = document.getElementById('alasan').value.length >= 10 ? 1 : 0;
+  const mapel1 = document.getElementById('mapel1').value ? 1 : 0;
+  const mapel2 = document.getElementById('mapel2').value ? 1 : 0;
+  const mapel3 = document.getElementById('mapel3').value ? 1 : 0;
+  const mapel4 = document.getElementById('mapel4').value ? 1 : 0;
+  const mapelBahasa = document.getElementById('mapelBahasa').value ? 1 : 0;
+  
+  document.getElementById('charCount').textContent = document.getElementById('alasan').value.length;
+  
+  const total = 10;
+  const filled = kelas + nama + jurusan1 + jurusan2 + alasan + mapel1 + mapel2 + mapel3 + mapel4 + mapelBahasa;
+  const percent = Math.round((filled / total) * 100);
+  
+  document.getElementById('progressBar').style.width = percent + '%';
+  document.getElementById('progressPercent').textContent = percent + '%';
+}
+
+function showSuggestions() {
+  const kelas = document.getElementById('kelas').value;
+  const query = document.getElementById('nama').value.toLowerCase();
+  const container = document.getElementById('suggestions');
+  
+  if (!kelas || !query) { container.classList.add('hidden'); return; }
+
+  const names = (siswaByKelas[kelas] || []).filter(n => n.toLowerCase().includes(query));
+  if (names.length === 0) { container.classList.add('hidden'); return; }
+
+  container.innerHTML = names.map(n => `<div class="suggestion-item" onclick="selectName('${n.replace(/'/g, "\\'")}')">${n}</div>`).join('');
+  container.classList.remove('hidden');
+}
+
+function selectName(name) {
+  document.getElementById('nama').value = name;
+  document.getElementById('suggestions').classList.add('hidden');
+  updateProgress();
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#nama') && !e.target.closest('#suggestions')) {
+    document.getElementById('suggestions').classList.add('hidden');
+  }
+});
+
+function validateMapelDuplicates() {
+  const mapel1 = document.getElementById('mapel1').value;
+  const mapel2 = document.getElementById('mapel2').value;
+  const mapel3 = document.getElementById('mapel3').value;
+  const mapel4 = document.getElementById('mapel4').value;
+  const mapel5 = document.getElementById('mapel5').value;
+  
+  // Buat array dari semua mapel yang dipilih (exclude yang kosong)
+  const mapelArray = [mapel1, mapel2, mapel3, mapel4];
+  if (mapel5) mapelArray.push(mapel5);
+  
+  // Cek duplikasi
+  const seen = new Set();
+  const duplicates = new Set();
+  
+  mapelArray.forEach(m => {
+    if (m && seen.has(m)) {
+      duplicates.add(m);
+    }
+    if (m) seen.add(m);
+  });
+  
+  // Tampilkan warning jika ada duplikasi
+  const warningBox = document.getElementById('mapelWarning');
+  const warningText = document.getElementById('mapelWarningText');
+  
+  if (duplicates.size > 0) {
+    warningText.innerHTML = 'Mapel <strong>' + Array.from(duplicates).join(', ') + '</strong> sudah dipilih di mapel lain. Pilih mapel yang berbeda!';
+    warningBox.classList.remove('hidden');
+    lucide.createIcons();
+  } else {
+    warningBox.classList.add('hidden');
+  }
+}
+
+function getRekomendasi(jurusanNama) {
+  if (!sheetData || !sheetData.jurusan) return '';
+  const jurusan = sheetData.jurusan.find(j => j.nama === jurusanNama);
+  return jurusan && jurusan.rekomendasi ? jurusan.rekomendasi : 'Tidak ada rekomendasi';
+}
+
+function onJurusan1Change() {
+  const val = document.getElementById('jurusan1').value;
+  const box = document.getElementById('rekomendasiJ1');
+  if (val) {
+    document.getElementById('rekomendasiJ1Text').textContent = 'Rekomendasi mapel: ' + getRekomendasi(val);
+    box.classList.remove('hidden');
+  } else { 
+    box.classList.add('hidden'); 
+  }
+  checkShowAlasanSection();
+  lucide.createIcons();
+  updateProgress();
+}
+
+function onJurusan2Change() {
+  const val = document.getElementById('jurusan2').value;
+  const box = document.getElementById('rekomendasiJ2');
+  
+  if (val) {
+    document.getElementById('rekomendasiJ2Text').textContent = 'Rekomendasi mapel: ' + getRekomendasi(val);
+    box.classList.remove('hidden');
+  } else {
+    box.classList.add('hidden');
+  }
+  checkShowAlasanSection();
+  lucide.createIcons();
+  updateProgress();
+}
+
+function checkShowAlasanSection() {
+  const jurusan1 = document.getElementById('jurusan1').value;
+  const jurusan2 = document.getElementById('jurusan2').value;
+  const alasanSection = document.getElementById('alasanSection');
+  
+  if (jurusan1 && jurusan2) {
+    alasanSection.classList.remove('hidden');
+  } else {
+    alasanSection.classList.add('hidden');
+    document.getElementById('alasan').value = '';
+    document.getElementById('charCount').textContent = '0';
+  }
+}
+
+function validatePage1() {
+  const errors = [];
+  const kelas = document.getElementById('kelas').value;
+  const nama = document.getElementById('nama').value;
+  const jurusan1 = document.getElementById('jurusan1').value;
+  const jurusan2 = document.getElementById('jurusan2').value;
+  const alasan = document.getElementById('alasan').value;
+  const mapel1 = document.getElementById('mapel1').value;
+  const mapel2 = document.getElementById('mapel2').value;
+  const mapel3 = document.getElementById('mapel3').value;
+  const mapel4 = document.getElementById('mapel4').value;
+  const mapel5 = document.getElementById('mapel5').value;
+
+  if (!kelas) errors.push('Kelas harus dipilih');
+  if (!nama) errors.push('Nama Siswa harus diisi');
+  if (!jurusan1) errors.push('Jurusan 1 harus dipilih');
+  if (!jurusan2) errors.push('Jurusan 2 harus dipilih');
+  if (!alasan || alasan.length < 10) errors.push('Alasan memilih harus diisi minimal 10 karakter');
+  if (!mapel1) errors.push('Mapel Pilihan 1 harus dipilih');
+  if (!mapel2) errors.push('Mapel Pilihan 2 harus dipilih');
+  if (!mapel3) errors.push('Mapel Pilihan 3 harus dipilih');
+  if (!mapel4) errors.push('Mapel Pilihan 4 harus dipilih');
+
+  // Validasi mapel tidak boleh sama
+  const mapelArray = [mapel1, mapel2, mapel3, mapel4];
+  if (mapel5) mapelArray.push(mapel5);
+
+  const mapelSet = new Set(mapelArray.filter(m => m));
+  if (mapelSet.size !== mapelArray.filter(m => m).length) {
+    errors.push('Mapel Pilihan tidak boleh ada yang sama. Setiap mapel harus berbeda');
+  }
+
+  return errors;
+}
+
+function validateForm() {
+  const errors = [];
+  const mapelBahasa = document.getElementById('mapelBahasa').value;
+
+  if (!mapelBahasa) errors.push('Mapel Bahasa harus dipilih');
+
+  return errors;
+}
+
+function updateSummary() {
+  document.getElementById('summaryKelas').textContent = document.getElementById('kelas').value || '-';
+  document.getElementById('summaryNama').textContent = document.getElementById('nama').value || '-';
+  document.getElementById('summaryJurusan1').textContent = document.getElementById('jurusan1').value || '-';
+  document.getElementById('summaryJurusan2').textContent = document.getElementById('jurusan2').value || '-';
+  document.getElementById('summaryAlasan').textContent = document.getElementById('alasan').value || '-';
+  document.getElementById('summaryMapel1').textContent = document.getElementById('mapel1').value || '-';
+  document.getElementById('summaryMapel2').textContent = document.getElementById('mapel2').value || '-';
+  document.getElementById('summaryMapel3').textContent = document.getElementById('mapel3').value || '-';
+  document.getElementById('summaryMapel4').textContent = document.getElementById('mapel4').value || '-';
+  document.getElementById('summaryMapel5').textContent = document.getElementById('mapel5').value || '(Tidak dipilih)';
+  document.getElementById('summaryMapelBahasa').textContent = document.getElementById('mapelBahasa').value || '-';
+}
+
+function goToPage2() {
+  const errors = validatePage1();
+  if (errors.length > 0) {
+    showValidationErrors(errors);
+    return;
+  }
+  
+  document.getElementById('errorMsg').classList.add('hidden');
+  document.getElementById('page1').classList.add('hidden');
+  document.getElementById('page2').classList.remove('hidden');
+  document.getElementById('page1Actions').classList.add('hidden');
+  document.getElementById('page2Actions').classList.remove('hidden');
+  updateSummary();
+  lucide.createIcons();
+  
+  setTimeout(() => {
+    document.getElementById('page2').scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+}
+
+function goBackPage1() {
+  document.getElementById('page2').classList.add('hidden');
+  document.getElementById('page1').classList.remove('hidden');
+  document.getElementById('page2Actions').classList.add('hidden');
+  document.getElementById('page1Actions').classList.remove('hidden');
+  document.getElementById('errorMsg').classList.add('hidden');
+  document.getElementById('successMsg').classList.add('hidden');
+  lucide.createIcons();
+  
+  setTimeout(() => {
+    document.getElementById('page1').scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+}
+
+function showValidationErrors(errors) {
+  const errorMsg = document.getElementById('errorMsg');
+  const errorContent = errorMsg.querySelector('p') || document.createElement('p');
+  errorContent.innerHTML = '<strong>Silakan lengkapi field berikut:</strong><ul class="text-left mt-2 text-sm">' + 
+    errors.map(e => `<li class="before:content-['•'] before:mr-2">- ${e}</li>`).join('') + 
+    '</ul>';
+  if (!errorMsg.querySelector('p')) errorMsg.appendChild(errorContent);
+  errorMsg.classList.remove('hidden');
+  document.getElementById('successMsg').classList.add('hidden');
+  
+  // Scroll ke error message
+  setTimeout(() => {
+    errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+}
+
+async function submitForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  
+  // Validasi form halaman 2
+  const errors = validateForm();
+  if (errors.length > 0) {
+    showValidationErrors(errors);
+    btn.disabled = false;
+    return;
+  }
+  
+  btn.disabled = true;
+  btn.textContent = 'Mengirim...';
+
+  const data = {
+    action: 'submitData',
+    kelas: document.getElementById('kelas').value,
+    nama: document.getElementById('nama').value,
+    jurusan_diinginkan_1: document.getElementById('jurusan1').value,
+    jurusan_diinginkan_2: document.getElementById('jurusan2').value,
+    alasan_memilih: document.getElementById('alasan').value,
+    mapel_pilihan_1: document.getElementById('mapel1').value,
+    mapel_pilihan_2: document.getElementById('mapel2').value,
+    mapel_pilihan_3: document.getElementById('mapel3').value,
+    mapel_pilihan_4: document.getElementById('mapel4').value,
+    mapel_pilihan_5: document.getElementById('mapel5').value,
+    mapel_bahasa: document.getElementById('mapelBahasa').value
+  };
+
+  try {
+    await fetch(API_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    document.getElementById('successMsg').classList.remove('hidden');
+    document.getElementById('errorMsg').classList.add('hidden');
+    btn.textContent = 'Terkirim ✓';
+    lucide.createIcons();
+  } catch (err) {
+    document.getElementById('errorMsg').classList.remove('hidden');
+    document.getElementById('errorMsg').querySelector('p').innerHTML = '<strong>Gagal mengirim data.</strong> Silakan periksa koneksi internet dan coba lagi.';
+    btn.disabled = false;
+    btn.innerHTML = '<i data-lucide="send" class="inline w-4 h-4 mr-2"></i>Kirim Formulir';
+    lucide.createIcons();
+  }
+}
+
+// Konfigurasi tampilan statis (menggantikan window.elementSdk)
+const defaultConfig = {
+  form_title: 'Formulir Pemilihan Mapel Pilihan Kelas XI- SN 11',
+  form_description: 'Formulir ini digunakan untuk menjaring data mapel pilihan yang akan digunakan acuan sekolah dalam memfasilitasi mapel pilihan masing-masing siswa',
+  background_color: '#f8fafc',
+  surface_color: '#ffffff',
+  text_color: '#1e293b',
+  primary_color: '#0d9488',
+  secondary_color: '#059669'
+};
+
+function applyStaticConfig(config) {
+  document.getElementById('formTitle').textContent = config.form_title;
+  document.getElementById('formDescription').textContent = config.form_description;
+  document.getElementById('app').style.backgroundColor = config.background_color;
+}
+
+applyStaticConfig(defaultConfig);
+loadData();
+lucide.createIcons();
+
+// Tombol Lanjutkan
+document.getElementById('lanjutBtn').addEventListener('click', goToPage2);
+
+// Tombol Kembali
+document.getElementById('kembaliBtn').addEventListener('click', goBackPage1);
+
+// Submit form
+document.getElementById('mainForm').addEventListener('submit', submitForm);
+  </script>
+ </body>
+</html>

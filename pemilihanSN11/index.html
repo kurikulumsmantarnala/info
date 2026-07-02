@@ -303,11 +303,11 @@
         </div>
 
         <div class="flex flex-col sm:flex-row gap-2 mt-4">
-         <a href="https://drive.google.com/file/d/1nUMrBEPQHHXpMSsnOQ8Sj_bhyLEE5dbW/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-white/15 hover:bg-white/25 text-white text-xs md:text-sm font-semibold px-3.5 py-2 rounded-lg border border-white/30 transition-all backdrop-blur-sm">
+         <a href="https://drive.google.com/file/d/1nUMrBEPQHHXpMSsnOQ8Sj_bhyLEE5dbW/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-white/25 text-white text-xs md:text-sm font-semibold px-3.5 py-2 shadow-md rounded-lg border border-white/30 transition-all backdrop-blur-sm">
           <i data-lucide="file-text" class="w-4 h-4 flex-shrink-0"></i>
           <span>Lihat Panduan Pemilihan Mapel Kemendikdasmen</span>
          </a>
-         
+        
         </div>
        </div>
       </div>
@@ -474,12 +474,21 @@
          </div>
         </div>
        </div>
+
+       <!-- Konfirmasi Persetujuan -->
+       <div class="border-t border-slate-200 pt-5">
+        <label for="confirmCheck" id="confirmLabel" class="flex items-start gap-3 bg-slate-50 border border-slate-200 rounded-lg p-4 cursor-pointer transition-all hover:border-teal-300">
+         <input type="checkbox" id="confirmCheck" class="mt-0.5 w-4 h-4 flex-shrink-0 accent-teal-600 cursor-pointer" onchange="onConfirmChange()">
+         <span class="text-sm text-slate-700 leading-relaxed">Saya menyatakan bahwa isian saya pada formulir ini merupakan hasil diskusi bersama orangtua.</span>
+        </label>
+        <p id="confirmWarning" class="hidden mt-2 text-xs text-red-600 font-medium flex items-center gap-1.5"><i data-lucide="alert-circle" class="w-3.5 h-3.5 flex-shrink-0"></i>Mohon centang kotak persetujuan di atas sebelum mengirim formulir.</p>
+       </div>
       </div><!-- END HALAMAN 2 --> <!-- TOMBOL AKSI -->
       <div id="page1Actions" class="flex gap-3">
        <button type="button" id="lanjutBtn" class="flex-1 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold py-3 rounded-lg hover:from-teal-700 hover:to-emerald-700 transition-all shadow-md"> <i data-lucide="arrow-right" class="inline w-4 h-4 mr-2"></i>Lanjutkan </button>
       </div>
       <div id="page2Actions" class="flex gap-3 hidden">
-       <button type="button" id="kembaliBtn" class="flex-1 bg-slate-300 text-slate-700 font-semibold py-3 rounded-lg hover:bg-slate-400 transition-all shadow-md"> <i data-lucide="arrow-left" class="inline w-4 h-4 mr-2"></i>Kembali </button> <button type="submit" id="submitBtn" class="flex-1 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold py-3 rounded-lg hover:from-teal-700 hover:to-emerald-700 transition-all shadow-md"> <i data-lucide="send" class="inline w-4 h-4 mr-2"></i>Kirim Formulir </button>
+       <button type="button" id="kembaliBtn" class="flex-1 bg-slate-300 text-slate-700 font-semibold py-3 rounded-lg hover:bg-slate-400 transition-all shadow-md"> <i data-lucide="arrow-left" class="inline w-4 h-4 mr-2"></i>Kembali </button> <button type="submit" id="submitBtn" aria-disabled="true" class="flex-1 bg-slate-300 text-slate-500 font-semibold py-3 rounded-lg cursor-not-allowed transition-all"> <i data-lucide="send" class="inline w-4 h-4 mr-2"></i>Kirim Formulir </button>
       </div>
       <div id="successMsg" class="hidden bg-emerald-50 border border-emerald-300 rounded-lg p-4 text-center">
        <i data-lucide="check-circle" class="inline w-6 h-6 text-emerald-600 checkmark-icon"></i>
@@ -758,6 +767,46 @@ function validateForm() {
   return errors;
 }
 
+function updateSubmitButtonState() {
+  const btn = document.getElementById('submitBtn');
+  const checked = document.getElementById('confirmCheck').checked;
+
+  if (checked) {
+    btn.setAttribute('aria-disabled', 'false');
+    btn.classList.remove('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
+    btn.classList.add('bg-gradient-to-r', 'from-teal-600', 'to-emerald-600', 'text-white', 'hover:from-teal-700', 'hover:to-emerald-700', 'shadow-md');
+  } else {
+    btn.setAttribute('aria-disabled', 'true');
+    btn.classList.add('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
+    btn.classList.remove('bg-gradient-to-r', 'from-teal-600', 'to-emerald-600', 'text-white', 'hover:from-teal-700', 'hover:to-emerald-700', 'shadow-md');
+  }
+}
+
+function onConfirmChange() {
+  const checked = document.getElementById('confirmCheck').checked;
+  const label = document.getElementById('confirmLabel');
+
+  if (checked) {
+    document.getElementById('confirmWarning').classList.add('hidden');
+    label.classList.remove('border-red-300', 'bg-red-50');
+    label.classList.add('border-teal-300', 'bg-teal-50');
+  } else {
+    label.classList.remove('border-teal-300', 'bg-teal-50');
+  }
+  updateSubmitButtonState();
+}
+
+function promptConfirmCheck() {
+  const warning = document.getElementById('confirmWarning');
+  const label = document.getElementById('confirmLabel');
+  warning.classList.remove('hidden');
+  label.classList.add('border-red-300', 'bg-red-50');
+
+  setTimeout(() => {
+    label.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+}
+
 function updateSummary() {
   document.getElementById('summaryKelas').textContent = document.getElementById('kelas').value || '-';
   document.getElementById('summaryNama').textContent = document.getElementById('nama').value || '-';
@@ -825,6 +874,12 @@ function showValidationErrors(errors) {
 async function submitForm(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
+
+  // Cek konfirmasi persetujuan terlebih dahulu
+  if (!document.getElementById('confirmCheck').checked) {
+    promptConfirmCheck();
+    return;
+  }
   
   // Validasi form halaman 2
   const errors = validateForm();
